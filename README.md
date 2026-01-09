@@ -15,7 +15,7 @@ A modern, responsive portfolio website built with React and Tailwind CSS.
 
 - **React** - UI library
 - **Vite** - Build tool
-- **Tailwind CSS** - Styling
+- **Tailwind CSS v4** - Styling
 - **React Hooks** - State management
 
 ## Getting Started
@@ -45,7 +45,7 @@ npm run build
 1. **Update Hero Section** - Edit `src/components/Hero.jsx` to change your name and tagline
 2. **Add Projects** - Modify the projects array in `src/components/Projects.jsx`
 3. **Update Skills** - Edit skill categories in `src/components/Skills.jsx`
-4. **Change Colors** - Modify the primary color palette in `tailwind.config.js`
+4. **Change Colors** - Modify the primary color palette in `src/index.css` using the `@theme` directive
 5. **Update Contact** - Change social links and email in `src/components/Contact.jsx`
 
 ## Project Structure
