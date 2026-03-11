@@ -9,17 +9,17 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-50 pt-16"
+      className="min-h-screen flex items-center justify-center bg-black pt-16"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-8">
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
             Hi, I'm{' '}
             <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
               Your Name
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
             A creative developer crafting beautiful digital experiences
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
