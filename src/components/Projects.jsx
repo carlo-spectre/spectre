@@ -76,10 +76,10 @@ const Projects = () => {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 group project-card"
+              className="bg-white rounded-2xl soft-shadow overflow-hidden kurate-card-hover group project-card"
             >
               <div className="h-48 bg-gradient-to-br from-primary-400 to-primary-600 relative overflow-hidden">
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
+                <div className="absolute inset-0 bg-black/15 group-hover:bg-black/30 transition-colors"></div>
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">

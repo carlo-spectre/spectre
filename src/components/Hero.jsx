@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Hero = () => {
   const heroRef = useRef(null)
@@ -17,35 +20,57 @@ const Hero = () => {
     const ctx = gsap.context(() => {
       gsap.from('.hero-logo', {
         opacity: 0,
-        y: -20,
-        duration: 0.8,
+        y: -18,
+        duration: 1,
         ease: 'power3.out',
       })
 
       gsap.from('.hero-heading-line', {
         opacity: 0,
-        y: 30,
-        duration: 0.9,
+        y: 32,
+        duration: 1.2,
         ease: 'power3.out',
-        stagger: 0.12,
+        stagger: 0.16,
         delay: 0.15,
       })
 
       gsap.from('.hero-cta-row', {
         opacity: 0,
-        y: 20,
-        duration: 0.8,
+        y: 18,
+        duration: 1,
         ease: 'power3.out',
-        delay: 0.35,
+        delay: 0.4,
       })
 
       gsap.from('.hero-card', {
         opacity: 0,
-        y: 40,
-        duration: 0.9,
+        y: 42,
+        duration: 1.1,
         ease: 'power3.out',
-        stagger: 0.15,
-        delay: 0.4,
+        stagger: 0.2,
+        delay: 0.6,
+      })
+
+      // subtle background drift like Kurate
+      gsap.to('.hero-bg-orbit', {
+        rotation: 8,
+        xPercent: 6,
+        yPercent: 4,
+        duration: 18,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+      })
+
+      // parallax on scroll for hero foreground
+      gsap.to('.hero-foreground', {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+        yPercent: -8,
       })
     }, heroRef)
 
@@ -58,7 +83,12 @@ const Hero = () => {
       className="min-h-screen bg-gradient-to-br from-[#f7f5ff] via-white to-[#fdf4ff] pt-10 pb-20"
       ref={heroRef}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Soft animated background accents */}
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="hero-bg-orbit absolute -right-40 -top-40 h-80 w-80 rounded-full bg-gradient-to-br from-primary-200/40 via-primary-400/20 to-fuchsia-300/40 blur-3xl opacity-70" />
+          <div className="hero-bg-orbit absolute -left-32 top-40 h-72 w-72 rounded-full bg-gradient-to-br from-violet-200/40 via-sky-300/30 to-primary-300/40 blur-3xl opacity-60" />
+        </div>
         {/* Top row: logo placeholder */}
         <div className="flex items-center justify-between mb-10">
           <div className="inline-flex items-center gap-3 hero-logo">
@@ -72,7 +102,7 @@ const Hero = () => {
         </div>
 
         {/* Top content */}
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,1.5fr)] items-start">
+        <div className="hero-foreground grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,1.5fr)] items-start">
           <div className="max-w-2xl">
             <p className="text-sm md:text-base uppercase tracking-[0.25em] text-gray-400 mb-4">
               Revolutionize Your
