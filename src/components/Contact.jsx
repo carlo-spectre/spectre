@@ -1,4 +1,53 @@
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const Contact = () => {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.from('.contact-heading', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.contact-form', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.contact-social', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+        },
+        opacity: 0,
+        y: 20,
+        duration: 0.7,
+        ease: 'power3.out',
+        delay: 0.1,
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
   const handleSubmit = (e) => {
     e.preventDefault()
     // Handle form submission here
@@ -6,9 +55,13 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-primary-50 to-white">
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="py-20 bg-gradient-to-br from-primary-50 to-white"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 contact-heading">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Get In Touch
           </h2>
@@ -18,7 +71,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto contact-form">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -67,7 +120,7 @@ const Contact = () => {
             </button>
           </form>
 
-          <div className="mt-12 flex justify-center space-x-8">
+          <div className="mt-12 flex justify-center space-x-8 contact-social">
             <a
               href="https://github.com"
               target="_blank"

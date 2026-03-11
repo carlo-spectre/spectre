@@ -1,4 +1,42 @@
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const Skills = () => {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.from('.skills-heading', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.skill-card', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.15,
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
   const skillCategories = [
     {
       category: 'Frontend',
@@ -15,9 +53,9 @@ const Skills = () => {
   ]
 
   return (
-    <section id="skills" className="py-20 bg-white">
+    <section id="skills" ref={sectionRef} className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 skills-heading">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Skills & Technologies
           </h2>
@@ -28,7 +66,7 @@ const Skills = () => {
           {skillCategories.map((category, index) => (
             <div
               key={index}
-              className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border border-gray-100"
+              className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border border-gray-100 skill-card"
             >
               <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                 {category.category}

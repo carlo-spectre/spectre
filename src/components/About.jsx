@@ -1,8 +1,47 @@
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const About = () => {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.from('.about-heading', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.about-content', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.15,
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" ref={sectionRef} className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 about-heading">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             About Me
           </h2>
@@ -11,7 +50,7 @@ const About = () => {
 
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 text-gray-700 leading-relaxed">
+            <div className="space-y-6 text-gray-700 leading-relaxed about-content">
               <p className="text-lg">
                 I'm a passionate developer with a love for creating beautiful,
                 functional, and user-friendly applications. With expertise in
@@ -29,7 +68,7 @@ const About = () => {
                 the developer community.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-primary-100 to-primary-50 rounded-2xl p-8 shadow-lg">
+            <div className="bg-gradient-to-br from-primary-100 to-primary-50 rounded-2xl p-8 shadow-lg about-content">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
                 Quick Facts
               </h3>

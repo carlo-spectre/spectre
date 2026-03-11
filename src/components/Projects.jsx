@@ -1,3 +1,9 @@
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const Projects = () => {
   const projects = [
     {
@@ -23,10 +29,43 @@ const Projects = () => {
     },
   ]
 
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.from('.projects-heading', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.project-card', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.15,
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="projects" className="py-20 bg-gray-50">
+    <section id="projects" ref={sectionRef} className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 projects-heading">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             My Projects
           </h2>
@@ -37,7 +76,7 @@ const Projects = () => {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 group"
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 group project-card"
             >
               <div className="h-48 bg-gradient-to-br from-primary-400 to-primary-600 relative overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>

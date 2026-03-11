@@ -1,6 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Purchases = () => {
+  const sectionRef = useRef(null)
   // Default disciplines
   const [disciplines, setDisciplines] = useState([
     'Structural',
@@ -138,10 +143,56 @@ const Purchases = () => {
     )
   }
 
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.from('.purchases-heading', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.purchases-summary', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.purchases-discipline-card', {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.15,
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [disciplines.length])
+
   return (
-    <section id="purchases" className="py-20 bg-gray-50 min-h-screen">
+    <section
+      id="purchases"
+      ref={sectionRef}
+      className="py-20 bg-gray-50 min-h-screen"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 purchases-heading">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Purchases
           </h2>
@@ -313,7 +364,7 @@ const Purchases = () => {
         )}
 
         {/* Summary Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-8 purchases-summary">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Total Summary</h3>
           <div className="text-3xl font-bold text-primary-600">
             ${grandTotal.toLocaleString()}
@@ -327,7 +378,7 @@ const Purchases = () => {
           const maxTotal = Math.max(...Object.values(disciplineTotals), 1)
 
           return (
-            <div key={discipline} className="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div key={discipline} className="bg-white rounded-xl shadow-lg p-6 mb-8 purchases-discipline-card">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{discipline}</h3>
                 <div className="text-lg text-gray-600 mb-4">

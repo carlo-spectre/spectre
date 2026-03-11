@@ -1,4 +1,9 @@
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+
 const Hero = () => {
+  const heroRef = useRef(null)
+
   const scrollToContact = () => {
     const element = document.getElementById('contact')
     if (element) {
@@ -6,15 +11,57 @@ const Hero = () => {
     }
   }
 
+  useEffect(() => {
+    if (!heroRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.from('.hero-logo', {
+        opacity: 0,
+        y: -20,
+        duration: 0.8,
+        ease: 'power3.out',
+      })
+
+      gsap.from('.hero-heading-line', {
+        opacity: 0,
+        y: 30,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.12,
+        delay: 0.15,
+      })
+
+      gsap.from('.hero-cta-row', {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        ease: 'power3.out',
+        delay: 0.35,
+      })
+
+      gsap.from('.hero-card', {
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.15,
+        delay: 0.4,
+      })
+    }, heroRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section
       id="home"
       className="min-h-screen bg-gradient-to-br from-[#f7f5ff] via-white to-[#fdf4ff] pt-10 pb-20"
+      ref={heroRef}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top row: logo placeholder */}
         <div className="flex items-center justify-between mb-10">
-          <div className="inline-flex items-center gap-3">
+          <div className="inline-flex items-center gap-3 hero-logo">
             <div className="h-10 w-10 rounded-full bg-gray-900/90" />
             <div>
               <p className="text-xs uppercase tracking-[0.35em] text-gray-400">
@@ -32,16 +79,16 @@ const Hero = () => {
             </p>
             <div className="space-y-4 mb-6">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug text-gray-900">
-                Creative projects with
-                <br />
-                the ultimate{' '}
-                <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
-                  AI‑powered
+                <span className="block hero-heading-line">Creative projects with</span>
+                <span className="block hero-heading-line">
+                  the ultimate{' '}
+                  <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+                    AI‑powered
+                  </span>
                 </span>
-                <br />
-                pattern
+                <span className="block hero-heading-line">pattern</span>
               </h1>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 hero-cta-row">
                 <button
                   onClick={scrollToContact}
                   className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-gray-900 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md hover:bg-gray-800 transition-colors"
@@ -103,7 +150,7 @@ const Hero = () => {
         {/* Lower cards / gallery strip */}
         <div className="mt-16 grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.2fr)_minmax(0,1.8fr)]">
           {/* Card 1 */}
-          <div className="relative bg-white/80 border border-gray-100 rounded-2xl p-6 shadow-sm backdrop-blur">
+          <div className="relative bg-white/80 border border-gray-100 rounded-2xl p-6 shadow-sm backdrop-blur hero-card">
             <div className="flex items-center justify-between mb-6">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-xs font-semibold text-gray-500">
                 01
@@ -122,7 +169,7 @@ const Hero = () => {
           </div>
 
           {/* Card 2 */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#ff8a8a] via-[#ff6fd8] to-[#ffc46b] p-6 text-white shadow-lg">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#ff8a8a] via-[#ff6fd8] to-[#ffc46b] p-6 text-white shadow-lg hero-card">
             <div className="flex items-center justify-between mb-6">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/40 text-xs font-semibold">
                 02
@@ -142,7 +189,7 @@ const Hero = () => {
           </div>
 
           {/* Card 3 */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#7b5cff] via-[#ff52ff] to-[#4fd1c5] p-6 text-white shadow-2xl flex flex-col justify-between">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#7b5cff] via-[#ff52ff] to-[#4fd1c5] p-6 text-white shadow-2xl flex flex-col justify-between hero-card">
             <div className="flex items-center justify-between mb-6">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/40 text-xs font-semibold">
                 03
