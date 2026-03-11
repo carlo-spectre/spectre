@@ -9,6 +9,7 @@ const Navbar = ({ activeSection }) => {
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
     { id: 'contact', label: 'Contact' },
+    { id: 'purchases', label: 'Purchases' },
   ]
 
   const scrollToSection = (id) => {
