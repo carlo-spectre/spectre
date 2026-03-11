@@ -5,7 +5,6 @@ import Projects from './components/Projects'
 import Skills from './components/Skills'
 import Contact from './components/Contact'
 import Purchases from './components/Purchases'
-import Navbar from './components/Navbar'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
@@ -33,7 +32,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar activeSection={activeSection} />
       <main>
         <Hero />
         <About />

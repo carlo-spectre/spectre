@@ -9,44 +9,60 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="min-h-screen bg-gradient-to-br from-[#f7f5ff] via-white to-[#fdf4ff] pt-24 pb-20"
+      className="min-h-screen bg-gradient-to-br from-[#f7f5ff] via-white to-[#fdf4ff] pt-10 pb-20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top content */}
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,1.5fr)] items-start">
-          <div>
-            <p className="text-sm md:text-base uppercase tracking-[0.25em] text-gray-400 mb-4">
-              Revolutionize Your
-            </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-gray-900 mb-6">
-              Creative Projects with
-              <br />
-              the Ultimate{' '}
-              <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
-                AI‑Powered
-              </span>
-              <br />
-              Pattern
-            </h1>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-              <button
-                onClick={scrollToContact}
-                className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-gray-900 text-white text-sm font-semibold tracking-wide shadow-md hover:bg-gray-800 transition-colors"
-              >
-                START GENERATING
-              </button>
-              <p className="text-sm md:text-base text-gray-500 max-w-xs">
-                The next generation product experience for designers and creators.
+        {/* Top row: logo placeholder */}
+        <div className="flex items-center justify-between mb-10">
+          <div className="inline-flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full bg-gray-900/90" />
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-gray-400">
+                YOUR LOGO
               </p>
             </div>
           </div>
+        </div>
 
-          {/* Right-side meta navigation */}
+        {/* Top content */}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,1.5fr)] items-start">
+          <div className="max-w-2xl">
+            <p className="text-sm md:text-base uppercase tracking-[0.25em] text-gray-400 mb-4">
+              Revolutionize Your
+            </p>
+            <div className="space-y-4 mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug text-gray-900">
+                Creative projects with
+                <br />
+                the ultimate{' '}
+                <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+                  AI‑powered
+                </span>
+                <br />
+                pattern
+              </h1>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <button
+                  onClick={scrollToContact}
+                  className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-gray-900 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md hover:bg-gray-800 transition-colors"
+                >
+                  START GENERATING
+                </button>
+                <p className="text-sm md:text-base text-gray-500 max-w-xs">
+                  The next generation product experience for designers and creators.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-sm md:text-base text-gray-500">
+              The next generation{' '}
+              <span className="font-semibold text-gray-700">product</span> for designers and builders.
+            </p>
+          </div>
+
+        {/* Right-side meta navigation */}
           <div className="hidden md:flex justify-end">
             <div className="text-right space-y-3 text-sm text-gray-500">
-              <p className="uppercase tracking-[0.24em] text-xs text-gray-400">
-                Navigation
-              </p>
               <button
                 onClick={() => {
                   const el = document.getElementById('projects')
