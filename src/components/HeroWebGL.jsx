@@ -30,8 +30,8 @@ void main() {
   float n = w * 0.15 + w2 * 0.08 + 0.52;
 
   vec3 base = vec3(0.031, 0.031, 0.039);
-  vec3 tintA = vec3(0.04, 0.10, 0.14);
-  vec3 tintB = vec3(0.09, 0.04, 0.12);
+  vec3 tintA = vec3(0.14, 0.04, 0.05);
+  vec3 tintB = vec3(0.18, 0.06, 0.07);
   vec3 col = mix(base, tintA, smoothstep(0.4, 0.72, n));
   col = mix(col, tintB, 0.12 * (0.5 + 0.5 * sin(uv.x * 2.5 + uv.y * 1.5 + t * 0.25)));
   col = mix(col, base, 0.55);

@@ -92,7 +92,7 @@ const Hero = () => {
       </Suspense>
       <div className="pointer-events-none absolute inset-0 z-[1] grain" />
       <div className="hero-glow pointer-events-none absolute -left-1/4 top-1/4 z-[1] h-[min(90vw,56rem)] w-[min(90vw,56rem)] rounded-full bg-primary-500/15 blur-[120px] opacity-40 xl:h-[min(100vw,64rem)] xl:w-[min(100vw,64rem)] xl:blur-[140px] min-[1920px]:h-[min(110vw,72rem)] min-[1920px]:w-[min(110vw,72rem)]" />
-      <div className="pointer-events-none absolute bottom-0 right-0 z-[1] h-96 w-96 rounded-full bg-violet-600/10 blur-[100px] xl:h-[28rem] xl:w-[28rem] min-[1920px]:h-[36rem] min-[1920px]:w-[36rem]" />
+      <div className="pointer-events-none absolute bottom-0 right-0 z-[1] h-96 w-96 rounded-full bg-primary-600/12 blur-[100px] xl:h-[28rem] xl:w-[28rem] min-[1920px]:h-[36rem] min-[1920px]:w-[36rem]" />
 
       <div className="hero-foreground relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[min(96vw,1920px)] flex-col px-5 pb-12 pt-8 sm:px-8 sm:pb-14 sm:pt-10 md:px-12 md:pb-16 md:pt-12 xl:px-16 xl:pb-20 xl:pt-14 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24 min-[1920px]:pb-24 min-[1920px]:pt-16">
         <header className="hero-top flex items-center justify-between gap-6">
@@ -113,14 +113,14 @@ const Hero = () => {
             <button
               type="button"
               onClick={() => scrollTo('projects')}
-              className="transition-colors hover:text-white"
+              className="transition-colors hover:text-primary-300"
             >
               Work
             </button>
             <button
               type="button"
               onClick={() => scrollTo('contact')}
-              className="transition-colors hover:text-white"
+              className="transition-colors hover:text-primary-300"
             >
               Contact
             </button>
@@ -147,7 +147,7 @@ const Hero = () => {
             <button
               type="button"
               onClick={() => scrollTo('projects')}
-              className="group inline-flex w-fit shrink-0 items-center gap-3 border border-white/15 bg-white/[0.03] px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:border-white/25 hover:bg-white/[0.06] hover:text-white sm:px-6 sm:py-3.5 sm:text-xs xl:px-8 xl:py-4 xl:text-sm min-[1920px]:px-10 min-[1920px]:py-5 min-[1920px]:text-base"
+              className="group inline-flex w-fit shrink-0 items-center gap-3 border border-white/15 bg-white/[0.03] px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:border-primary-500/35 hover:bg-primary-500/[0.08] hover:text-primary-100 sm:px-6 sm:py-3.5 sm:text-xs xl:px-8 xl:py-4 xl:text-sm min-[1920px]:px-10 min-[1920px]:py-5 min-[1920px]:text-base"
             >
               View work
               <span className="transition-transform group-hover:translate-x-0.5">→</span>
