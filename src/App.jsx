@@ -8,6 +8,7 @@ import CmsLogin from './components/CmsLogin'
 import CmsDashboard from './components/CmsDashboard'
 import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsProjects'
 import { isCmsAuthenticated, loginCms, logoutCms } from './data/cmsAuth'
+import { fetchStrapiProjectBySlug } from './data/strapiProjects'
 
 const getRouteFromPath = () => {
   const { pathname } = window.location
@@ -42,6 +43,31 @@ function App() {
       setRoute({ type: 'cms-login' })
     }
   }, [route, cmsLoggedIn])
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadSignalCommerce = async () => {
+      try {
+        const strapiProject = await fetchStrapiProjectBySlug('signal-commerce')
+        if (!strapiProject || cancelled) return
+
+        setProjectsData((current) => current.map((project) => (
+          project.slug === 'signal-commerce'
+            ? { ...project, ...strapiProject }
+            : project
+        )))
+      } catch {
+        // Keep local content as fallback if Strapi is unavailable.
+      }
+    }
+
+    loadSignalCommerce()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const navigateWithTransition = (targetId) => {
     window.dispatchEvent(

@@ -61,3 +61,29 @@ export const fetchStrapiProjects = async () => {
 
   return normalized
 }
+
+export const fetchStrapiProjectBySlug = async (slug) => {
+  if (!STRAPI_BASE_URL) {
+    throw new Error('Missing VITE_STRAPI_URL')
+  }
+
+  const safeSlug = encodeURIComponent(String(slug || '').trim())
+  if (!safeSlug) {
+    throw new Error('Missing project slug')
+  }
+
+  const endpoint = `/api/projects?filters[slug][$eq]=${safeSlug}&populate[0]=thumbnail&populate[1]=supportingImages`
+  const response = await fetch(`${STRAPI_BASE_URL}${endpoint}`, {
+    headers: { Accept: 'application/json' },
+  })
+
+  if (!response.ok) {
+    throw new Error(`Strapi request failed with ${response.status}`)
+  }
+
+  const payload = await response.json()
+  const list = Array.isArray(payload?.data) ? payload.data : []
+  const first = list[0]
+  if (!first) return null
+  return normalizeEntry(first)
+}
