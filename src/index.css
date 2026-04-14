@@ -17,30 +17,24 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply bg-white text-gray-900 antialiased;
+    @apply bg-[#08080a] text-zinc-100 antialiased;
+  }
+
+  ::selection {
+    background-color: rgba(56, 189, 248, 0.25);
+    color: #fafafa;
   }
 }
 
 @layer utilities {
-  .soft-shadow {
-    box-shadow:
-      0 40px 80px rgba(15, 23, 42, 0.08),
-      0 18px 40px rgba(15, 23, 42, 0.05);
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   }
 
-  .kurate-card-hover {
-    transition:
-      transform 350ms cubic-bezier(0.21, 0.47, 0.32, 0.98),
-      box-shadow 350ms cubic-bezier(0.21, 0.47, 0.32, 0.98),
-      background 350ms ease;
-  }
-
-  .kurate-card-hover:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow:
-      0 35px 70px rgba(15, 23, 42, 0.18),
-      0 15px 35px rgba(15, 23, 42, 0.12);
+  .text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    color: transparent;
   }
 }
