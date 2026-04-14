@@ -10,9 +10,10 @@ const Hero = ({ onNavigate }) => {
   const rootRef = useRef(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const scrollTo = (id) => {
+  const scrollTo = (id, options = {}) => {
+    const { useTransition = true } = options
     setIsMobileMenuOpen(false)
-    if (onNavigate) {
+    if (useTransition && onNavigate) {
       onNavigate(id)
       return
     }
@@ -236,13 +237,13 @@ const Hero = ({ onNavigate }) => {
             </span>
           </h1>
 
-          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:items-end sm:justify-between xl:mt-14 xl:max-w-4xl min-[1920px]:mt-16 min-[1920px]:max-w-5xl">
-            <p className="text-sm leading-relaxed text-zinc-400 md:text-base xl:text-lg xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-xl">
+          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:items-center sm:justify-between xl:mt-14 xl:max-w-4xl min-[1920px]:mt-16 min-[1920px]:max-w-5xl">
+            <p className="text-xs leading-relaxed text-zinc-400 md:text-sm xl:text-base xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-lg">
               Crafted interfaces, motion, and systems — built for clarity and presence.
             </p>
             <button
               type="button"
-              onClick={() => scrollTo('projects')}
+              onClick={() => scrollTo('projects', { useTransition: false })}
               className="group inline-flex w-fit shrink-0 items-center gap-3 border border-white/15 bg-white/[0.03] px-6 py-4 font-mono text-xs uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:border-white/25 hover:bg-white/[0.06] hover:text-white sm:px-6 sm:py-3.5 sm:text-xs xl:px-8 xl:py-4 xl:text-sm min-[1920px]:px-10 min-[1920px]:py-5 min-[1920px]:text-base"
             >
               View work
