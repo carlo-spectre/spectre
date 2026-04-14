@@ -1,7 +1,20 @@
 const STRAPI_BASE_URL = (import.meta.env.VITE_STRAPI_URL || '').replace(/\/+$/, '')
 const PROJECTS_ENDPOINT = '/api/projects?sort=idNumber:asc&populate[0]=thumbnail&populate[1]=supportingImages'
 
-const asList = (value) => (Array.isArray(value) ? value.filter(Boolean).map((item) => String(item).trim()).filter(Boolean) : [])
+const asList = (value) => {
+  if (Array.isArray(value)) {
+    return value.filter(Boolean).map((item) => String(item).trim()).filter(Boolean)
+  }
+
+  if (typeof value === 'string') {
+    return value
+      .split('\n')
+      .map((item) => item.trim())
+      .filter(Boolean)
+  }
+
+  return []
+}
 
 const getMediaUrl = (media) => {
   const rawUrl = media?.url || ''
@@ -26,11 +39,11 @@ const normalizeEntry = (entry) => {
     summary: String(attrs.summary || ''),
     thumbnail: getMediaUrl(thumbnail?.attributes || thumbnail) || String(attrs.thumbnailUrl || ''),
     challenge: String(attrs.challenge || ''),
-    goals: asList(attrs.goals),
-    process: asList(attrs.process),
-    outcome: asList(attrs.outcome),
-    contextParagraphs: asList(attrs.contextParagraphs),
-    rationaleParagraphs: asList(attrs.rationaleParagraphs),
+    goals: asList(attrs.goalsText || attrs.goals),
+    process: asList(attrs.processText || attrs.process),
+    outcome: asList(attrs.outcomeText || attrs.outcome),
+    contextParagraphs: asList(attrs.contextParagraphsText || attrs.contextParagraphs),
+    rationaleParagraphs: asList(attrs.rationaleParagraphsText || attrs.rationaleParagraphs),
     supportingImages: (supportingMedia
       .map((item) => getMediaUrl(item?.attributes || item))
       .filter(Boolean)
