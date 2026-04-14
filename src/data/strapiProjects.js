@@ -24,17 +24,22 @@ const normalizeEntry = (entry) => {
     role: String(attrs.role || ''),
     team: String(attrs.team || ''),
     summary: String(attrs.summary || ''),
-    thumbnail: getMediaUrl(thumbnail?.attributes || thumbnail),
+    thumbnail: getMediaUrl(thumbnail?.attributes || thumbnail) || String(attrs.thumbnailUrl || ''),
     challenge: String(attrs.challenge || ''),
     goals: asList(attrs.goals),
     process: asList(attrs.process),
     outcome: asList(attrs.outcome),
     contextParagraphs: asList(attrs.contextParagraphs),
     rationaleParagraphs: asList(attrs.rationaleParagraphs),
-    supportingImages: supportingMedia
+    supportingImages: (supportingMedia
       .map((item) => getMediaUrl(item?.attributes || item))
       .filter(Boolean)
-      .slice(0, 3),
+      .slice(0, 3)).length
+      ? supportingMedia
+        .map((item) => getMediaUrl(item?.attributes || item))
+        .filter(Boolean)
+        .slice(0, 3)
+      : asList(attrs.supportingImageUrls).slice(0, 3),
   }
 }
 
