@@ -4,28 +4,25 @@ import Projects from './components/Projects'
 import Contact from './components/Contact'
 import PageTransitionWebGL from './components/PageTransitionWebGL'
 import ProjectCaseStudy from './components/ProjectCaseStudy'
-import CmsLogin from './components/CmsLogin'
-import CmsDashboard from './components/CmsDashboard'
-import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsProjects'
-import { isCmsAuthenticated, loginCms, logoutCms } from './data/cmsAuth'
+import { projects as defaultProjects } from './data/projects'
+import { fetchStrapiProjects } from './data/strapiProjects'
 
 const getRouteFromPath = () => {
   const { pathname } = window.location
-  if (pathname === '/cms/login') return { type: 'cms-login' }
-  if (pathname === '/cms') return { type: 'cms-dashboard' }
   const projectMatch = pathname.match(/^\/projects\/([a-z0-9-]+)$/i)
   if (projectMatch) return { type: 'project', slug: projectMatch[1] }
   return { type: 'home' }
 }
 
 function App() {
-  const [projectsData, setProjectsData] = useState(() => loadCmsProjects())
+  const [projectsData, setProjectsData] = useState(defaultProjects)
+  const [isProjectsLoading, setIsProjectsLoading] = useState(true)
+  const [projectsLoadError, setProjectsLoadError] = useState('')
   const [route, setRoute] = useState(() => getRouteFromPath())
   const activeProject = useMemo(
     () => (route.type === 'project' ? projectsData.find((project) => project.slug === route.slug) ?? null : null),
     [route, projectsData],
   )
-  const cmsLoggedIn = useMemo(() => isCmsAuthenticated(), [route])
 
   useEffect(() => {
     const handlePopState = () => {
@@ -37,11 +34,34 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (route.type === 'cms-dashboard' && !cmsLoggedIn) {
-      window.history.replaceState({}, '', '/cms/login')
-      setRoute({ type: 'cms-login' })
+    let cancelled = false
+
+    const loadProjects = async () => {
+      try {
+        setIsProjectsLoading(true)
+        const remoteProjects = await fetchStrapiProjects()
+        if (!cancelled) {
+          setProjectsData(remoteProjects)
+          setProjectsLoadError('')
+        }
+      } catch {
+        if (!cancelled) {
+          setProjectsData(defaultProjects)
+          setProjectsLoadError('Unable to load live CMS content right now.')
+        }
+      } finally {
+        if (!cancelled) {
+          setIsProjectsLoading(false)
+        }
+      }
     }
-  }, [route, cmsLoggedIn])
+
+    loadProjects()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const navigateWithTransition = (targetId) => {
     window.dispatchEvent(
@@ -72,56 +92,14 @@ function App() {
     })
   }
 
-  const handleCmsLogin = async (email, password) => {
-    const ok = await loginCms(email, password)
-    if (!ok) return false
-    window.history.pushState({}, '', '/cms')
-    setRoute({ type: 'cms-dashboard' })
-    return true
-  }
-
-  const handleCmsLogout = () => {
-    logoutCms()
-    window.history.pushState({}, '', '/cms/login')
-    setRoute({ type: 'cms-login' })
-  }
-
-  const handleSaveProject = (slug, updates) => {
-    const next = projectsData.map((project) => (project.slug === slug ? { ...project, ...updates } : project))
-    setProjectsData(next)
-    saveCmsProjects(next)
-  }
-
-  const handleResetProjects = () => {
-    const next = resetCmsProjects()
-    setProjectsData(next)
-  }
-
-  const openSiteHome = () => {
-    window.history.pushState({}, '', '/')
-    setRoute({ type: 'home' })
-    window.scrollTo({ top: 0, behavior: 'auto' })
-  }
-
-  if (route.type === 'cms-login') {
-    return <CmsLogin onLogin={handleCmsLogin} />
-  }
-
-  if (route.type === 'cms-dashboard') {
-    return (
-      <CmsDashboard
-        projects={projectsData}
-        onSaveProject={handleSaveProject}
-        onReset={handleResetProjects}
-        onLogout={handleCmsLogout}
-        onOpenSite={openSiteHome}
-      />
-    )
-  }
-
   return (
     <div className="min-h-screen bg-[#08080a] text-zinc-100">
       <PageTransitionWebGL />
+      {projectsLoadError ? (
+        <p className="border-b border-white/[0.06] bg-[#09090c] px-5 py-3 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500 sm:text-xs">
+          {projectsLoadError} Showing fallback content.
+        </p>
+      ) : null}
       <main>
         {activeProject ? (
           <ProjectCaseStudy
@@ -133,6 +111,11 @@ function App() {
           <>
             <Hero onNavigate={navigateWithTransition} />
             <Projects onOpenProject={openProject} projects={projectsData} />
+            {isProjectsLoading ? (
+              <p className="border-b border-white/[0.06] py-8 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600 sm:text-xs">
+                Loading projects from CMS...
+              </p>
+            ) : null}
             <Contact />
           </>
         )}
