@@ -101,7 +101,7 @@ const Contact = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="border-t border-white/[0.06] bg-[#060608] py-20 md:py-28 xl:py-36 min-[1920px]:py-44"
+      className="border-t border-white/[0.06] bg-[#060608] py-20 md:py-24 xl:py-28 min-[1920px]:py-32"
     >
       <div className="mx-auto w-full max-w-[min(96vw,1920px)] px-5 sm:px-8 md:px-12 xl:px-16 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24">
         {/* Section index + rhythm */}
@@ -296,8 +296,8 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="contact-footer-strip mt-14 flex flex-col items-start justify-between gap-6 border-t border-white/[0.08] pt-10 sm:mt-16 sm:flex-row sm:items-center sm:pt-12 xl:mt-20 xl:pt-14">
-          <p className="max-w-2xl text-xs leading-relaxed text-zinc-600 sm:text-sm xl:text-base">
+        <div className="contact-footer-strip mt-10 flex flex-col items-start justify-between gap-4 border-t border-white/[0.08] pt-7 sm:mt-12 sm:flex-row sm:items-center sm:pt-8 xl:mt-14 xl:pt-10">
+          <p className="max-w-2xl text-[11px] leading-relaxed text-zinc-600 sm:text-xs xl:text-sm">
             Prefer a call? Drop your availability in the message — include your time zone.
           </p>
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-brand/55 sm:text-xs">

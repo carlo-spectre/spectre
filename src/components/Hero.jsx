@@ -237,9 +237,10 @@ const Hero = ({ onNavigate }) => {
             </span>
           </h1>
 
-          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:items-center sm:justify-between xl:mt-14 xl:max-w-4xl min-[1920px]:mt-16 min-[1920px]:max-w-5xl">
+          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-3 sm:mt-12 sm:flex-row sm:items-center sm:justify-start sm:gap-6 xl:mt-14 xl:max-w-4xl xl:gap-8 min-[1920px]:mt-16 min-[1920px]:max-w-5xl min-[1920px]:gap-10">
             <p className="text-xs leading-relaxed text-zinc-400 md:text-sm xl:text-base xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-lg">
-              Crafted interfaces, motion, and systems — built for clarity and presence.
+              Crafted interfaces, motion, and systems —
+              <br className="sm:hidden" /> built for clarity and presence.
             </p>
             <button
               type="button"
@@ -252,9 +253,13 @@ const Hero = ({ onNavigate }) => {
           </div>
         </div>
 
-        <div className="hero-bottom flex flex-row items-center justify-between gap-4 border-t border-white/[0.06] pt-8 font-mono text-[10px] uppercase tracking-[0.24em] sm:pt-10 xl:pt-12 xl:text-xs min-[1920px]:pt-14 min-[1920px]:text-sm">
-          <span className="text-brand/90">Scroll</span>
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="hero-bottom flex flex-row items-center justify-between gap-4 pt-6 font-mono text-[10px] uppercase tracking-[0.24em] sm:pt-8 xl:pt-10 xl:text-xs min-[1920px]:pt-12 min-[1920px]:text-sm">
+          <span className="flex items-center gap-2 text-brand/90">
+            Scroll
+            <span className="hero-scroll-chevron inline-flex h-5 w-5 items-center justify-center text-base leading-none text-brand" aria-hidden>
+              ˅
+            </span>
+          </span>
           <span className="text-zinc-600">
             © <span className="text-brand/90">{new Date().getFullYear()}</span>
           </span>

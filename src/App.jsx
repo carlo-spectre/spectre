@@ -163,10 +163,19 @@ function App() {
           </>
         )}
       </main>
-      <footer className="border-t border-white/[0.06] py-10 text-center xl:py-14 min-[1920px]:py-16">
-        <p className="text-xs uppercase tracking-[0.2em] text-zinc-600 xl:text-sm min-[1920px]:text-base">
-          © {new Date().getFullYear()} Spectre
-        </p>
+      <footer className="border-t border-white/[0.06] py-6 xl:py-8 min-[1920px]:py-10">
+        <div className="mx-auto flex w-full max-w-[min(96vw,1920px)] flex-col items-start justify-between gap-3 px-5 sm:flex-row sm:items-center sm:px-8 md:px-12 xl:px-16 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 xl:text-xs min-[1920px]:text-sm">
+            © {new Date().getFullYear()} Spectre Design Studio
+          </p>
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500 xl:text-xs min-[1920px]:text-sm">
+            <a href="#home" className="transition-colors hover:text-brand">Top</a>
+            <a href="#projects" className="transition-colors hover:text-brand">Work</a>
+            <a href="#contact" className="transition-colors hover:text-brand">Contact</a>
+            <a href="mailto:carlo@spectredesign.studio" className="transition-colors hover:text-brand">Email</a>
+            <a href="/privacy" className="transition-colors hover:text-brand">Privacy</a>
+          </nav>
+        </div>
       </footer>
     </div>
   )
