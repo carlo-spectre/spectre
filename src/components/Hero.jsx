@@ -26,6 +26,17 @@ const Hero = ({ onNavigate }) => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const ctx = gsap.context(() => {
+      if (reducedMotion) {
+        // Ensure content is visible even when motion is reduced or timelines are skipped.
+        gsap.set(['.hero-top', '.hero-line', '.hero-headline-word', '.hero-meta', '.hero-bottom'], {
+          clearProps: 'all',
+          opacity: 1,
+          y: 0,
+          yPercent: 0,
+          rotateX: 0,
+        })
+      }
+
       const introTl = gsap.timeline({ defaults: { overwrite: 'auto' } })
       const bgTl = gsap.timeline({ paused: true })
 
@@ -128,10 +139,14 @@ const Hero = ({ onNavigate }) => {
           start: 'top top',
           end: 'bottom top',
           scrub: 1.2,
+          invalidateOnRefresh: true,
         },
         yPercent: -6,
         opacity: 0.92,
       })
+
+      // Keep trigger positions accurate after hero layout settles.
+      ScrollTrigger.refresh()
     }, rootRef)
 
     return () => ctx.revert()
