@@ -62,6 +62,7 @@ export const fetchStrapiProjects = async () => {
   }
 
   const response = await fetch(`${STRAPI_BASE_URL}${PROJECTS_ENDPOINT}`, {
+    cache: 'no-store',
     headers: { Accept: 'application/json' },
   })
 
@@ -92,6 +93,7 @@ export const fetchStrapiProjectBySlug = async (slug) => {
 
   const endpoint = `/api/projects?filters[slug][$eq]=${safeSlug}&populate[0]=thumbnail&populate[1]=supportingImages`
   const response = await fetch(`${STRAPI_BASE_URL}${endpoint}`, {
+    cache: 'no-store',
     headers: { Accept: 'application/json' },
   })
 

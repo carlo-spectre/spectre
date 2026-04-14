@@ -9,7 +9,7 @@ import CmsLogin from './components/CmsLogin'
 import CmsDashboard from './components/CmsDashboard'
 import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsProjects'
 import { isCmsAuthenticated, loginCms, logoutCms } from './data/cmsAuth'
-import { fetchStrapiProjectBySlug } from './data/strapiProjects'
+import { fetchStrapiProjects } from './data/strapiProjects'
 
 const getRouteFromPath = () => {
   const { pathname } = window.location
@@ -23,7 +23,10 @@ const getRouteFromPath = () => {
 }
 
 function App() {
-  const [projectsData, setProjectsData] = useState(() => loadCmsProjects())
+  const [projectsData, setProjectsData] = useState([])
+  const [isProjectsLoading, setIsProjectsLoading] = useState(true)
+  const [projectsLoadError, setProjectsLoadError] = useState('')
+  const [projectsLastSyncedAt, setProjectsLastSyncedAt] = useState(null)
   const [route, setRoute] = useState(() => getRouteFromPath())
   const activeProject = useMemo(
     () => (route.type === 'project' ? projectsData.find((project) => project.slug === route.slug) ?? null : null),
@@ -50,22 +53,27 @@ function App() {
   useEffect(() => {
     let cancelled = false
 
-    const loadSignalCommerce = async () => {
+    const loadProjectsFromStrapi = async () => {
+      setIsProjectsLoading(true)
+      setProjectsLoadError('')
       try {
-        const strapiProject = await fetchStrapiProjectBySlug('signal-commerce')
-        if (!strapiProject || cancelled) return
-
-        setProjectsData((current) => current.map((project) => (
-          project.slug === 'signal-commerce'
-            ? { ...project, ...strapiProject }
-            : project
-        )))
+        const strapiProjects = await fetchStrapiProjects()
+        if (cancelled || !strapiProjects?.length) return
+        setProjectsData(strapiProjects)
+        setProjectsLastSyncedAt(new Date())
       } catch {
-        // Keep local content as fallback if Strapi is unavailable.
+        if (cancelled) return
+        setProjectsData([])
+        setProjectsLoadError('Unable to load live project content from Strapi.')
+        setProjectsLastSyncedAt(null)
+      } finally {
+        if (!cancelled) {
+          setIsProjectsLoading(false)
+        }
       }
     }
 
-    loadSignalCommerce()
+    loadProjectsFromStrapi()
 
     return () => {
       cancelled = true
@@ -165,6 +173,26 @@ function App() {
     )
   }
 
+  if (projectsLoadError && route.type !== 'cms-login' && route.type !== 'cms-dashboard') {
+    return (
+      <div className="min-h-screen bg-[#08080a] text-zinc-100">
+        <main className="mx-auto flex min-h-screen w-full max-w-[min(96vw,1200px)] items-center justify-center px-5 sm:px-8">
+          <div className="max-w-xl border border-red-400/30 bg-red-500/[0.08] p-6 sm:p-8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-red-200 sm:text-xs">
+              Strapi connection error
+            </p>
+            <h1 className="mt-3 text-xl font-semibold tracking-tight text-white sm:text-2xl">
+              Unable to load live content.
+            </h1>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">
+              {projectsLoadError} Please try refreshing. If this continues, check Strapi Cloud deployment health and public API permissions.
+            </p>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-[#08080a] text-zinc-100">
       <PageTransitionWebGL />
@@ -178,7 +206,12 @@ function App() {
         ) : (
           <>
             <Hero onNavigate={navigateWithTransition} />
-            <Projects onOpenProject={openProject} projects={projectsData} />
+            <Projects
+              onOpenProject={openProject}
+              projects={projectsData}
+              isLoading={isProjectsLoading}
+              lastSyncedAt={projectsLastSyncedAt}
+            />
             <Contact />
           </>
         )}
