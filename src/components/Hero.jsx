@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logotypeWhite from '../assets/logotype-white.svg'
@@ -8,8 +8,10 @@ gsap.registerPlugin(ScrollTrigger)
 
 const Hero = ({ onNavigate }) => {
   const rootRef = useRef(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const scrollTo = (id) => {
+    setIsMobileMenuOpen(false)
     if (onNavigate) {
       onNavigate(id)
       return
@@ -154,7 +156,7 @@ const Hero = ({ onNavigate }) => {
       <div className="pointer-events-none absolute inset-0 z-[1] grain" />
 
       <div className="hero-foreground relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[min(96vw,1920px)] flex-col px-5 pb-12 pt-8 sm:px-8 sm:pb-14 sm:pt-10 md:px-12 md:pb-16 md:pt-12 xl:px-16 xl:pb-20 xl:pt-14 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24 min-[1920px]:pb-24 min-[1920px]:pt-16">
-        <header className="hero-top flex items-center justify-between gap-4 sm:gap-6">
+        <header className="hero-top relative flex items-center justify-between gap-4 sm:gap-6">
           <a
             href="#home"
             className="hero-logo flex shrink-0 items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08080a]"
@@ -165,10 +167,21 @@ const Hero = ({ onNavigate }) => {
               alt=""
               width={558}
               height={281}
-              className="h-7 w-auto max-w-[min(100%,11.5rem)] object-contain object-left sm:h-8 sm:max-w-[13.5rem] md:h-9 md:max-w-[16rem] xl:h-12 xl:max-w-[22rem] 2xl:h-14 2xl:max-w-[25rem] min-[1920px]:h-16 min-[1920px]:max-w-[30rem]"
+              className="h-9 w-auto max-w-[min(100%,14.5rem)] object-contain object-left sm:h-8 sm:max-w-[13.5rem] md:h-9 md:max-w-[16rem] xl:h-12 xl:max-w-[22rem] 2xl:h-14 2xl:max-w-[25rem] min-[1920px]:h-16 min-[1920px]:max-w-[30rem]"
             />
           </a>
-          <nav className="flex items-center gap-5 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:gap-8 sm:text-xs sm:tracking-[0.22em] xl:gap-14 xl:text-sm min-[1920px]:gap-16 min-[1920px]:text-base">
+
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            className="inline-flex h-11 w-11 items-center justify-center border border-white/15 bg-white/[0.03] text-zinc-300 transition-colors hover:border-white/30 hover:text-white sm:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
+          >
+            <span className="font-mono text-xs uppercase tracking-[0.2em]">≡</span>
+          </button>
+
+          <nav className="hidden items-center gap-5 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:flex sm:gap-8 sm:text-xs sm:tracking-[0.22em] xl:gap-14 xl:text-sm min-[1920px]:gap-16 min-[1920px]:text-base">
             <button
               type="button"
               onClick={() => scrollTo('projects')}
@@ -184,6 +197,25 @@ const Hero = ({ onNavigate }) => {
               Contact
             </button>
           </nav>
+
+          {isMobileMenuOpen ? (
+            <div className="absolute right-0 top-full z-30 mt-3 flex min-w-[11rem] flex-col border border-white/[0.12] bg-[#09090c]/95 p-2 backdrop-blur sm:hidden">
+              <button
+                type="button"
+                onClick={() => scrollTo('projects')}
+                className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
+              >
+                Work
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollTo('contact')}
+                className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
+              >
+                Contact
+              </button>
+            </div>
+          ) : null}
         </header>
 
         <div className="flex flex-1 flex-col justify-center py-16 md:py-20 xl:py-24 min-[1920px]:py-28">
@@ -192,7 +224,7 @@ const Hero = ({ onNavigate }) => {
             <span className="text-zinc-500"> — digital product &amp; interface</span>
           </p>
 
-          <h1 className="max-w-[14ch] text-[clamp(2.75rem,5vw+1.5rem,6.5rem)] font-semibold leading-[0.92] tracking-[-0.04em] text-white md:max-w-none xl:text-[clamp(4rem,7vw+1rem,8.5rem)] min-[1920px]:text-[clamp(5.5rem,6vw+2rem,11rem)] min-[1920px]:tracking-[-0.045em]">
+          <h1 className="max-w-[14ch] text-[clamp(3.35rem,7.8vw+1.2rem,6.5rem)] font-semibold leading-[0.92] tracking-[-0.04em] text-white md:max-w-none xl:text-[clamp(4rem,7vw+1rem,8.5rem)] min-[1920px]:text-[clamp(5.5rem,6vw+2rem,11rem)] min-[1920px]:tracking-[-0.045em]">
             <span className="hero-line block overflow-hidden">
               <span className="hero-headline-word inline-block">Shape</span>
             </span>
@@ -211,7 +243,7 @@ const Hero = ({ onNavigate }) => {
             <button
               type="button"
               onClick={() => scrollTo('projects')}
-              className="group inline-flex w-fit shrink-0 items-center gap-3 border border-white/15 bg-white/[0.03] px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:border-white/25 hover:bg-white/[0.06] hover:text-white sm:px-6 sm:py-3.5 sm:text-xs xl:px-8 xl:py-4 xl:text-sm min-[1920px]:px-10 min-[1920px]:py-5 min-[1920px]:text-base"
+              className="group inline-flex w-fit shrink-0 items-center gap-3 border border-white/15 bg-white/[0.03] px-6 py-4 font-mono text-xs uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:border-white/25 hover:bg-white/[0.06] hover:text-white sm:px-6 sm:py-3.5 sm:text-xs xl:px-8 xl:py-4 xl:text-sm min-[1920px]:px-10 min-[1920px]:py-5 min-[1920px]:text-base"
             >
               View work
               <span className="text-brand transition-transform group-hover:translate-x-0.5">→</span>
@@ -219,9 +251,9 @@ const Hero = ({ onNavigate }) => {
           </div>
         </div>
 
-        <div className="hero-bottom flex flex-col justify-between gap-6 border-t border-white/[0.06] pt-8 font-mono text-[10px] uppercase tracking-[0.24em] sm:flex-row sm:items-center sm:pt-10 xl:pt-12 xl:text-xs min-[1920px]:pt-14 min-[1920px]:text-sm">
+        <div className="hero-bottom flex flex-row items-center justify-between gap-4 border-t border-white/[0.06] pt-8 font-mono text-[10px] uppercase tracking-[0.24em] sm:pt-10 xl:pt-12 xl:text-xs min-[1920px]:pt-14 min-[1920px]:text-sm">
           <span className="text-brand/90">Scroll</span>
-          <div className="hidden h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent sm:block" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <span className="text-zinc-600">
             © <span className="text-brand/90">{new Date().getFullYear()}</span>
           </span>
