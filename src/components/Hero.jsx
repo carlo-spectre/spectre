@@ -106,7 +106,7 @@ const Hero = () => {
               alt=""
               width={558}
               height={281}
-              className="h-7 w-auto max-w-[min(100%,11rem)] object-contain object-left sm:h-8 sm:max-w-[13rem] md:max-w-[15rem] xl:h-10 xl:max-w-[17rem] min-[1920px]:h-12 min-[1920px]:max-w-[20rem]"
+              className="h-7 w-auto max-w-[min(100%,11rem)] object-contain object-left sm:h-8 sm:max-w-[13rem] md:max-w-[15rem] xl:h-11 xl:max-w-[19rem] 2xl:h-12 2xl:max-w-[22rem] min-[1920px]:h-14 min-[1920px]:max-w-[26rem]"
             />
           </a>
           <nav className="flex items-center gap-8 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500 sm:text-xs sm:gap-10 xl:gap-14 xl:text-sm min-[1920px]:gap-16 min-[1920px]:text-base">
