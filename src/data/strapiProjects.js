@@ -1,5 +1,5 @@
 const STRAPI_BASE_URL = (import.meta.env.VITE_STRAPI_URL || '').replace(/\/+$/, '')
-const PROJECTS_ENDPOINT = '/api/projects?sort=idNumber:asc&populate=thumbnail,supportingImages'
+const PROJECTS_ENDPOINT = '/api/projects?sort=idNumber:asc&populate[0]=thumbnail&populate[1]=supportingImages'
 
 const asList = (value) => (Array.isArray(value) ? value.filter(Boolean).map((item) => String(item).trim()).filter(Boolean) : [])
 
