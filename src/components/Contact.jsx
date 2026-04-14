@@ -72,7 +72,7 @@ const Contact = () => {
     setSubmitStatus({ type: '', message: '' })
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/carlo@spectredesign.studio', {
+      const response = await fetch('https://formsubmit.co/ajax/carloyung54@gmail.com', {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: formData,
@@ -129,10 +129,10 @@ const Contact = () => {
             </p>
 
             <a
-              href="mailto:carlo@spectredesign.studio"
+              href="mailto:carloyung54@gmail.com"
               className="mt-8 inline-flex items-center gap-2 border-b border-white/20 pb-1 font-mono text-sm text-white transition-colors hover:border-brand/60 hover:text-brand/90 sm:mt-10 xl:mt-12 xl:text-base min-[1920px]:text-lg"
             >
-              carlo@spectredesign.studio
+              carloyung54@gmail.com
               <span className="text-brand" aria-hidden>
                 →
               </span>
@@ -152,7 +152,7 @@ const Contact = () => {
                   Based in
                 </dt>
                 <dd className="mt-1.5 text-sm text-zinc-400 sm:text-base">
-                  Hong Kong · Open to remote worldwide
+                  Your city · Open to remote worldwide
                 </dd>
               </div>
               <div>
@@ -189,7 +189,7 @@ const Contact = () => {
                 </span>
               </a>
               <a
-                href="mailto:carlo@spectredesign.studio"
+                href="mailto:carloyung54@gmail.com"
                 className="group flex items-center justify-between border-b border-white/[0.06] py-3 pr-1 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-all duration-300 hover:border-brand/40 hover:bg-white/[0.02] hover:pl-1 hover:text-brand sm:text-xs"
               >
                 <span>Email</span>

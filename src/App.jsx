@@ -21,7 +21,6 @@ const getRouteFromPath = () => {
 function App() {
   const [projectsData, setProjectsData] = useState(() => loadCmsProjects())
   const [route, setRoute] = useState(() => getRouteFromPath())
-  const [hktTime, setHktTime] = useState('')
   const activeProject = useMemo(
     () => (route.type === 'project' ? projectsData.find((project) => project.slug === route.slug) ?? null : null),
     [route, projectsData],
@@ -43,20 +42,6 @@ function App() {
       setRoute({ type: 'cms-login' })
     }
   }, [route, cmsLoggedIn])
-
-  useEffect(() => {
-    const formatHkt = () =>
-      new Intl.DateTimeFormat('en-HK', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: 'Asia/Hong_Kong',
-      }).format(new Date())
-
-    setHktTime(formatHkt())
-    const timer = window.setInterval(() => setHktTime(formatHkt()), 30000)
-    return () => window.clearInterval(timer)
-  }, [])
 
   const navigateWithTransition = (targetId) => {
     window.dispatchEvent(
@@ -141,10 +126,8 @@ function App() {
         {activeProject ? (
           <ProjectCaseStudy
             project={activeProject}
-            allProjects={projectsData}
             onBack={() => closeProject('projects')}
             onNavigateMain={closeProject}
-            onOpenProject={openProject}
           />
         ) : (
           <>
@@ -155,10 +138,9 @@ function App() {
         )}
       </main>
       <footer className="border-t border-white/[0.06] py-10 text-center xl:py-14 min-[1920px]:py-16">
-        <div className="flex flex-col items-center gap-2 text-xs uppercase tracking-[0.2em] text-zinc-600 xl:text-sm min-[1920px]:text-base">
-          <p>© {new Date().getFullYear()} Spectre</p>
-          <p>HKT {hktTime}</p>
-        </div>
+        <p className="text-xs uppercase tracking-[0.2em] text-zinc-600 xl:text-sm min-[1920px]:text-base">
+          © {new Date().getFullYear()} Spectre
+        </p>
       </footer>
     </div>
   )

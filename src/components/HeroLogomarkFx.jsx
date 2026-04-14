@@ -33,12 +33,6 @@ const HeroLogomarkFx = () => {
     paths.forEach((path, index) => {
       const isInnerCirclePath = path.classList.contains('cls-1')
       const length = path.getTotalLength ? path.getTotalLength() : 0
-      const traceSegment = isInnerCirclePath
-        ? Math.max(length * (compactScreen ? 0.26 : 0.32), compactScreen ? 14 : 22)
-        : Math.max(length * (compactScreen ? 0.16 : 0.22), compactScreen ? 10 : 14)
-      const traceGap = Math.max(length * 1.15, traceSegment * 2)
-      const tracePeriod = traceSegment + traceGap
-
       path.style.strokeDasharray = `${length}`
       path.style.strokeDashoffset = `${length}`
       path.style.opacity = isInnerCirclePath ? '0.92' : '0.6'
@@ -59,17 +53,13 @@ const HeroLogomarkFx = () => {
           duration: 2.2,
           ease: 'power3.out',
         })
-        .set(path, {
-          strokeDasharray: `${traceSegment} ${traceGap}`,
-          strokeDashoffset: 0,
-        })
         .to(path, {
-          // Move by exactly one dash period for seamless looping.
-          strokeDashoffset: -tracePeriod,
+          // Continue tracing forward so motion does not visually stop.
+          strokeDashoffset: -length,
           opacity: isInnerCirclePath ? 0.95 : 0.72,
           duration: isInnerCirclePath
-            ? (compactScreen ? 4.2 : 5.3)
-            : (compactScreen ? 5.1 : 6.7),
+            ? (compactScreen ? 3.8 : 4.8)
+            : (compactScreen ? 4.8 : 6.2),
           ease: 'none',
         })
 

@@ -26,17 +26,6 @@ const Hero = ({ onNavigate }) => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const ctx = gsap.context(() => {
-      if (reducedMotion) {
-        // Ensure content is visible even when motion is reduced or timelines are skipped.
-        gsap.set(['.hero-top', '.hero-line', '.hero-headline-word', '.hero-meta', '.hero-bottom'], {
-          clearProps: 'all',
-          opacity: 1,
-          y: 0,
-          yPercent: 0,
-          rotateX: 0,
-        })
-      }
-
       const introTl = gsap.timeline({ defaults: { overwrite: 'auto' } })
       const bgTl = gsap.timeline({ paused: true })
 
@@ -139,14 +128,10 @@ const Hero = ({ onNavigate }) => {
           start: 'top top',
           end: 'bottom top',
           scrub: 1.2,
-          invalidateOnRefresh: true,
         },
         yPercent: -6,
         opacity: 0.92,
       })
-
-      // Keep trigger positions accurate after hero layout settles.
-      ScrollTrigger.refresh()
     }, rootRef)
 
     return () => ctx.revert()
@@ -251,8 +236,8 @@ const Hero = ({ onNavigate }) => {
             </span>
           </h1>
 
-          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:items-center sm:justify-between xl:mt-14 xl:max-w-4xl min-[1920px]:mt-16 min-[1920px]:max-w-5xl">
-            <p className="text-xs leading-relaxed text-zinc-400 md:text-sm xl:text-base xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-lg">
+          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:items-end sm:justify-between xl:mt-14 xl:max-w-4xl min-[1920px]:mt-16 min-[1920px]:max-w-5xl">
+            <p className="text-sm leading-relaxed text-zinc-400 md:text-base xl:text-lg xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-xl">
               Crafted interfaces, motion, and systems — built for clarity and presence.
             </p>
             <button
