@@ -200,8 +200,10 @@ function App() {
         {activeProject ? (
           <ProjectCaseStudy
             project={activeProject}
+            allProjects={projectsData}
             onBack={() => closeProject('projects')}
             onNavigateMain={closeProject}
+            onOpenProject={openProject}
           />
         ) : (
           <>

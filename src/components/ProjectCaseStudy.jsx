@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logotypeWhite from '../assets/logotype-white.svg'
@@ -6,9 +6,13 @@ import logomarkDark from '../assets/logomark-dark.svg'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ProjectCaseStudy = ({ project, onBack, onNavigateMain }) => {
+const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, onOpenProject }) => {
   const rootRef = useRef(null)
   const [useCompactLogo, setUseCompactLogo] = useState(false)
+  const relatedProjects = useMemo(
+    () => allProjects.filter((item) => item.slug !== project.slug).slice(0, 3),
+    [allProjects, project.slug],
+  )
   const supportingImages = project.supportingImages || [
     'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=2000&q=80',
     'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=80',
@@ -264,7 +268,7 @@ const ProjectCaseStudy = ({ project, onBack, onNavigateMain }) => {
           </div>
         </section>
 
-        <section className="case-section pt-12 xl:pt-16">
+        <section className="case-section border-b border-white/[0.08] pt-12 xl:pt-16">
           <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
             Outcome
           </h2>
@@ -276,6 +280,51 @@ const ProjectCaseStudy = ({ project, onBack, onNavigateMain }) => {
             ))}
           </div>
         </section>
+
+        {relatedProjects.length > 0 ? (
+          <section className="case-section pt-12 xl:pt-16">
+            <div className="mb-6 flex items-end justify-between gap-4 xl:mb-8">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                  Continue browsing
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white sm:text-3xl xl:text-4xl">
+                  More projects
+                </h2>
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {relatedProjects.map((related) => (
+                <button
+                  key={related.slug}
+                  type="button"
+                  onClick={() => onOpenProject?.(related.slug)}
+                  className="group relative overflow-hidden border border-white/[0.08] bg-white/[0.02] text-left"
+                  aria-label={`Open ${related.title} case study`}
+                >
+                  <img
+                    src={related.thumbnail}
+                    alt={`${related.title} preview`}
+                    className="h-44 w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] sm:h-48"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/45 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/65 to-transparent p-4 sm:p-5">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand/80 sm:text-xs">
+                      {related.tag}
+                    </p>
+                    <h3 className="mt-2 text-lg font-medium tracking-tight text-white sm:text-xl">
+                      {related.title}
+                    </h3>
+                    <span className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors group-hover:text-brand sm:text-xs">
+                      View case study →
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </article>
   )
