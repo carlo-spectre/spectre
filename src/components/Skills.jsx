@@ -59,7 +59,7 @@ const Skills = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Skills & Technologies
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto"></div>
+          <div className="mx-auto h-1 w-24 bg-brand" />
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -76,7 +76,7 @@ const Skills = () => {
                   <div key={skillIndex} className="flex items-center">
                     <div className="flex-1 bg-gray-200 rounded-full h-2 mr-3">
                       <div
-                        className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full"
+                        className="h-2 rounded-full bg-brand"
                         style={{ width: `${85 + Math.random() * 10}%` }}
                       ></div>
                     </div>

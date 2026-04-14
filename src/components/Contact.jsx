@@ -77,12 +77,12 @@ const Contact = () => {
         <div className="contact-topbar mb-12 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-center sm:justify-between md:mb-16 xl:mb-20">
           <div className="flex items-baseline gap-6">
             <span className="font-mono text-[10px] uppercase tracking-[0.35em] sm:text-xs xl:text-sm">
-              <span className="text-primary-400/90">03</span>
+              <span className="text-brand/90">03</span>
               <span className="text-zinc-600"> — Contact</span>
             </span>
           </div>
           <div className="h-px flex-1 bg-gradient-to-r from-white/[0.12] via-white/[0.06] to-transparent sm:mx-8" />
-          <p className="max-w-xs font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-primary-500/70 sm:text-right sm:text-xs xl:max-w-md xl:text-sm">
+          <p className="max-w-xs font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-brand/70 sm:text-right sm:text-xs xl:max-w-md xl:text-sm">
             New inquiries &amp; collaborations
           </p>
         </div>
@@ -91,7 +91,7 @@ const Contact = () => {
           {/* Left: editorial column — aligns top with form panel */}
           <aside className="contact-aside lg:col-span-5 xl:col-span-5">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl xl:text-5xl 2xl:text-6xl min-[1920px]:text-7xl">
-              Get in touch
+              Get in Touch
             </h2>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-500 sm:mt-6 sm:text-base xl:mt-8 xl:max-w-lg xl:text-lg min-[1920px]:max-w-xl min-[1920px]:text-xl">
               Tell me about your project, timeline, and budget range. I reply to every message — usually within a couple of business days.
@@ -99,17 +99,17 @@ const Contact = () => {
 
             <a
               href="mailto:your.email@example.com"
-              className="mt-8 inline-flex items-center gap-2 border-b border-white/20 pb-1 font-mono text-sm text-white transition-colors hover:border-primary-400/60 hover:text-primary-300 sm:mt-10 xl:mt-12 xl:text-base min-[1920px]:text-lg"
+              className="mt-8 inline-flex items-center gap-2 border-b border-white/20 pb-1 font-mono text-sm text-white transition-colors hover:border-brand/60 hover:text-brand/90 sm:mt-10 xl:mt-12 xl:text-base min-[1920px]:text-lg"
             >
               your.email@example.com
-              <span className="text-primary-400" aria-hidden>
+              <span className="text-brand" aria-hidden>
                 →
               </span>
             </a>
 
             <dl className="mt-10 space-y-6 border-t border-white/[0.08] pt-10 sm:mt-12 xl:mt-14 xl:space-y-8 xl:pt-12">
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary-500/75 sm:text-xs">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/75 sm:text-xs">
                   Response
                 </dt>
                 <dd className="mt-1.5 text-sm text-zinc-400 sm:text-base">
@@ -117,7 +117,7 @@ const Contact = () => {
                 </dd>
               </div>
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary-500/75 sm:text-xs">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/75 sm:text-xs">
                   Based in
                 </dt>
                 <dd className="mt-1.5 text-sm text-zinc-400 sm:text-base">
@@ -125,7 +125,7 @@ const Contact = () => {
                 </dd>
               </div>
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary-500/75 sm:text-xs">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/75 sm:text-xs">
                   Focus
                 </dt>
                 <dd className="mt-1.5 text-sm text-zinc-400 sm:text-base">
@@ -142,7 +142,7 @@ const Contact = () => {
                 className="group flex items-center justify-between border-b border-white/[0.06] py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:border-white/15 hover:text-white sm:text-xs"
               >
                 <span>GitHub</span>
-                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-400">
+                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-brand">
                   ↗
                 </span>
               </a>
@@ -153,7 +153,7 @@ const Contact = () => {
                 className="group flex items-center justify-between border-b border-white/[0.06] py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:border-white/15 hover:text-white sm:text-xs"
               >
                 <span>LinkedIn</span>
-                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-400">
+                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-brand">
                   ↗
                 </span>
               </a>
@@ -162,7 +162,7 @@ const Contact = () => {
                 className="group flex items-center justify-between border-b border-white/[0.06] py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:border-white/15 hover:text-white sm:text-xs"
               >
                 <span>Email</span>
-                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-400">
+                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-brand">
                   ↗
                 </span>
               </a>
@@ -174,7 +174,7 @@ const Contact = () => {
             <div className="border border-white/[0.1] bg-gradient-to-b from-white/[0.04] to-transparent p-6 sm:p-8 lg:p-10 xl:p-12 min-[1920px]:p-14">
               <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-white/[0.08] pb-6 sm:mb-10 xl:mb-12">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-primary-400/85 sm:text-xs">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-brand/85 sm:text-xs">
                     Message form
                   </p>
                   <p className="mt-2 text-sm text-zinc-500 sm:text-base">
@@ -200,7 +200,7 @@ const Contact = () => {
                       id="name"
                       name="name"
                       required
-                      className="w-full border border-white/[0.1] bg-[#08080a]/80 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-primary-500/40 focus:ring-1 focus:ring-primary-500/30 xl:px-5 xl:py-4 xl:text-base min-[1920px]:px-6 min-[1920px]:py-5 min-[1920px]:text-lg"
+                      className="w-full border border-white/[0.1] bg-[#08080a]/80 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-brand/40 focus:ring-1 focus:ring-brand/30 xl:px-5 xl:py-4 xl:text-base min-[1920px]:px-6 min-[1920px]:py-5 min-[1920px]:text-lg"
                       placeholder="Your name"
                     />
                   </div>
@@ -216,7 +216,7 @@ const Contact = () => {
                       id="email"
                       name="email"
                       required
-                      className="w-full border border-white/[0.1] bg-[#08080a]/80 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-primary-500/40 focus:ring-1 focus:ring-primary-500/30 xl:px-5 xl:py-4 xl:text-base min-[1920px]:px-6 min-[1920px]:py-5 min-[1920px]:text-lg"
+                      className="w-full border border-white/[0.1] bg-[#08080a]/80 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-brand/40 focus:ring-1 focus:ring-brand/30 xl:px-5 xl:py-4 xl:text-base min-[1920px]:px-6 min-[1920px]:py-5 min-[1920px]:text-lg"
                       placeholder="you@example.com"
                     />
                   </div>
@@ -233,7 +233,7 @@ const Contact = () => {
                     name="message"
                     required
                     rows={6}
-                    className="w-full resize-y border border-white/[0.1] bg-[#08080a]/80 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-primary-500/40 focus:ring-1 focus:ring-primary-500/30 xl:min-h-[11rem] xl:px-5 xl:py-4 xl:text-base min-[1920px]:min-h-[12rem] min-[1920px]:px-6 min-[1920px]:py-5 min-[1920px]:text-lg"
+                    className="w-full resize-y border border-white/[0.1] bg-[#08080a]/80 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-brand/40 focus:ring-1 focus:ring-brand/30 xl:min-h-[11rem] xl:px-5 xl:py-4 xl:text-base min-[1920px]:min-h-[12rem] min-[1920px]:px-6 min-[1920px]:py-5 min-[1920px]:text-lg"
                     placeholder="Project scope, links, timeline…"
                   />
                 </div>
@@ -243,7 +243,7 @@ const Contact = () => {
                   </p>
                   <button
                     type="submit"
-                    className="shrink-0 border border-white/20 bg-white/[0.08] px-8 py-3.5 font-mono text-[10px] uppercase tracking-[0.22em] text-white transition hover:border-primary-500/50 hover:bg-primary-500/15 sm:px-10 xl:py-4 xl:text-sm min-[1920px]:px-12 min-[1920px]:py-5 min-[1920px]:text-base"
+                    className="shrink-0 border border-white/20 bg-white/[0.08] px-8 py-3.5 font-mono text-[10px] uppercase tracking-[0.22em] text-white transition hover:border-brand/50 hover:bg-brand/15 sm:px-10 xl:py-4 xl:text-sm min-[1920px]:px-12 min-[1920px]:py-5 min-[1920px]:text-base"
                   >
                     Send message
                   </button>
@@ -257,7 +257,7 @@ const Contact = () => {
           <p className="max-w-2xl text-xs leading-relaxed text-zinc-600 sm:text-sm xl:text-base">
             Prefer a call? Drop your availability in the message — include your time zone.
           </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-primary-500/55 sm:text-xs">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-brand/55 sm:text-xs">
             Spectre · Portfolio
           </p>
         </div>

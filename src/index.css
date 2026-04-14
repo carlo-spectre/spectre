@@ -1,17 +1,8 @@
 @import "tailwindcss";
 
-/* Primary = logo accent #f23737 (red) */
+/* Single accent = logo red only (#f23737). Use `brand` + opacity (e.g. brand/70) — no other red hexes. */
 @theme {
-  --color-primary-50: #fff5f5;
-  --color-primary-100: #ffe4e6;
-  --color-primary-200: #fecdd3;
-  --color-primary-300: #fda4af;
-  --color-primary-400: #f87171;
-  --color-primary-500: #f23737;
-  --color-primary-600: #e11d2d;
-  --color-primary-700: #c51d1d;
-  --color-primary-800: #9f1d1d;
-  --color-primary-900: #7f1d1d;
+  --color-brand: #f23737;
 }
 
 @layer base {
@@ -49,5 +40,17 @@
     .text-outline {
       -webkit-text-stroke: 2px rgba(255, 255, 255, 0.24);
     }
+  }
+
+  .hero-logomark-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-anim-target,
+  .hero-logomark-fx {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }

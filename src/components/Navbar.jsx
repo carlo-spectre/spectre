@@ -27,7 +27,7 @@ const Navbar = ({ activeSection }) => {
           <div className="flex-shrink-0">
             <button
               onClick={() => scrollToSection('home')}
-              className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent"
+              className="text-2xl font-bold text-brand"
             >
               Spectre
             </button>
@@ -41,8 +41,8 @@ const Navbar = ({ activeSection }) => {
                 onClick={() => scrollToSection(item.id)}
                 className={`px-3 py-2 text-sm font-medium transition-colors ${
                   activeSection === item.id
-                    ? 'text-primary-600 border-b-2 border-primary-600'
-                    : 'text-gray-700 hover:text-primary-600'
+                    ? 'text-brand border-b-2 border-brand'
+                    : 'text-gray-700 hover:text-brand'
                 }`}
               >
                 {item.label}
@@ -53,7 +53,7 @@ const Navbar = ({ activeSection }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-md text-gray-700 hover:text-primary-600"
+            className="md:hidden p-2 rounded-md text-gray-700 hover:text-brand"
           >
             <svg
               className="h-6 w-6"
@@ -82,8 +82,8 @@ const Navbar = ({ activeSection }) => {
                 onClick={() => scrollToSection(item.id)}
                 className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   activeSection === item.id
-                    ? 'text-primary-600 bg-primary-50'
-                    : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                    ? 'text-brand bg-brand/10'
+                    : 'text-gray-700 hover:text-brand hover:bg-gray-50'
                 }`}
               >
                 {item.label}

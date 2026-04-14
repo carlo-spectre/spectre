@@ -129,7 +129,7 @@ const Purchases = () => {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-primary-500 to-primary-600 transition-all duration-500 flex items-center justify-end pr-2"
+            className="flex h-full items-center justify-end bg-brand pr-2 transition-all duration-500"
             style={{ width: `${percentage}%` }}
           >
             {percentage > 10 && (
@@ -196,14 +196,14 @@ const Purchases = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Purchases
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto mb-6"></div>
+          <div className="mx-auto mb-6 h-1 w-24 bg-brand" />
           <p className="text-gray-600 mb-6">Track and categorize purchases by discipline</p>
           
           {/* Action Buttons */}
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => setShowAddPurchase(!showAddPurchase)}
-              className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+              className="rounded-lg bg-brand px-6 py-2 font-medium text-white transition-colors hover:bg-brand/90"
             >
               {showAddPurchase ? 'Cancel' : '+ Add Purchase'}
             </button>
@@ -226,12 +226,12 @@ const Purchases = () => {
                 value={newDisciplineName}
                 onChange={(e) => setNewDisciplineName(e.target.value)}
                 placeholder="Enter discipline name (e.g., Electrical, HVAC)"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent focus:ring-2 focus:ring-brand"
                 required
               />
               <button
                 type="submit"
-                className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+                className="rounded-lg bg-brand px-6 py-2 font-medium text-white transition-colors hover:bg-brand/90"
               >
                 Add Discipline
               </button>
@@ -254,7 +254,7 @@ const Purchases = () => {
                     step="0.01"
                     value={newPurchase.amount}
                     onChange={(e) => setNewPurchase({ ...newPurchase, amount: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent focus:ring-2 focus:ring-brand"
                     required
                   />
                 </div>
@@ -266,7 +266,7 @@ const Purchases = () => {
                     type="date"
                     value={newPurchase.date}
                     onChange={(e) => setNewPurchase({ ...newPurchase, date: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent focus:ring-2 focus:ring-brand"
                     required
                   />
                 </div>
@@ -280,7 +280,7 @@ const Purchases = () => {
                   value={newPurchase.description}
                   onChange={(e) => setNewPurchase({ ...newPurchase, description: e.target.value })}
                   placeholder="Enter purchase description"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent focus:ring-2 focus:ring-brand"
                   required
                 />
               </div>
@@ -291,7 +291,7 @@ const Purchases = () => {
                 <select
                   value={newPurchase.discipline}
                   onChange={(e) => setNewPurchase({ ...newPurchase, discipline: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent focus:ring-2 focus:ring-brand"
                   required
                 >
                   {disciplines.map(discipline => (
@@ -311,14 +311,14 @@ const Purchases = () => {
                     value={customFieldName}
                     onChange={(e) => setCustomFieldName(e.target.value)}
                     placeholder="Field name"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent focus:ring-2 focus:ring-brand"
                   />
                   <input
                     type="text"
                     value={customFieldValue}
                     onChange={(e) => setCustomFieldValue(e.target.value)}
                     placeholder="Field value"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:border-transparent focus:ring-2 focus:ring-brand"
                   />
                   <button
                     type="button"
@@ -333,7 +333,7 @@ const Purchases = () => {
                     {Object.entries(newPurchase.customFields).map(([key, value]) => (
                       <span
                         key={key}
-                        className="px-3 py-1 bg-primary-100 text-primary-700 text-sm rounded-full flex items-center gap-2"
+                        className="flex items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-sm text-brand"
                       >
                         {key}: {value}
                         <button
@@ -343,7 +343,7 @@ const Purchases = () => {
                             delete newFields[key]
                             setNewPurchase({ ...newPurchase, customFields: newFields })
                           }}
-                          className="text-primary-700 hover:text-primary-900"
+                          className="text-brand hover:text-brand/80"
                         >
                           ×
                         </button>
@@ -355,7 +355,7 @@ const Purchases = () => {
 
               <button
                 type="submit"
-                className="w-full px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+                className="w-full rounded-lg bg-brand px-6 py-2 font-medium text-white transition-colors hover:bg-brand/90"
               >
                 Add Purchase
               </button>
@@ -366,7 +366,7 @@ const Purchases = () => {
         {/* Summary Card */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8 purchases-summary">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Total Summary</h3>
-          <div className="text-3xl font-bold text-primary-600">
+          <div className="text-3xl font-bold text-brand">
             ${grandTotal.toLocaleString()}
           </div>
         </div>
@@ -382,7 +382,7 @@ const Purchases = () => {
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{discipline}</h3>
                 <div className="text-lg text-gray-600 mb-4">
-                  Total: <span className="font-bold text-primary-600">${total.toLocaleString()}</span>
+                  Total: <span className="font-bold text-brand">${total.toLocaleString()}</span>
                   {grandTotal > 0 && (
                     <span className="ml-2 text-sm text-gray-500">
                       ({(total / grandTotal * 100).toFixed(1)}% of total)

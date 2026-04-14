@@ -45,7 +45,7 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             About Me
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto"></div>
+          <div className="mx-auto h-1 w-24 bg-brand" />
         </div>
 
         <div className="max-w-4xl mx-auto">
@@ -68,25 +68,25 @@ const About = () => {
                 the developer community.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-primary-100 to-primary-50 rounded-2xl p-8 shadow-lg about-content">
+            <div className="rounded-2xl bg-gradient-to-br from-brand/10 to-brand/5 p-8 shadow-lg about-content">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
                 Quick Facts
               </h3>
               <ul className="space-y-4">
                 <li className="flex items-center">
-                  <span className="text-primary-600 mr-3">✓</span>
+                  <span className="text-brand mr-3">✓</span>
                   <span className="text-gray-700">Full-stack developer</span>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-primary-600 mr-3">✓</span>
+                  <span className="text-brand mr-3">✓</span>
                   <span className="text-gray-700">UI/UX enthusiast</span>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-primary-600 mr-3">✓</span>
+                  <span className="text-brand mr-3">✓</span>
                   <span className="text-gray-700">Problem solver</span>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-primary-600 mr-3">✓</span>
+                  <span className="text-brand mr-3">✓</span>
                   <span className="text-gray-700">Continuous learner</span>
                 </li>
               </ul>
