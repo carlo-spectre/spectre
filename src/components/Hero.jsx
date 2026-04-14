@@ -1,6 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { lazy, Suspense, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+const HeroWebGL = lazy(() => import('./HeroWebGL'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -75,13 +77,23 @@ const Hero = () => {
     <section
       id="home"
       ref={rootRef}
-      className="relative min-h-[100dvh] overflow-hidden border-b border-white/[0.06]"
+      className="relative min-h-[100dvh] overflow-hidden border-b border-white/[0.06] bg-[#08080a]"
     >
-      <div className="pointer-events-none absolute inset-0 grain" />
-      <div className="hero-glow pointer-events-none absolute -left-1/4 top-1/4 h-[min(90vw,56rem)] w-[min(90vw,56rem)] rounded-full bg-primary-500/15 blur-[120px] opacity-40 xl:h-[min(100vw,64rem)] xl:w-[min(100vw,64rem)] xl:blur-[140px] min-[1920px]:h-[min(110vw,72rem)] min-[1920px]:w-[min(110vw,72rem)]" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-violet-600/10 blur-[100px] xl:h-[28rem] xl:w-[28rem] min-[1920px]:h-[36rem] min-[1920px]:w-[36rem]" />
+      <Suspense
+        fallback={
+          <div
+            className="pointer-events-none absolute inset-0 z-0 bg-[#08080a]"
+            aria-hidden
+          />
+        }
+      >
+        <HeroWebGL />
+      </Suspense>
+      <div className="pointer-events-none absolute inset-0 z-[1] grain" />
+      <div className="hero-glow pointer-events-none absolute -left-1/4 top-1/4 z-[1] h-[min(90vw,56rem)] w-[min(90vw,56rem)] rounded-full bg-primary-500/15 blur-[120px] opacity-40 xl:h-[min(100vw,64rem)] xl:w-[min(100vw,64rem)] xl:blur-[140px] min-[1920px]:h-[min(110vw,72rem)] min-[1920px]:w-[min(110vw,72rem)]" />
+      <div className="pointer-events-none absolute bottom-0 right-0 z-[1] h-96 w-96 rounded-full bg-violet-600/10 blur-[100px] xl:h-[28rem] xl:w-[28rem] min-[1920px]:h-[36rem] min-[1920px]:w-[36rem]" />
 
-      <div className="hero-foreground relative mx-auto flex min-h-[100dvh] w-full max-w-[min(96vw,1920px)] flex-col px-5 pb-12 pt-8 sm:px-8 sm:pb-14 sm:pt-10 md:px-12 md:pb-16 md:pt-12 xl:px-16 xl:pb-20 xl:pt-14 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24 min-[1920px]:pb-24 min-[1920px]:pt-16">
+      <div className="hero-foreground relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[min(96vw,1920px)] flex-col px-5 pb-12 pt-8 sm:px-8 sm:pb-14 sm:pt-10 md:px-12 md:pb-16 md:pt-12 xl:px-16 xl:pb-20 xl:pt-14 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24 min-[1920px]:pb-24 min-[1920px]:pt-16">
         <header className="hero-top flex items-center justify-between gap-6">
           <div className="flex items-center gap-3 sm:gap-4">
             <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.6)] xl:h-2.5 xl:w-2.5 min-[1920px]:h-3 min-[1920px]:w-3" />
