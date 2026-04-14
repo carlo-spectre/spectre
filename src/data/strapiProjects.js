@@ -52,7 +52,7 @@ const normalizeEntry = (entry) => {
         .map((item) => getMediaUrl(item?.attributes || item))
         .filter(Boolean)
         .slice(0, 3)
-      : asList(attrs.supportingImageUrls).slice(0, 3),
+      : asList(attrs.supportingImageUrlsText || attrs.supportingImageUrls).slice(0, 3),
   }
 }
 
