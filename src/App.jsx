@@ -4,6 +4,7 @@ import Projects from './components/Projects'
 import Contact from './components/Contact'
 import PageTransitionWebGL from './components/PageTransitionWebGL'
 import ProjectCaseStudy from './components/ProjectCaseStudy'
+import LegalPage from './components/LegalPage'
 import CmsLogin from './components/CmsLogin'
 import CmsDashboard from './components/CmsDashboard'
 import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsProjects'
@@ -14,6 +15,8 @@ const getRouteFromPath = () => {
   const { pathname } = window.location
   if (pathname === '/cms/login') return { type: 'cms-login' }
   if (pathname === '/cms') return { type: 'cms-dashboard' }
+  if (pathname === '/privacy') return { type: 'legal', page: 'privacy' }
+  if (pathname === '/terms') return { type: 'legal', page: 'terms' }
   const projectMatch = pathname.match(/^\/projects\/([a-z0-9-]+)$/i)
   if (projectMatch) return { type: 'project', slug: projectMatch[1] }
   return { type: 'home' }
@@ -145,6 +148,23 @@ function App() {
     )
   }
 
+  if (route.type === 'legal') {
+    return (
+      <div className="min-h-screen bg-[#08080a] text-zinc-100">
+        <main>
+          <LegalPage
+            type={route.page}
+            onBackHome={() => {
+              window.history.pushState({}, '', '/')
+              setRoute({ type: 'home' })
+              window.scrollTo({ top: 0, behavior: 'auto' })
+            }}
+          />
+        </main>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-[#08080a] text-zinc-100">
       <PageTransitionWebGL />
@@ -174,6 +194,7 @@ function App() {
             <a href="#contact" className="transition-colors hover:text-brand">Contact</a>
             <a href="mailto:carlo@spectredesign.studio" className="transition-colors hover:text-brand">Email</a>
             <a href="/privacy" className="transition-colors hover:text-brand">Privacy</a>
+            <a href="/terms" className="transition-colors hover:text-brand">Terms</a>
           </nav>
         </div>
       </footer>
