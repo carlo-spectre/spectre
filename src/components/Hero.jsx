@@ -224,7 +224,7 @@ const Hero = ({ onNavigate }) => {
             <span className="text-zinc-500"> — digital product &amp; interface</span>
           </p>
 
-          <h1 className="max-w-[14ch] text-[clamp(3.35rem,7.8vw+1.2rem,6.5rem)] font-semibold leading-[0.92] tracking-[-0.04em] text-white md:max-w-none xl:text-[clamp(4rem,7vw+1rem,8.5rem)] min-[1920px]:text-[clamp(5.5rem,6vw+2rem,11rem)] min-[1920px]:tracking-[-0.045em]">
+          <h1 className="max-w-[14ch] text-[clamp(6rem,18vw,8.8rem)] font-semibold leading-[0.92] tracking-[-0.04em] text-white sm:text-[clamp(3.35rem,7.8vw+1.2rem,6.5rem)] md:max-w-none xl:text-[clamp(4rem,7vw+1rem,8.5rem)] min-[1920px]:text-[clamp(5.5rem,6vw+2rem,11rem)] min-[1920px]:tracking-[-0.045em]">
             <span className="hero-line block overflow-hidden">
               <span className="hero-headline-word inline-block">Shape</span>
             </span>

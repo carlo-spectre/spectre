@@ -170,30 +170,30 @@ const Contact = () => {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between border-b border-white/[0.06] py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:border-white/15 hover:text-white sm:text-xs"
+                className="group flex items-center justify-between border-b border-white/[0.06] py-3 pr-1 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-all duration-300 hover:border-brand/40 hover:bg-white/[0.02] hover:pl-1 hover:text-brand sm:text-xs"
               >
                 <span>GitHub</span>
-                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-brand">
+                <span className="text-zinc-600 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-brand">
                   ↗
                 </span>
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/carloyung/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between border-b border-white/[0.06] py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:border-white/15 hover:text-white sm:text-xs"
+                className="group flex items-center justify-between border-b border-white/[0.06] py-3 pr-1 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-all duration-300 hover:border-brand/40 hover:bg-white/[0.02] hover:pl-1 hover:text-brand sm:text-xs"
               >
                 <span>LinkedIn</span>
-                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-brand">
+                <span className="text-zinc-600 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-brand">
                   ↗
                 </span>
               </a>
               <a
                 href="mailto:carloyung54@gmail.com"
-                className="group flex items-center justify-between border-b border-white/[0.06] py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:border-white/15 hover:text-white sm:text-xs"
+                className="group flex items-center justify-between border-b border-white/[0.06] py-3 pr-1 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-all duration-300 hover:border-brand/40 hover:bg-white/[0.02] hover:pl-1 hover:text-brand sm:text-xs"
               >
                 <span>Email</span>
-                <span className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-brand">
+                <span className="text-zinc-600 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-brand">
                   ↗
                 </span>
               </a>
