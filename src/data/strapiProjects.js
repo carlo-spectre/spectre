@@ -12,8 +12,8 @@ const getMediaUrl = (media) => {
 
 const normalizeEntry = (entry) => {
   const attrs = entry?.attributes || entry || {}
-  const thumbnail = attrs.thumbnail?.data
-  const supportingMedia = attrs.supportingImages?.data || []
+  const thumbnail = attrs.thumbnail?.data || attrs.thumbnail || null
+  const supportingMedia = attrs.supportingImages?.data || attrs.supportingImages || []
 
   return {
     id: Number(attrs.idNumber ?? entry?.id ?? 0),
