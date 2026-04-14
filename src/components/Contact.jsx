@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -6,6 +6,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 const Contact = () => {
   const sectionRef = useRef(null)
+  const [isSending, setIsSending] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' })
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -61,9 +63,38 @@ const Contact = () => {
     return () => ctx.revert()
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    alert("Thank you for your message! I'll get back to you soon.")
+    const form = e.currentTarget
+    const formData = new FormData(form)
+
+    setIsSending(true)
+    setSubmitStatus({ type: '', message: '' })
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/carloyung54@gmail.com', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send message')
+      }
+
+      form.reset()
+      setSubmitStatus({
+        type: 'success',
+        message: 'Message sent successfully. I will get back to you soon.',
+      })
+    } catch {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Unable to send right now. Please try again or email me directly.',
+      })
+    } finally {
+      setIsSending(false)
+    }
   }
 
   return (
@@ -98,10 +129,10 @@ const Contact = () => {
             </p>
 
             <a
-              href="mailto:your.email@example.com"
+              href="mailto:carloyung54@gmail.com"
               className="mt-8 inline-flex items-center gap-2 border-b border-white/20 pb-1 font-mono text-sm text-white transition-colors hover:border-brand/60 hover:text-brand/90 sm:mt-10 xl:mt-12 xl:text-base min-[1920px]:text-lg"
             >
-              your.email@example.com
+              carloyung54@gmail.com
               <span className="text-brand" aria-hidden>
                 →
               </span>
@@ -158,7 +189,7 @@ const Contact = () => {
                 </span>
               </a>
               <a
-                href="mailto:your.email@example.com"
+                href="mailto:carloyung54@gmail.com"
                 className="group flex items-center justify-between border-b border-white/[0.06] py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:border-white/15 hover:text-white sm:text-xs"
               >
                 <span>Email</span>
@@ -187,6 +218,8 @@ const Contact = () => {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 xl:space-y-7 min-[1920px]:space-y-8">
+                <input type="hidden" name="_subject" value="New inquiry from spectredesign.studio" />
+                <input type="hidden" name="_captcha" value="false" />
                 <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
                   <div>
                     <label
@@ -243,11 +276,21 @@ const Contact = () => {
                   </p>
                   <button
                     type="submit"
+                    disabled={isSending}
                     className="shrink-0 border border-white/20 bg-white/[0.08] px-8 py-3.5 font-mono text-[10px] uppercase tracking-[0.22em] text-white transition hover:border-brand/50 hover:bg-brand/15 sm:px-10 xl:py-4 xl:text-sm min-[1920px]:px-12 min-[1920px]:py-5 min-[1920px]:text-base"
                   >
-                    Send message
+                    {isSending ? 'Sending…' : 'Send message'}
                   </button>
                 </div>
+                {submitStatus.message ? (
+                  <p
+                    className={`text-sm ${
+                      submitStatus.type === 'success' ? 'text-brand/90' : 'text-zinc-400'
+                    }`}
+                  >
+                    {submitStatus.message}
+                  </p>
+                ) : null}
               </form>
             </div>
           </div>
