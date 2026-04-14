@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import logotypeWhite from '../assets/logotype-white.svg'
 
 const HeroWebGL = lazy(() => import('./HeroWebGL'))
 
@@ -95,12 +96,19 @@ const Hero = () => {
 
       <div className="hero-foreground relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[min(96vw,1920px)] flex-col px-5 pb-12 pt-8 sm:px-8 sm:pb-14 sm:pt-10 md:px-12 md:pb-16 md:pt-12 xl:px-16 xl:pb-20 xl:pt-14 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24 min-[1920px]:pb-24 min-[1920px]:pt-16">
         <header className="hero-top flex items-center justify-between gap-6">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.6)] xl:h-2.5 xl:w-2.5 min-[1920px]:h-3 min-[1920px]:w-3" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-500 sm:text-xs xl:text-sm min-[1920px]:text-base">
-              Spectre
-            </span>
-          </div>
+          <a
+            href="#home"
+            className="hero-logo flex shrink-0 items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08080a]"
+            aria-label="Spectre — home"
+          >
+            <img
+              src={logotypeWhite}
+              alt=""
+              width={558}
+              height={281}
+              className="h-7 w-auto max-w-[min(100%,11rem)] object-contain object-left sm:h-8 sm:max-w-[13rem] md:max-w-[15rem] xl:h-10 xl:max-w-[17rem] min-[1920px]:h-12 min-[1920px]:max-w-[20rem]"
+            />
+          </a>
           <nav className="flex items-center gap-8 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500 sm:text-xs sm:gap-10 xl:gap-14 xl:text-sm min-[1920px]:gap-16 min-[1920px]:text-base">
             <button
               type="button"
