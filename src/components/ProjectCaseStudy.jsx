@@ -6,9 +6,23 @@ import logomarkDark from '../assets/logomark-dark.svg'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ProjectCaseStudy = ({ project, onBack, onNavigateMain }) => {
+const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, onOpenProject }) => {
   const rootRef = useRef(null)
   const [useCompactLogo, setUseCompactLogo] = useState(false)
+  const currentIndex = Math.max(
+    0,
+    allProjects.findIndex((item) => item.slug === project.slug),
+  )
+  const nextProject = allProjects[(currentIndex + 1) % Math.max(allProjects.length, 1)] || project
+  const prevProject =
+    allProjects[(currentIndex - 1 + Math.max(allProjects.length, 1)) % Math.max(allProjects.length, 1)] || project
+  const carouselProjects = allProjects.length > 0
+    ? [
+      allProjects[(currentIndex + 1) % allProjects.length],
+      allProjects[(currentIndex + 2) % allProjects.length],
+      allProjects[(currentIndex + 3) % allProjects.length],
+    ]
+    : []
   const supportingImages = project.supportingImages || [
     'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=2000&q=80',
     'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=80',
@@ -273,6 +287,53 @@ const ProjectCaseStudy = ({ project, onBack, onNavigateMain }) => {
               <div key={item} className="border border-white/[0.08] bg-white/[0.02] p-5 xl:p-6">
                 <p className="text-sm leading-relaxed text-zinc-200 xl:text-base">{item}</p>
               </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="case-section mt-14 border-t border-white/[0.08] pt-12 xl:mt-16 xl:pt-16">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+              Next projects
+            </h2>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => onOpenProject?.(prevProject.slug)}
+                className="border border-white/[0.15] px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-300 transition-colors hover:border-brand/50 hover:text-brand sm:text-xs"
+              >
+                Prev
+              </button>
+              <button
+                type="button"
+                onClick={() => onOpenProject?.(nextProject.slug)}
+                className="border border-white/[0.15] px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-300 transition-colors hover:border-brand/50 hover:text-brand sm:text-xs"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+
+          <div className="flex snap-x gap-4 overflow-x-auto pb-2">
+            {carouselProjects.map((item) => (
+              <button
+                key={item.slug}
+                type="button"
+                onClick={() => onOpenProject?.(item.slug)}
+                className="group relative min-w-[78%] snap-start overflow-hidden border border-white/[0.1] bg-[#0d0d10] text-left sm:min-w-[45%] lg:min-w-[31%]"
+              >
+                <img
+                  src={item.thumbnail}
+                  alt={`${item.title} preview`}
+                  className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] sm:h-48"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
+                <div className="relative z-10 px-4 pb-4 pt-3">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand/85">{item.tag}</p>
+                  <p className="mt-1 text-sm text-white sm:text-base">{item.title}</p>
+                </div>
+              </button>
             ))}
           </div>
         </section>
