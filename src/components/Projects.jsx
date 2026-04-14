@@ -59,7 +59,7 @@ const Projects = () => {
       <div className="mx-auto w-full max-w-[min(96vw,1920px)] px-5 sm:px-8 md:px-12 xl:px-16 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24">
         <div className="projects-intro mb-16 flex flex-col justify-between gap-8 md:mb-20 md:flex-row md:items-end xl:mb-24 min-[1920px]:mb-32">
           <div>
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-600 sm:text-xs xl:mb-4 xl:text-sm min-[1920px]:text-base">
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-primary-400/85 sm:text-xs xl:mb-4 xl:text-sm min-[1920px]:text-base">
               Selected work
             </p>
             <h2 className="text-3xl font-semibold tracking-tight text-white md:text-4xl xl:text-5xl 2xl:text-6xl min-[1920px]:text-7xl min-[1920px]:tracking-tight">
@@ -79,10 +79,10 @@ const Projects = () => {
               className="project-tile group relative flex aspect-[4/3] w-full cursor-default flex-col justify-between border-r border-b border-white/[0.08] p-5 sm:w-1/2 sm:p-6 lg:w-1/3 lg:aspect-square lg:p-8 xl:p-10 min-[1920px]:p-12 min-[1920px]:aspect-[5/4]"
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600 sm:text-xs xl:text-sm min-[1920px]:text-base">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary-400/90 sm:text-xs xl:text-sm min-[1920px]:text-base">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500 sm:text-xs xl:text-sm min-[1920px]:text-base">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary-500/75 sm:text-xs xl:text-sm min-[1920px]:text-base">
                   {project.tag}
                 </span>
               </div>
@@ -90,11 +90,11 @@ const Projects = () => {
                 <h3 className="text-lg font-medium tracking-tight text-white transition-colors group-hover:text-primary-300 md:text-xl xl:text-2xl 2xl:text-3xl min-[1920px]:text-4xl">
                   {project.title}
                 </h3>
-                <span className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600 opacity-0 transition-opacity group-hover:opacity-100 xl:mt-4 xl:text-xs min-[1920px]:text-sm">
+                <span className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-primary-400/80 opacity-0 transition-opacity group-hover:opacity-100 xl:mt-4 xl:text-xs min-[1920px]:text-sm">
                   Open →
                 </span>
               </div>
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary-500/0 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/[0.06] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             </article>
           ))}
         </div>

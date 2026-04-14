@@ -76,12 +76,13 @@ const Contact = () => {
         {/* Section index + rhythm */}
         <div className="contact-topbar mb-12 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-center sm:justify-between md:mb-16 xl:mb-20">
           <div className="flex items-baseline gap-6">
-            <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-zinc-600 sm:text-xs xl:text-sm">
-              03 — Contact
+            <span className="font-mono text-[10px] uppercase tracking-[0.35em] sm:text-xs xl:text-sm">
+              <span className="text-primary-400/90">03</span>
+              <span className="text-zinc-600"> — Contact</span>
             </span>
           </div>
           <div className="h-px flex-1 bg-gradient-to-r from-white/[0.12] via-white/[0.06] to-transparent sm:mx-8" />
-          <p className="max-w-xs font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-zinc-600 sm:text-right sm:text-xs xl:max-w-md xl:text-sm">
+          <p className="max-w-xs font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-primary-500/70 sm:text-right sm:text-xs xl:max-w-md xl:text-sm">
             New inquiries &amp; collaborations
           </p>
         </div>
@@ -108,7 +109,7 @@ const Contact = () => {
 
             <dl className="mt-10 space-y-6 border-t border-white/[0.08] pt-10 sm:mt-12 xl:mt-14 xl:space-y-8 xl:pt-12">
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-600 sm:text-xs">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary-500/75 sm:text-xs">
                   Response
                 </dt>
                 <dd className="mt-1.5 text-sm text-zinc-400 sm:text-base">
@@ -116,7 +117,7 @@ const Contact = () => {
                 </dd>
               </div>
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-600 sm:text-xs">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary-500/75 sm:text-xs">
                   Based in
                 </dt>
                 <dd className="mt-1.5 text-sm text-zinc-400 sm:text-base">
@@ -124,7 +125,7 @@ const Contact = () => {
                 </dd>
               </div>
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-zinc-600 sm:text-xs">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.24em] text-primary-500/75 sm:text-xs">
                   Focus
                 </dt>
                 <dd className="mt-1.5 text-sm text-zinc-400 sm:text-base">
@@ -173,7 +174,7 @@ const Contact = () => {
             <div className="border border-white/[0.1] bg-gradient-to-b from-white/[0.04] to-transparent p-6 sm:p-8 lg:p-10 xl:p-12 min-[1920px]:p-14">
               <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-white/[0.08] pb-6 sm:mb-10 xl:mb-12">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-600 sm:text-xs">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-primary-400/85 sm:text-xs">
                     Message form
                   </p>
                   <p className="mt-2 text-sm text-zinc-500 sm:text-base">
@@ -256,7 +257,7 @@ const Contact = () => {
           <p className="max-w-2xl text-xs leading-relaxed text-zinc-600 sm:text-sm xl:text-base">
             Prefer a call? Drop your availability in the message — include your time zone.
           </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-zinc-700 sm:text-xs">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-primary-500/55 sm:text-xs">
             Spectre · Portfolio
           </p>
         </div>
