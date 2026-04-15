@@ -58,6 +58,22 @@
     height: 100%;
   }
 
+  .hero-scroll-chevron {
+    animation: hero-scroll-chevron-bounce 1.6s ease-in-out infinite;
+  }
+
+  @keyframes hero-scroll-chevron-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.75;
+    }
+    50% {
+      transform: translateY(4px);
+      opacity: 1;
+    }
+  }
+
   .hero-anim-target,
   .hero-logomark-fx {
     will-change: transform, opacity;

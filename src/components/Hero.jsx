@@ -10,9 +10,10 @@ const Hero = ({ onNavigate }) => {
   const rootRef = useRef(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const scrollTo = (id) => {
+  const scrollTo = (id, options = {}) => {
+    const { useTransition = true } = options
     setIsMobileMenuOpen(false)
-    if (onNavigate) {
+    if (useTransition && onNavigate) {
       onNavigate(id)
       return
     }
@@ -199,7 +200,7 @@ const Hero = ({ onNavigate }) => {
           </nav>
 
           {isMobileMenuOpen ? (
-            <div className="absolute right-0 top-full z-30 mt-3 flex min-w-[11rem] flex-col border border-white/[0.12] bg-[#09090c]/95 p-2 backdrop-blur sm:hidden">
+            <div className="fixed right-5 top-20 z-[220] flex min-w-[11rem] flex-col border border-white/[0.18] bg-[#09090c] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] backdrop-blur-md sm:hidden">
               <button
                 type="button"
                 onClick={() => scrollTo('projects')}
@@ -236,13 +237,14 @@ const Hero = ({ onNavigate }) => {
             </span>
           </h1>
 
-          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:items-end sm:justify-between xl:mt-14 xl:max-w-4xl min-[1920px]:mt-16 min-[1920px]:max-w-5xl">
-            <p className="text-sm leading-relaxed text-zinc-400 md:text-base xl:text-lg xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-xl">
-              Crafted interfaces, motion, and systems — built for clarity and presence.
+          <div className="hero-meta mt-10 flex max-w-xl flex-col gap-3 sm:mt-12 sm:flex-row sm:items-center sm:justify-start sm:gap-6 xl:mt-14 xl:max-w-4xl xl:gap-8 min-[1920px]:mt-16 min-[1920px]:max-w-5xl min-[1920px]:gap-10">
+            <p className="text-xs leading-relaxed text-zinc-400 md:text-sm xl:text-base xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-lg">
+              Crafted interfaces, motion, and systems —
+              <br className="sm:hidden" /> built for clarity and presence.
             </p>
             <button
               type="button"
-              onClick={() => scrollTo('projects')}
+              onClick={() => scrollTo('projects', { useTransition: false })}
               className="group inline-flex w-fit shrink-0 items-center gap-3 border border-white/15 bg-white/[0.03] px-6 py-4 font-mono text-xs uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:border-white/25 hover:bg-white/[0.06] hover:text-white sm:px-6 sm:py-3.5 sm:text-xs xl:px-8 xl:py-4 xl:text-sm min-[1920px]:px-10 min-[1920px]:py-5 min-[1920px]:text-base"
             >
               View work
@@ -251,9 +253,13 @@ const Hero = ({ onNavigate }) => {
           </div>
         </div>
 
-        <div className="hero-bottom flex flex-row items-center justify-between gap-4 border-t border-white/[0.06] pt-8 font-mono text-[10px] uppercase tracking-[0.24em] sm:pt-10 xl:pt-12 xl:text-xs min-[1920px]:pt-14 min-[1920px]:text-sm">
-          <span className="text-brand/90">Scroll</span>
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="hero-bottom flex flex-row items-center justify-between gap-4 pt-6 font-mono text-[10px] uppercase tracking-[0.24em] sm:pt-8 xl:pt-10 xl:text-xs min-[1920px]:pt-12 min-[1920px]:text-sm">
+          <span className="flex items-center gap-2 text-brand/90">
+            Scroll
+            <span className="hero-scroll-chevron inline-flex h-5 w-5 items-center justify-center text-base leading-none text-brand" aria-hidden>
+              ˅
+            </span>
+          </span>
           <span className="text-zinc-600">
             © <span className="text-brand/90">{new Date().getFullYear()}</span>
           </span>
