@@ -11,6 +11,30 @@ import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsPr
 import { isCmsAuthenticated, loginCms, logoutCms } from './data/cmsAuth'
 import { fetchStrapiProjects } from './data/strapiProjects'
 
+const STRAPI_CACHE_KEY = 'spectre:strapi-projects-cache:v1'
+
+const readProjectsCache = () => {
+  try {
+    const raw = window.localStorage.getItem(STRAPI_CACHE_KEY)
+    if (!raw) return { projects: [], syncedAt: null }
+    const parsed = JSON.parse(raw)
+    return {
+      projects: Array.isArray(parsed?.projects) ? parsed.projects : [],
+      syncedAt: typeof parsed?.syncedAt === 'string' ? parsed.syncedAt : null,
+    }
+  } catch {
+    return { projects: [], syncedAt: null }
+  }
+}
+
+const writeProjectsCache = (projects, syncedAt) => {
+  try {
+    window.localStorage.setItem(STRAPI_CACHE_KEY, JSON.stringify({ projects, syncedAt }))
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
 const getRouteFromPath = () => {
   const { pathname } = window.location
   if (pathname === '/cms/login') return { type: 'cms-login' }
@@ -23,10 +47,13 @@ const getRouteFromPath = () => {
 }
 
 function App() {
-  const [projectsData, setProjectsData] = useState([])
+  const cachedProjectsState = useMemo(() => readProjectsCache(), [])
+  const [projectsData, setProjectsData] = useState(
+    () => (cachedProjectsState.projects.length ? cachedProjectsState.projects : loadCmsProjects()),
+  )
   const [isProjectsLoading, setIsProjectsLoading] = useState(true)
   const [projectsLoadError, setProjectsLoadError] = useState('')
-  const [projectsLastSyncedAt, setProjectsLastSyncedAt] = useState(null)
+  const [projectsLastSyncedAt, setProjectsLastSyncedAt] = useState(cachedProjectsState.syncedAt)
   const [route, setRoute] = useState(() => getRouteFromPath())
   const activeProject = useMemo(
     () => (route.type === 'project' ? projectsData.find((project) => project.slug === route.slug) ?? null : null),
@@ -59,17 +86,15 @@ function App() {
       try {
         const strapiProjects = await fetchStrapiProjects()
         if (cancelled || !strapiProjects?.length) return
+        const syncedAt = new Date().toISOString()
         setProjectsData(strapiProjects)
-        setProjectsLastSyncedAt(new Date())
+        setProjectsLastSyncedAt(syncedAt)
+        writeProjectsCache(strapiProjects, syncedAt)
       } catch {
         if (cancelled) return
-        setProjectsData([])
-        setProjectsLoadError('Unable to load live project content from Strapi.')
-        setProjectsLastSyncedAt(null)
+        setProjectsLoadError('Strapi sync is unavailable, showing last cached content.')
       } finally {
-        if (!cancelled) {
-          setIsProjectsLoading(false)
-        }
+        if (!cancelled) setIsProjectsLoading(false)
       }
     }
 
@@ -173,7 +198,7 @@ function App() {
     )
   }
 
-  if (projectsLoadError && route.type !== 'cms-login' && route.type !== 'cms-dashboard') {
+  if (!projectsData.length && projectsLoadError && route.type !== 'cms-login' && route.type !== 'cms-dashboard') {
     return (
       <div className="min-h-screen bg-[#08080a] text-zinc-100">
         <main className="mx-auto flex min-h-screen w-full max-w-[min(96vw,1200px)] items-center justify-center px-5 sm:px-8">
@@ -185,7 +210,7 @@ function App() {
               Unable to load live content.
             </h1>
             <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-base">
-              {projectsLoadError} Please try refreshing. If this continues, check Strapi Cloud deployment health and public API permissions.
+              {projectsLoadError} Please refresh or check Strapi Cloud deployment health.
             </p>
           </div>
         </main>
@@ -213,6 +238,7 @@ function App() {
               projects={projectsData}
               isLoading={isProjectsLoading}
               lastSyncedAt={projectsLastSyncedAt}
+              syncWarning={projectsLoadError}
             />
             <Contact />
           </>

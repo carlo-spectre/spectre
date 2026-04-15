@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const loadingCards = Array.from({ length: 9 }, (_, index) => ({ id: `loading-${index}` }))
+const loadingCards = Array.from({ length: 8 }, (_, index) => ({ id: `loading-${index}` }))
 
 const formatLastSynced = (value) => {
   if (!value) return null
@@ -19,9 +19,19 @@ const formatLastSynced = (value) => {
   }).format(date)
 }
 
-const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = null }) => {
+const getTileSpanClass = (index) => {
+  const rowIndex = Math.floor(index / 2)
+  const isFirstInPair = index % 2 === 0
+  const isOddRow = rowIndex % 2 === 1
+  const isNarrowTile = isOddRow ? !isFirstInPair : isFirstInPair
+  return isNarrowTile ? 'md:col-span-1' : 'md:col-span-2'
+}
+
+const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = null, syncWarning = '' }) => {
   const sectionRef = useRef(null)
+  const [cursorState, setCursorState] = useState({ visible: false, x: 0, y: 0 })
   const lastSyncedLabel = formatLastSynced(lastSyncedAt)
+  const visibleProjects = useMemo(() => projects.slice(0, 8), [projects])
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -72,18 +82,22 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
             <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600 sm:text-xs">
               {isLoading ? 'Syncing from Strapi...' : (lastSyncedLabel ? `Last synced ${lastSyncedLabel}` : 'Waiting for Strapi sync')}
             </p>
+            {!isLoading && syncWarning ? (
+              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-amber-300/80 sm:text-xs">
+                {syncWarning}
+              </p>
+            ) : null}
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-zinc-500 md:max-w-md xl:max-w-xl xl:text-base min-[1920px]:max-w-2xl min-[1920px]:text-lg">
-            Replace titles and tags with your real projects. Layout is three columns × three rows — flex, not grid.
+            Replace titles and tags with your real projects. Tablet and desktop use an editorial collage layout.
           </p>
         </div>
 
-        {/* 3×3 via flex wrap — no CSS grid */}
-        <div className="flex flex-wrap border-t border-l border-white/[0.08]">
+        <div className="flex flex-wrap border-t border-l border-white/[0.08] md:grid md:grid-cols-3">
           {isLoading ? loadingCards.map((card, index) => (
             <div
               key={card.id}
-              className="project-tile relative flex aspect-[4/3] w-full flex-col justify-between overflow-hidden border-r border-b border-white/[0.08] bg-gradient-to-b from-zinc-900/60 to-zinc-900/40 p-5 sm:w-1/2 sm:p-6 lg:w-1/3 lg:aspect-square lg:p-8 xl:p-10 min-[1920px]:aspect-[5/4] min-[1920px]:p-12"
+              className={`project-tile relative flex aspect-[4/3] w-full flex-col justify-between overflow-hidden border-r border-b border-white/[0.08] bg-gradient-to-b from-zinc-900/60 to-zinc-900/40 p-5 sm:w-1/2 sm:p-6 md:col-span-1 md:h-[clamp(320px,32vw,560px)] md:w-auto md:aspect-auto lg:p-8 xl:p-10 min-[1920px]:p-12 ${getTileSpanClass(index)}`}
               aria-hidden="true"
             >
               <div className="absolute inset-0 animate-pulse bg-white/[0.02]" />
@@ -99,12 +113,19 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
               </div>
               <div className="absolute right-4 top-4 h-5 w-5 animate-spin rounded-full border border-white/20 border-t-brand/80 sm:right-5 sm:top-5" />
             </div>
-          )) : projects.map((project, index) => (
+          )) : visibleProjects.map((project, index) => (
             <button
               key={project.id}
               type="button"
               onClick={() => onOpenProject?.(project.slug)}
-              className="project-tile group relative flex aspect-[4/3] w-full cursor-pointer flex-col justify-between overflow-hidden border-r border-b border-white/[0.08] p-5 text-left sm:w-1/2 sm:p-6 lg:w-1/3 lg:aspect-square lg:p-8 xl:p-10 min-[1920px]:aspect-[5/4] min-[1920px]:p-12"
+              onMouseEnter={() => setCursorState((current) => ({ ...current, visible: true }))}
+              onMouseMove={(event) => setCursorState({
+                visible: true,
+                x: event.clientX + 20,
+                y: event.clientY - 18,
+              })}
+              onMouseLeave={() => setCursorState((current) => ({ ...current, visible: false }))}
+              className={`project-tile group relative flex aspect-[4/3] w-full cursor-pointer flex-col justify-between overflow-hidden border-r border-b border-white/[0.08] p-5 text-left sm:w-1/2 sm:p-6 md:col-span-1 md:h-[clamp(320px,32vw,560px)] md:w-auto md:aspect-auto lg:p-8 xl:p-10 min-[1920px]:p-12 ${getTileSpanClass(index)}`}
               aria-label={`Open ${project.title} case study`}
             >
               <img
@@ -133,6 +154,15 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             </button>
           ))}
+        </div>
+        <div
+          className={`pointer-events-none fixed left-0 top-0 z-[120] hidden font-mono text-[10px] uppercase tracking-[0.18em] text-white md:block ${
+            cursorState.visible ? 'opacity-100' : 'opacity-0'
+          } transition-opacity duration-150`}
+          style={{ transform: `translate3d(${cursorState.x}px, ${cursorState.y}px, 0)` }}
+          aria-hidden
+        >
+          [VIEW PROJECT]
         </div>
       </div>
     </section>

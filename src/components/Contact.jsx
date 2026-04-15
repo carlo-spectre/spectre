@@ -8,6 +8,7 @@ const Contact = () => {
   const sectionRef = useRef(null)
   const [isSending, setIsSending] = useState(false)
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' })
+  const [hktTime, setHktTime] = useState('')
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -61,6 +62,24 @@ const Contact = () => {
     }, sectionRef)
 
     return () => ctx.revert()
+  }, [])
+
+  useEffect(() => {
+    const formatter = new Intl.DateTimeFormat('en-HK', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+      timeZone: 'Asia/Hong_Kong',
+    })
+
+    const tick = () => {
+      setHktTime(formatter.format(new Date()))
+    }
+
+    tick()
+    const intervalId = window.setInterval(tick, 1000)
+    return () => window.clearInterval(intervalId)
   }, [])
 
   const handleSubmit = async (e) => {
@@ -297,9 +316,14 @@ const Contact = () => {
         </div>
 
         <div className="contact-footer-strip mt-10 flex flex-col items-start justify-between gap-4 border-t border-white/[0.08] pt-7 sm:mt-12 sm:flex-row sm:items-center sm:pt-8 xl:mt-14 xl:pt-10">
-          <p className="max-w-2xl text-[11px] leading-relaxed text-zinc-600 sm:text-xs xl:text-sm">
-            Prefer a call? Drop your availability in the message — include your time zone.
-          </p>
+          <div>
+            <p className="max-w-2xl text-[11px] leading-relaxed text-zinc-600 sm:text-xs xl:text-sm">
+              Prefer a call? Drop your availability in the message — include your time zone.
+            </p>
+            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
+              HKT local time: <span className="text-brand/85">{hktTime || '--:--:--'}</span>
+            </p>
+          </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-brand/55 sm:text-xs">
             Spectre · Portfolio
           </p>

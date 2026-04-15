@@ -5,14 +5,9 @@ const asList = (value) => {
   if (Array.isArray(value)) {
     return value.filter(Boolean).map((item) => String(item).trim()).filter(Boolean)
   }
-
   if (typeof value === 'string') {
-    return value
-      .split('\n')
-      .map((item) => item.trim())
-      .filter(Boolean)
+    return value.split('\n').map((item) => item.trim()).filter(Boolean)
   }
-
   return []
 }
 
@@ -48,62 +43,24 @@ const normalizeEntry = (entry) => {
       .map((item) => getMediaUrl(item?.attributes || item))
       .filter(Boolean)
       .slice(0, 3)).length
-      ? supportingMedia
-        .map((item) => getMediaUrl(item?.attributes || item))
-        .filter(Boolean)
-        .slice(0, 3)
+      ? supportingMedia.map((item) => getMediaUrl(item?.attributes || item)).filter(Boolean).slice(0, 3)
       : asList(attrs.supportingImageUrlsText || attrs.supportingImageUrls).slice(0, 3),
   }
 }
 
 export const fetchStrapiProjects = async () => {
-  if (!STRAPI_BASE_URL) {
-    throw new Error('Missing VITE_STRAPI_URL')
-  }
+  if (!STRAPI_BASE_URL) throw new Error('Missing VITE_STRAPI_URL')
 
   const response = await fetch(`${STRAPI_BASE_URL}${PROJECTS_ENDPOINT}`, {
     cache: 'no-store',
     headers: { Accept: 'application/json' },
   })
-
-  if (!response.ok) {
-    throw new Error(`Strapi request failed with ${response.status}`)
-  }
+  if (!response.ok) throw new Error(`Strapi request failed with ${response.status}`)
 
   const payload = await response.json()
   const list = Array.isArray(payload?.data) ? payload.data : []
   const normalized = list.map(normalizeEntry).filter((project) => project.slug && project.title)
-
-  if (!normalized.length) {
-    throw new Error('No projects returned from Strapi')
-  }
-
+  if (!normalized.length) throw new Error('No projects returned from Strapi')
   return normalized
 }
 
-export const fetchStrapiProjectBySlug = async (slug) => {
-  if (!STRAPI_BASE_URL) {
-    throw new Error('Missing VITE_STRAPI_URL')
-  }
-
-  const safeSlug = encodeURIComponent(String(slug || '').trim())
-  if (!safeSlug) {
-    throw new Error('Missing project slug')
-  }
-
-  const endpoint = `/api/projects?filters[slug][$eq]=${safeSlug}&populate[0]=thumbnail&populate[1]=supportingImages`
-  const response = await fetch(`${STRAPI_BASE_URL}${endpoint}`, {
-    cache: 'no-store',
-    headers: { Accept: 'application/json' },
-  })
-
-  if (!response.ok) {
-    throw new Error(`Strapi request failed with ${response.status}`)
-  }
-
-  const payload = await response.json()
-  const list = Array.isArray(payload?.data) ? payload.data : []
-  const first = list[0]
-  if (!first) return null
-  return normalizeEntry(first)
-}
