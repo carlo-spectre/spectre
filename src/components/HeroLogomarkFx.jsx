@@ -33,11 +33,9 @@ const HeroLogomarkFx = () => {
     paths.forEach((path, index) => {
       const isInnerCirclePath = path.classList.contains('cls-1')
       const length = path.getTotalLength ? path.getTotalLength() : 0
-      const traceSegment = isInnerCirclePath
-        ? Math.max(length * (compactScreen ? 0.26 : 0.32), compactScreen ? 14 : 22)
-        : Math.max(length * (compactScreen ? 0.16 : 0.22), compactScreen ? 10 : 14)
-      const traceGap = Math.max(length * 1.15, traceSegment * 2)
-      const tracePeriod = traceSegment + traceGap
+      const drawDuration = isInnerCirclePath
+        ? (compactScreen ? 4.4 : 5.4)
+        : (compactScreen ? 5.2 : 6.2)
 
       path.style.strokeDasharray = `${length}`
       path.style.strokeDashoffset = `${length}`
@@ -45,8 +43,8 @@ const HeroLogomarkFx = () => {
 
       const traceTl = gsap.timeline({
         delay: 0.2 + index * 0.03,
-        repeat: reducedMotion ? 0 : -1,
-        repeatDelay: reducedMotion ? 0 : (compactScreen ? 0.25 : 0.35),
+        repeat: -1,
+        repeatDelay: compactScreen ? 0.2 : 0.3,
       })
 
       traceTl
@@ -54,22 +52,9 @@ const HeroLogomarkFx = () => {
           strokeDashoffset: length,
           opacity: isInnerCirclePath ? 0.92 : 0.6,
         }, {
-          strokeDashoffset: 0,
+          strokeDashoffset: -length,
           opacity: isInnerCirclePath ? 1 : 0.78,
-          duration: 2.2,
-          ease: 'power3.out',
-        })
-        .set(path, {
-          strokeDasharray: `${traceSegment} ${traceGap}`,
-          strokeDashoffset: 0,
-        })
-        .to(path, {
-          // Move by exactly one dash period for seamless looping.
-          strokeDashoffset: -tracePeriod,
-          opacity: isInnerCirclePath ? 0.95 : 0.72,
-          duration: isInnerCirclePath
-            ? (compactScreen ? 4.2 : 5.3)
-            : (compactScreen ? 5.1 : 6.7),
+          duration: drawDuration,
           ease: 'none',
         })
 
