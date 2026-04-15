@@ -88,7 +88,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               className={`w-auto object-contain object-left transition-all duration-400 ${
                 useCompactLogo
                   ? 'h-9 max-w-[2.5rem] sm:h-10 sm:max-w-[2.75rem]'
-                  : 'h-8 max-w-[min(100%,13rem)] sm:h-9 sm:max-w-[15rem] md:h-10 md:max-w-[17rem] xl:h-11 xl:max-w-[19rem]'
+                  : 'h-8 max-w-[min(100%,13rem)] origin-center scale-y-[1.03] sm:h-9 sm:max-w-[15rem] md:h-10 md:max-w-[17rem] xl:h-11 xl:max-w-[19rem]'
               }`}
             />
           </button>

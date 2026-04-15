@@ -191,7 +191,7 @@ const Hero = ({ onNavigate }) => {
               alt=""
               width={558}
               height={281}
-              className="h-10 w-auto max-w-[min(100%,15.5rem)] object-contain object-left sm:h-9 sm:max-w-[14.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem] 2xl:h-[3.75rem] 2xl:max-w-[26rem] min-[1920px]:h-[4.25rem] min-[1920px]:max-w-[31rem]"
+              className="h-10 w-auto max-w-[min(100%,15.5rem)] origin-center scale-y-[1.03] object-contain object-left sm:h-9 sm:max-w-[14.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem] 2xl:h-[3.75rem] 2xl:max-w-[26rem] min-[1920px]:h-[4.25rem] min-[1920px]:max-w-[31rem]"
             />
           </a>
 

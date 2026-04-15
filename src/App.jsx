@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Hero from './components/Hero'
 import Projects from './components/Projects'
+import ServicesInfo from './components/ServicesInfo'
 import Contact from './components/Contact'
 import PageTransitionWebGL from './components/PageTransitionWebGL'
 import ProjectCaseStudy from './components/ProjectCaseStudy'
@@ -225,7 +226,7 @@ function App() {
                 className={`w-auto object-contain object-left transition-all duration-400 ${
                   useCompactLegalLogo
                     ? 'h-9 max-w-[2.5rem] sm:h-10 sm:max-w-[2.75rem]'
-                    : 'h-9 max-w-[min(100%,14rem)] sm:h-10 sm:max-w-[15.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem]'
+                    : 'h-9 max-w-[min(100%,14rem)] origin-center scale-y-[1.03] sm:h-10 sm:max-w-[15.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem]'
                 }`}
               />
             </a>
@@ -305,6 +306,7 @@ function App() {
               isLoading={isProjectsLoading}
               lastSyncedAt={projectsLastSyncedAt}
             />
+            <ServicesInfo />
             <Contact />
           </>
         )}

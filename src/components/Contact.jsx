@@ -127,7 +127,7 @@ const Contact = () => {
         <div className="contact-topbar mb-12 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-center sm:justify-between md:mb-16 xl:mb-20">
           <div className="flex items-baseline gap-6">
             <span className="font-mono text-[10px] uppercase tracking-[0.35em] sm:text-xs xl:text-sm">
-              <span className="text-brand/90">03</span>
+              <span className="text-brand/90">04</span>
               <span className="text-zinc-600"> — Contact</span>
             </span>
           </div>
