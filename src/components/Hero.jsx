@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logotypeWhite from '../assets/logotype-white.svg'
@@ -138,6 +139,28 @@ const Hero = ({ onNavigate }) => {
     return () => ctx.revert()
   }, [])
 
+  const mobileMenuPortal = isMobileMenuOpen && typeof document !== 'undefined'
+    ? createPortal(
+      <div className="fixed right-5 top-20 z-[400] flex min-w-[11rem] flex-col border border-white/[0.18] bg-[#09090c] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] backdrop-blur-md sm:hidden">
+        <button
+          type="button"
+          onClick={() => scrollTo('projects')}
+          className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
+        >
+          Work
+        </button>
+        <button
+          type="button"
+          onClick={() => scrollTo('contact')}
+          className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
+        >
+          Contact
+        </button>
+      </div>,
+      document.body,
+    )
+    : null
+
   return (
     <section
       id="home"
@@ -168,7 +191,7 @@ const Hero = ({ onNavigate }) => {
               alt=""
               width={558}
               height={281}
-              className="h-9 w-auto max-w-[min(100%,14.5rem)] object-contain object-left sm:h-8 sm:max-w-[13.5rem] md:h-9 md:max-w-[16rem] xl:h-12 xl:max-w-[22rem] 2xl:h-14 2xl:max-w-[25rem] min-[1920px]:h-16 min-[1920px]:max-w-[30rem]"
+              className="h-10 w-auto max-w-[min(100%,15.5rem)] object-contain object-left sm:h-9 sm:max-w-[14.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem] 2xl:h-[3.75rem] 2xl:max-w-[26rem] min-[1920px]:h-[4.25rem] min-[1920px]:max-w-[31rem]"
             />
           </a>
 
@@ -199,27 +222,10 @@ const Hero = ({ onNavigate }) => {
             </button>
           </nav>
 
-          {isMobileMenuOpen ? (
-            <div className="fixed right-5 top-20 z-[220] flex min-w-[11rem] flex-col border border-white/[0.18] bg-[#09090c] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] backdrop-blur-md sm:hidden">
-              <button
-                type="button"
-                onClick={() => scrollTo('projects')}
-                className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
-              >
-                Work
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollTo('contact')}
-                className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
-              >
-                Contact
-              </button>
-            </div>
-          ) : null}
+          {mobileMenuPortal}
         </header>
 
-        <div className="flex flex-1 flex-col justify-center py-16 md:py-20 xl:py-24 min-[1920px]:py-28">
+        <div className="flex flex-1 flex-col justify-center py-16 md:justify-start md:pt-[30rem] md:pb-20 lg:pt-[34rem] lg:pb-24 xl:justify-center xl:py-24 min-[1920px]:py-28">
           <p className="hero-meta mb-6 max-w-md font-mono text-[10px] uppercase leading-relaxed tracking-[0.3em] sm:text-xs sm:mb-8 xl:mb-10 xl:max-w-xl xl:text-sm min-[1920px]:mb-12 min-[1920px]:max-w-2xl min-[1920px]:text-base">
             <span className="text-brand">Portfolio</span>
             <span className="text-zinc-500"> — digital product &amp; interface</span>
@@ -240,7 +246,9 @@ const Hero = ({ onNavigate }) => {
           <div className="hero-meta mt-10 flex max-w-xl flex-col gap-3 sm:mt-12 sm:flex-row sm:items-center sm:justify-start sm:gap-6 xl:mt-14 xl:max-w-4xl xl:gap-8 min-[1920px]:mt-16 min-[1920px]:max-w-5xl min-[1920px]:gap-10">
             <p className="text-xs leading-relaxed text-zinc-400 md:text-sm xl:text-base xl:leading-relaxed min-[1920px]:max-w-3xl min-[1920px]:text-lg">
               Crafted interfaces, motion, and systems —
-              <br className="sm:hidden" /> built for clarity and presence.
+              <br className="sm:hidden" />
+              <br className="hidden md:block xl:hidden" />
+              built for clarity and presence.
             </p>
             <button
               type="button"
