@@ -8,6 +8,7 @@ import LegalPage from './components/LegalPage'
 import CmsLogin from './components/CmsLogin'
 import CmsDashboard from './components/CmsDashboard'
 import logotypeWhite from './assets/logotype-white.svg'
+import logomarkDark from './assets/logomark-dark.svg'
 import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsProjects'
 import { isCmsAuthenticated, loginCms, logoutCms } from './data/cmsAuth'
 import { fetchStrapiProjects } from './data/strapiProjects'
@@ -56,6 +57,7 @@ function App() {
   const [isProjectsLoading, setIsProjectsLoading] = useState(!hasInitialCachedProjects)
   const [projectsLoadError, setProjectsLoadError] = useState('')
   const [projectsLastSyncedAt, setProjectsLastSyncedAt] = useState(cachedProjectsState.syncedAt)
+  const [useCompactLegalLogo, setUseCompactLegalLogo] = useState(false)
   const [route, setRoute] = useState(() => getRouteFromPath())
   const activeProject = useMemo(
     () => (route.type === 'project' ? projectsData.find((project) => project.slug === route.slug) ?? null : null),
@@ -78,6 +80,22 @@ function App() {
       setRoute({ type: 'cms-login' })
     }
   }, [route, cmsLoggedIn])
+
+  useEffect(() => {
+    if (route.type !== 'legal') {
+      setUseCompactLegalLogo(false)
+      return
+    }
+
+    const threshold = 160
+    const onScroll = () => {
+      setUseCompactLegalLogo(window.scrollY > threshold)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [route.type])
 
   useEffect(() => {
     let cancelled = false
@@ -192,7 +210,7 @@ function App() {
   if (route.type === 'legal') {
     return (
       <div className="min-h-screen bg-[#08080a] text-zinc-100">
-        <header className="border-b border-white/[0.06]">
+        <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#08080a]">
           <div className="mx-auto flex w-full max-w-[min(96vw,1920px)] items-center justify-between gap-4 px-5 py-4 sm:px-8 md:px-12 xl:px-16 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24">
             <a
               href="/"
@@ -200,18 +218,20 @@ function App() {
               aria-label="Spectre — home"
             >
               <img
-                src={logotypeWhite}
+                src={useCompactLegalLogo ? logomarkDark : logotypeWhite}
                 alt=""
                 width={558}
                 height={281}
-                className="h-9 w-auto max-w-[min(100%,14rem)] object-contain object-left sm:h-10 sm:max-w-[15.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem]"
+                className={`w-auto object-contain object-left transition-all duration-400 ${
+                  useCompactLegalLogo
+                    ? 'h-9 max-w-[2.5rem] sm:h-10 sm:max-w-[2.75rem]'
+                    : 'h-9 max-w-[min(100%,14rem)] sm:h-10 sm:max-w-[15.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem]'
+                }`}
               />
             </a>
             <nav className="flex items-center gap-5 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:gap-8 sm:text-xs">
               <a href="/#projects" className="transition-colors hover:text-brand">Work</a>
               <a href="/#contact" className="transition-colors hover:text-brand">Contact</a>
-              <a href="/privacy" className="transition-colors hover:text-brand">Privacy</a>
-              <a href="/terms" className="transition-colors hover:text-brand">Terms</a>
             </nav>
           </div>
         </header>
