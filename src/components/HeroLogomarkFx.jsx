@@ -79,7 +79,7 @@ const HeroLogomarkFx = () => {
   return (
     <div
       ref={rootRef}
-      className="hero-logomark-fx pointer-events-none absolute bottom-[26%] right-[2%] z-[2] h-[clamp(14rem,62vw,22rem)] w-[clamp(14rem,62vw,22rem)] opacity-34 sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-[14%] sm:h-[clamp(16rem,50vw,26rem)] sm:w-[clamp(16rem,50vw,26rem)] sm:-translate-x-1/2 sm:translate-y-0 sm:opacity-38 md:top-[16%] md:h-[clamp(18rem,52vw,32rem)] md:w-[clamp(18rem,52vw,32rem)] md:opacity-40 lg:top-[15%] lg:h-[clamp(20rem,50vw,36rem)] lg:w-[clamp(20rem,50vw,36rem)] lg:opacity-42 xl:left-auto xl:right-[10%] xl:top-1/2 xl:h-[clamp(24rem,42vw,50rem)] xl:w-[clamp(24rem,42vw,50rem)] xl:translate-x-0 xl:-translate-y-1/2 min-[1920px]:right-[18%] min-[1920px]:h-[clamp(38rem,44vw,68rem)] min-[1920px]:w-[clamp(38rem,44vw,68rem)]"
+      className="hero-logomark-fx pointer-events-none absolute bottom-[22%] right-[2%] z-[2] h-[clamp(14rem,62vw,22rem)] w-[clamp(14rem,62vw,22rem)] opacity-34 sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-[14%] sm:h-[clamp(16rem,50vw,26rem)] sm:w-[clamp(16rem,50vw,26rem)] sm:-translate-x-1/2 sm:translate-y-0 sm:opacity-38 md:top-[16%] md:h-[clamp(18rem,52vw,32rem)] md:w-[clamp(18rem,52vw,32rem)] md:opacity-40 lg:top-[15%] lg:h-[clamp(20rem,50vw,36rem)] lg:w-[clamp(20rem,50vw,36rem)] lg:opacity-42 xl:left-auto xl:right-[10%] xl:top-1/2 xl:h-[clamp(24rem,42vw,50rem)] xl:w-[clamp(24rem,42vw,50rem)] xl:translate-x-0 xl:-translate-y-1/2 min-[1920px]:right-[18%] min-[1920px]:h-[clamp(38rem,44vw,68rem)] min-[1920px]:w-[clamp(38rem,44vw,68rem)]"
       aria-hidden
     >
       <div

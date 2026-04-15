@@ -7,6 +7,7 @@ import ProjectCaseStudy from './components/ProjectCaseStudy'
 import LegalPage from './components/LegalPage'
 import CmsLogin from './components/CmsLogin'
 import CmsDashboard from './components/CmsDashboard'
+import logotypeWhite from './assets/logotype-white.svg'
 import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsProjects'
 import { isCmsAuthenticated, loginCms, logoutCms } from './data/cmsAuth'
 import { fetchStrapiProjects } from './data/strapiProjects'
@@ -48,10 +49,11 @@ const getRouteFromPath = () => {
 
 function App() {
   const cachedProjectsState = useMemo(() => readProjectsCache(), [])
+  const hasInitialCachedProjects = cachedProjectsState.projects.length > 0
   const [projectsData, setProjectsData] = useState(
-    () => (cachedProjectsState.projects.length ? cachedProjectsState.projects : loadCmsProjects()),
+    () => (hasInitialCachedProjects ? cachedProjectsState.projects : loadCmsProjects()),
   )
-  const [isProjectsLoading, setIsProjectsLoading] = useState(true)
+  const [isProjectsLoading, setIsProjectsLoading] = useState(!hasInitialCachedProjects)
   const [projectsLoadError, setProjectsLoadError] = useState('')
   const [projectsLastSyncedAt, setProjectsLastSyncedAt] = useState(cachedProjectsState.syncedAt)
   const [route, setRoute] = useState(() => getRouteFromPath())
@@ -81,7 +83,9 @@ function App() {
     let cancelled = false
 
     const loadProjectsFromStrapi = async () => {
-      setIsProjectsLoading(true)
+      if (!hasInitialCachedProjects) {
+        setIsProjectsLoading(true)
+      }
       setProjectsLoadError('')
       try {
         const strapiProjects = await fetchStrapiProjects()
@@ -92,6 +96,10 @@ function App() {
         writeProjectsCache(strapiProjects, syncedAt)
       } catch {
         if (cancelled) return
+        if (cachedProjectsState.projects.length) {
+          setProjectsData(cachedProjectsState.projects)
+          setProjectsLastSyncedAt(cachedProjectsState.syncedAt)
+        }
         setProjectsLoadError('Strapi sync is unavailable, showing last cached content.')
       } finally {
         if (!cancelled) setIsProjectsLoading(false)
@@ -184,6 +192,29 @@ function App() {
   if (route.type === 'legal') {
     return (
       <div className="min-h-screen bg-[#08080a] text-zinc-100">
+        <header className="border-b border-white/[0.06]">
+          <div className="mx-auto flex w-full max-w-[min(96vw,1920px)] items-center justify-between gap-4 px-5 py-4 sm:px-8 md:px-12 xl:px-16 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24">
+            <a
+              href="/"
+              className="flex shrink-0 items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08080a]"
+              aria-label="Spectre — home"
+            >
+              <img
+                src={logotypeWhite}
+                alt=""
+                width={558}
+                height={281}
+                className="h-9 w-auto max-w-[min(100%,14rem)] object-contain object-left sm:h-10 sm:max-w-[15.5rem] md:h-10 md:max-w-[17rem] xl:h-[3.25rem] xl:max-w-[23rem]"
+              />
+            </a>
+            <nav className="flex items-center gap-5 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:gap-8 sm:text-xs">
+              <a href="/#projects" className="transition-colors hover:text-brand">Work</a>
+              <a href="/#contact" className="transition-colors hover:text-brand">Contact</a>
+              <a href="/privacy" className="transition-colors hover:text-brand">Privacy</a>
+              <a href="/terms" className="transition-colors hover:text-brand">Terms</a>
+            </nav>
+          </div>
+        </header>
         <main>
           <LegalPage
             type={route.page}
@@ -194,6 +225,21 @@ function App() {
             }}
           />
         </main>
+        <footer className="border-t border-white/[0.06] py-6 xl:py-8 min-[1920px]:py-10">
+          <div className="mx-auto flex w-full max-w-[min(96vw,1920px)] flex-col items-start justify-between gap-3 px-5 sm:flex-row sm:items-center sm:px-8 md:px-12 xl:px-16 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 xl:text-xs min-[1920px]:text-sm">
+              © {new Date().getFullYear()} Spectre Design Studio
+            </p>
+            <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500 xl:text-xs min-[1920px]:text-sm">
+              <a href="/" className="transition-colors hover:text-brand">Top</a>
+              <a href="/#projects" className="transition-colors hover:text-brand">Work</a>
+              <a href="/#contact" className="transition-colors hover:text-brand">Contact</a>
+              <a href="mailto:carlo@spectredesign.studio" className="transition-colors hover:text-brand">Email</a>
+              <a href="/privacy" className="transition-colors hover:text-brand">Privacy</a>
+              <a href="/terms" className="transition-colors hover:text-brand">Terms</a>
+            </nav>
+          </div>
+        </footer>
       </div>
     )
   }
@@ -238,7 +284,6 @@ function App() {
               projects={projectsData}
               isLoading={isProjectsLoading}
               lastSyncedAt={projectsLastSyncedAt}
-              syncWarning={projectsLoadError}
             />
             <Contact />
           </>

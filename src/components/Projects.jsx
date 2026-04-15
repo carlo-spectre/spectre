@@ -27,7 +27,7 @@ const getTileSpanClass = (index) => {
   return isNarrowTile ? 'md:col-span-1' : 'md:col-span-2'
 }
 
-const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = null, syncWarning = '' }) => {
+const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = null }) => {
   const sectionRef = useRef(null)
   const [cursorState, setCursorState] = useState({ visible: false, x: 0, y: 0 })
   const lastSyncedLabel = formatLastSynced(lastSyncedAt)
@@ -80,13 +80,10 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
               Nine Pieces
             </h2>
             <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600 sm:text-xs">
-              {isLoading ? 'Syncing from Strapi...' : (lastSyncedLabel ? `Last synced ${lastSyncedLabel}` : 'Waiting for Strapi sync')}
+              {isLoading
+                ? (lastSyncedLabel ? `Last synced ${lastSyncedLabel}` : 'Syncing from Strapi...')
+                : (lastSyncedLabel ? `Last synced ${lastSyncedLabel}` : 'Last synced unavailable')}
             </p>
-            {!isLoading && syncWarning ? (
-              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-amber-300/80 sm:text-xs">
-                {syncWarning}
-              </p>
-            ) : null}
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-zinc-500 md:max-w-md xl:max-w-xl xl:text-base min-[1920px]:max-w-2xl min-[1920px]:text-lg">
             Replace titles and tags with your real projects. Tablet and desktop use an editorial collage layout.

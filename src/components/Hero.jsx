@@ -144,14 +144,14 @@ const Hero = ({ onNavigate }) => {
       <div className="fixed right-5 top-20 z-[400] flex min-w-[11rem] flex-col border border-white/[0.18] bg-[#09090c] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] backdrop-blur-md sm:hidden">
         <button
           type="button"
-          onClick={() => scrollTo('projects')}
+          onClick={() => scrollTo('projects', { useTransition: false })}
           className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
         >
           Work
         </button>
         <button
           type="button"
-          onClick={() => scrollTo('contact')}
+          onClick={() => scrollTo('contact', { useTransition: false })}
           className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-300 transition-colors hover:text-brand"
         >
           Contact
@@ -208,14 +208,14 @@ const Hero = ({ onNavigate }) => {
           <nav className="hidden items-center gap-5 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:flex sm:gap-8 sm:text-xs sm:tracking-[0.22em] xl:gap-14 xl:text-sm min-[1920px]:gap-16 min-[1920px]:text-base">
             <button
               type="button"
-              onClick={() => scrollTo('projects')}
+              onClick={() => scrollTo('projects', { useTransition: false })}
               className="transition-colors hover:text-brand"
             >
               Work
             </button>
             <button
               type="button"
-              onClick={() => scrollTo('contact')}
+              onClick={() => scrollTo('contact', { useTransition: false })}
               className="transition-colors hover:text-brand"
             >
               Contact
