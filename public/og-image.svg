@@ -1,0 +1,56 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glowRed" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(258 182) rotate(24) scale(420 270)">
+      <stop stop-color="#F23737" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#F23737" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowWhite" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(946 458) rotate(-18) scale(460 290)">
+      <stop stop-color="#F5F5F5" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#F5F5F5" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07070A"/>
+      <stop offset="0.52" stop-color="#0A0A0E"/>
+      <stop offset="1" stop-color="#060608"/>
+    </linearGradient>
+    <filter id="noise" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.065"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  <rect width="1200" height="630" fill="url(#glowRed)"/>
+  <rect width="1200" height="630" fill="url(#glowWhite)"/>
+  <rect width="1200" height="630" filter="url(#noise)"/>
+
+  <g opacity="0.84">
+    <path d="M880 114C957 114 1020 177 1020 254C1020 331 957 394 880 394C803 394 740 331 740 254C740 177 803 114 880 114Z" stroke="#6E6E77" stroke-width="2"/>
+    <path d="M880 156C934 156 978 200 978 254C978 308 934 352 880 352C826 352 782 308 782 254C782 200 826 156 880 156Z" stroke="#F23737" stroke-width="2.4"/>
+    <path d="M880 176C923 176 958 211 958 254C958 297 923 332 880 332C837 332 802 297 802 254C802 211 837 176 880 176Z" stroke="#8B8B93" stroke-width="1.4"/>
+    <path d="M748 416C804 378 956 380 1012 416" stroke="#595962" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(88 106)">
+    <text x="0" y="0" fill="#FFFFFF" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" letter-spacing="0.3em" opacity="0.86">
+      SPECTE
+    </text>
+    <text x="0" y="38" fill="#FFFFFF" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" letter-spacing="0.3em" opacity="0.86">
+      DESIGN AGENCY
+    </text>
+  </g>
+
+  <text x="88" y="420" fill="#FFFFFF" font-family="Inter, Helvetica, Arial, sans-serif" font-size="58" font-weight="600" letter-spacing="-0.03em">
+    Shape silence
+  </text>
+  <text x="88" y="478" fill="#FFFFFF" font-family="Inter, Helvetica, Arial, sans-serif" font-size="58" font-weight="600" letter-spacing="-0.03em">
+    into signal.
+  </text>
+
+  <text x="88" y="544" fill="#A4A4AE" font-family="Inter, Helvetica, Arial, sans-serif" font-size="24" letter-spacing="0.01em">
+    Crafted interfaces, motion, and systems  built for clarity and presence.
+  </text>
+</svg>
