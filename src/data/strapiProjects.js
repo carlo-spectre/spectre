@@ -1,6 +1,11 @@
-const STRAPI_BASE_URL = (import.meta.env.VITE_STRAPI_URL || '').replace(/\/+$/, '')
+const STRAPI_BASE_URL = (
+  import.meta.env.VITE_STRAPI_URL
+  || import.meta.env.VITE_STRAPI_API_URL
+  || import.meta.env.VITE_API_URL
+  || ''
+).replace(/\/+$/, '')
 const PROJECTS_ENDPOINT = '/api/projects?sort=idNumber:asc&populate[0]=thumbnail&populate[1]=supportingImages'
-const STRAPI_REQUEST_TIMEOUT_MS = 10000
+const STRAPI_REQUEST_TIMEOUT_MS = 20000
 
 const asList = (value) => {
   if (Array.isArray(value)) {
@@ -19,10 +24,17 @@ const getMediaUrl = (media) => {
   return `${STRAPI_BASE_URL}${rawUrl}`
 }
 
+const isGifUrl = (value) => /\.gif(\?|#|$)/i.test(String(value || '').trim())
+
 const normalizeEntry = (entry) => {
   const attrs = entry?.attributes || entry || {}
   const thumbnail = attrs.thumbnail?.data || attrs.thumbnail || null
   const supportingMedia = attrs.supportingImages?.data || attrs.supportingImages || []
+  const mediaThumbnailUrl = getMediaUrl(thumbnail?.attributes || thumbnail)
+  const fallbackThumbnailUrl = String(attrs.thumbnailUrl || '')
+  const thumbnailUrl = isGifUrl(fallbackThumbnailUrl) && !isGifUrl(mediaThumbnailUrl)
+    ? fallbackThumbnailUrl
+    : (mediaThumbnailUrl || fallbackThumbnailUrl)
 
   return {
     id: Number(attrs.idNumber ?? entry?.id ?? 0),
@@ -34,7 +46,7 @@ const normalizeEntry = (entry) => {
     team: String(attrs.team || ''),
     visitSiteUrl: String(attrs.visitSiteUrl || ''),
     summary: String(attrs.summary || ''),
-    thumbnail: getMediaUrl(thumbnail?.attributes || thumbnail) || String(attrs.thumbnailUrl || ''),
+    thumbnail: thumbnailUrl,
     challenge: String(attrs.challenge || ''),
     goals: asList(attrs.goalsText || attrs.goals),
     process: asList(attrs.processText || attrs.process),
@@ -56,7 +68,9 @@ export const fetchStrapiProjects = async () => {
 
   const controller = new AbortController()
   const timeout = window.setTimeout(() => controller.abort(), STRAPI_REQUEST_TIMEOUT_MS)
-  const response = await fetch(`${STRAPI_BASE_URL}${PROJECTS_ENDPOINT}`, {
+  const separator = PROJECTS_ENDPOINT.includes('?') ? '&' : '?'
+  const endpointWithBust = `${PROJECTS_ENDPOINT}${separator}_t=${Date.now()}`
+  const response = await fetch(`${STRAPI_BASE_URL}${endpointWithBust}`, {
     cache: 'no-store',
     headers: { Accept: 'application/json' },
     signal: controller.signal,
