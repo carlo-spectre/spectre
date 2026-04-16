@@ -6,6 +6,51 @@ import logomarkDark from '../assets/logomark-dark.svg'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const asLines = (value) => value.split('\n').map((line) => line.trim()).filter(Boolean)
+
+const hasHtmlTags = (value) => /<([a-z][a-z0-9]*)\b[^>]*>/i.test(value)
+
+const toPlainRichTextBlocks = (value) => {
+  const chunks = value.split(/\n{2,}/).map((chunk) => chunk.trim()).filter(Boolean)
+
+  return chunks.map((chunk, index) => {
+    const headingMatch = chunk.match(/^(#{1,3})\s+(.+)$/)
+    if (headingMatch) {
+      const level = headingMatch[1].length
+      return { type: `h${level}`, content: headingMatch[2].trim(), key: `h-${index}` }
+    }
+
+    const imageMatch = chunk.match(/^!\[(.*?)\]\((https?:\/\/[^\s)]+)\)$/)
+    if (imageMatch) {
+      return {
+        type: 'image',
+        alt: imageMatch[1].trim() || 'Body visual',
+        src: imageMatch[2].trim(),
+        key: `img-${index}`,
+      }
+    }
+
+    const listLines = asLines(chunk)
+    if (listLines.length > 1 && listLines.every((line) => /^[-*]\s+/.test(line))) {
+      return {
+        type: 'ul',
+        items: listLines.map((line) => line.replace(/^[-*]\s+/, '').trim()).filter(Boolean),
+        key: `ul-${index}`,
+      }
+    }
+
+    if (listLines.length > 1 && listLines.every((line) => /^\d+\.\s+/.test(line))) {
+      return {
+        type: 'ol',
+        items: listLines.map((line) => line.replace(/^\d+\.\s+/, '').trim()).filter(Boolean),
+        key: `ol-${index}`,
+      }
+    }
+
+    return { type: 'p', content: chunk, key: `p-${index}` }
+  })
+}
+
 const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, onOpenProject }) => {
   const rootRef = useRef(null)
   const [useCompactLogo, setUseCompactLogo] = useState(false)
@@ -31,6 +76,10 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
       'We also aligned copy structure to a case-study narrative: problem framing, measurable goals, process evidence, and outcome statements. That sequence makes both design intent and business value clear.',
     ]
   const bodyRichText = typeof project.bodyRichText === 'string' ? project.bodyRichText.trim() : ''
+  const bodyBlocks = useMemo(() => {
+    if (!bodyRichText || hasHtmlTags(bodyRichText)) return []
+    return toPlainRichTextBlocks(bodyRichText)
+  }, [bodyRichText])
   const sectionNav = [
     { id: 'case-context', label: 'Context' },
     { id: 'case-challenge', label: 'Challenge' },
@@ -260,10 +309,56 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
                 Body (rich text) — UX Diagrams &amp; UI Designs
               </h2>
               {bodyRichText ? (
-                <div
-                  className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_img]:my-6 [&_img]:w-full [&_img]:border [&_img]:border-white/[0.08] [&_img]:object-cover [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5"
-                  dangerouslySetInnerHTML={{ __html: bodyRichText }}
-                />
+                hasHtmlTags(bodyRichText) ? (
+                  <div
+                    className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_img]:my-6 [&_img]:w-full [&_img]:border [&_img]:border-white/[0.08] [&_img]:object-cover [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5"
+                    dangerouslySetInnerHTML={{ __html: bodyRichText }}
+                  />
+                ) : (
+                  <div className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base">
+                    {bodyBlocks.map((block) => {
+                      if (block.type === 'h1') {
+                        return <h3 key={block.key} className="text-2xl font-semibold text-white">{block.content}</h3>
+                      }
+                      if (block.type === 'h2') {
+                        return <h3 key={block.key} className="text-xl font-semibold text-white">{block.content}</h3>
+                      }
+                      if (block.type === 'h3') {
+                        return <h4 key={block.key} className="text-lg font-semibold text-white">{block.content}</h4>
+                      }
+                      if (block.type === 'image') {
+                        return (
+                          <img
+                            key={block.key}
+                            src={block.src}
+                            alt={block.alt}
+                            className="my-6 w-full border border-white/[0.08] object-cover"
+                            loading="lazy"
+                          />
+                        )
+                      }
+                      if (block.type === 'ul') {
+                        return (
+                          <ul key={block.key} className="list-disc space-y-2 pl-5">
+                            {block.items.map((item) => <li key={item}>{item}</li>)}
+                          </ul>
+                        )
+                      }
+                      if (block.type === 'ol') {
+                        return (
+                          <ol key={block.key} className="list-decimal space-y-2 pl-5">
+                            {block.items.map((item) => <li key={item}>{item}</li>)}
+                          </ol>
+                        )
+                      }
+                      return (
+                        <p key={block.key} className="whitespace-pre-line leading-relaxed">
+                          {block.content}
+                        </p>
+                      )
+                    })}
+                  </div>
+                )
               ) : (
                 <div className="mt-6 space-y-6">
                   <p className="text-sm leading-relaxed text-zinc-400 xl:text-base">
