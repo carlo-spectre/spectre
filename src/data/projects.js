@@ -7,6 +7,7 @@ export const projects = [
     timeframe: '8 weeks',
     role: 'Lead Product Designer',
     team: '1 PM, 2 Engineers, 1 Designer',
+    visitSiteUrl: '',
     summary:
       'Redesigned checkout and account flows to reduce abandonment while keeping the purchase journey clear on mobile and desktop.',
     thumbnail:
@@ -37,6 +38,7 @@ export const projects = [
     timeframe: '10 weeks',
     role: 'UX/UI Designer',
     team: '1 PM, 3 Engineers',
+    visitSiteUrl: '',
     summary:
       'Built a data-heavy dashboard experience that helps operations teams detect issues and act quickly without overwhelming novice users.',
     thumbnail:
@@ -67,6 +69,7 @@ export const projects = [
     timeframe: '6 weeks',
     role: 'Brand + Interface Designer',
     team: 'Founder, Marketing Lead, Designer',
+    visitSiteUrl: '',
     summary:
       'Developed a modular identity and digital style system to unify marketing and product surfaces under one visual language.',
     thumbnail:
@@ -97,6 +100,7 @@ export const projects = [
     timeframe: '7 weeks',
     role: 'Product Designer',
     team: 'PM, 2 Engineers, QA',
+    visitSiteUrl: '',
     summary:
       'Restructured a legacy booking flow into a clearer multi-step journey with stronger feedback, trust cues, and mobile-first hierarchy.',
     thumbnail:
@@ -127,6 +131,7 @@ export const projects = [
     timeframe: '12 weeks',
     role: 'Lead UX Designer',
     team: 'PM, iOS Engineer, Android Engineer',
+    visitSiteUrl: '',
     summary:
       'Designed a companion app for account management, notifications, and service actions with a focused, low-friction interaction model.',
     thumbnail:
@@ -157,6 +162,7 @@ export const projects = [
     timeframe: '9 weeks',
     role: 'UX Designer',
     team: 'PM, 2 Engineers, Content Strategist',
+    visitSiteUrl: '',
     summary:
       'Created a content publishing and governance interface that balances editorial speed with quality and review controls.',
     thumbnail:
@@ -187,6 +193,7 @@ export const projects = [
     timeframe: '11 weeks',
     role: 'Design Systems Lead',
     team: 'Design Team, Frontend Team',
+    visitSiteUrl: '',
     summary:
       'Established a cross-platform design language with reusable foundations, components, and guidance for consistent product delivery.',
     thumbnail:
@@ -217,6 +224,7 @@ export const projects = [
     timeframe: '8 weeks',
     role: 'Product Designer',
     team: 'PM, Analyst, 2 Engineers',
+    visitSiteUrl: '',
     summary:
       'Designed an experimentation console enabling growth teams to create, monitor, and evaluate tests with clear confidence signals.',
     thumbnail:
@@ -247,6 +255,7 @@ export const projects = [
     timeframe: '9 weeks',
     role: 'Lead UX Designer',
     team: 'PM, Support Lead, 2 Engineers',
+    visitSiteUrl: '',
     summary:
       'Reframed self-serve support into a guided service hub that improves issue resolution while reducing escalation volume.',
     thumbnail:

@@ -60,6 +60,7 @@ function App() {
   const [projectsLastSyncedAt, setProjectsLastSyncedAt] = useState(cachedProjectsState.syncedAt)
   const [useCompactLegalLogo, setUseCompactLegalLogo] = useState(false)
   const [route, setRoute] = useState(() => getRouteFromPath())
+  const [syncTick, setSyncTick] = useState(0)
   const activeProject = useMemo(
     () => (route.type === 'project' ? projectsData.find((project) => project.slug === route.slug) ?? null : null),
     [route, projectsData],
@@ -101,13 +102,28 @@ function App() {
   useEffect(() => {
     let cancelled = false
 
+    const wait = (ms) => new Promise((resolve) => {
+      window.setTimeout(resolve, ms)
+    })
+
     const loadProjectsFromStrapi = async () => {
       if (!hasInitialCachedProjects) {
         setIsProjectsLoading(true)
       }
       setProjectsLoadError('')
       try {
-        const strapiProjects = await fetchStrapiProjects()
+        let strapiProjects = null
+        let lastError = null
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          try {
+            strapiProjects = await fetchStrapiProjects()
+            break
+          } catch (error) {
+            lastError = error
+            if (attempt === 2) throw lastError
+            await wait(900 * (attempt + 1))
+          }
+        }
         if (cancelled || !strapiProjects?.length) return
         const syncedAt = new Date().toISOString()
         setProjectsData(strapiProjects)
@@ -129,6 +145,24 @@ function App() {
 
     return () => {
       cancelled = true
+    }
+  }, [syncTick])
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setSyncTick((value) => value + 1)
+    }, 120000)
+
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') {
+        setSyncTick((value) => value + 1)
+      }
+    }
+
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      window.clearInterval(intervalId)
+      document.removeEventListener('visibilitychange', onVisible)
     }
   }, [])
 

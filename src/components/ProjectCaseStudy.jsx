@@ -89,6 +89,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
     { id: 'case-body', label: 'Body' },
     { id: 'case-outcome', label: 'Outcome' },
   ]
+  const visitSiteUrl = typeof project.visitSiteUrl === 'string' ? project.visitSiteUrl.trim() : ''
 
   useEffect(() => {
     if (!rootRef.current) return
@@ -239,6 +240,17 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
                   </li>
                 ))}
               </ul>
+              {visitSiteUrl ? (
+                <a
+                  href={visitSiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex w-full items-center justify-between border border-white/15 bg-white/[0.02] px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-200 transition-colors hover:border-brand/60 hover:text-brand"
+                >
+                  Visit site
+                  <span aria-hidden>↗</span>
+                </a>
+              ) : null}
             </nav>
           </aside>
 

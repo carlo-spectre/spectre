@@ -136,9 +136,24 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand/90 sm:text-xs xl:text-sm min-[1920px]:text-base">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-brand/75 sm:text-xs xl:text-sm min-[1920px]:text-base">
-                  {project.tag}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-brand/75 sm:text-xs xl:text-sm min-[1920px]:text-base">
+                    {project.tag}
+                  </span>
+                  {project.visitSiteUrl ? (
+                    <a
+                      href={project.visitSiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(event) => event.stopPropagation()}
+                      className="relative z-20 inline-flex items-center gap-1 border border-white/20 bg-black/35 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-zinc-200 transition-colors hover:border-brand/60 hover:text-brand sm:text-[10px]"
+                      aria-label={`Visit ${project.title} website`}
+                    >
+                      Visit site
+                      <span aria-hidden>↗</span>
+                    </a>
+                  ) : null}
+                </div>
               </div>
               <div className="relative z-10">
                 <h3 className="text-lg font-medium tracking-tight text-white transition-colors group-hover:text-brand/90 md:text-xl xl:text-2xl 2xl:text-3xl min-[1920px]:text-4xl">

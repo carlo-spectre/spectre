@@ -1,5 +1,6 @@
 const STRAPI_BASE_URL = (import.meta.env.VITE_STRAPI_URL || '').replace(/\/+$/, '')
 const PROJECTS_ENDPOINT = '/api/projects?sort=idNumber:asc&populate[0]=thumbnail&populate[1]=supportingImages'
+const STRAPI_REQUEST_TIMEOUT_MS = 10000
 
 const asList = (value) => {
   if (Array.isArray(value)) {
@@ -31,6 +32,7 @@ const normalizeEntry = (entry) => {
     timeframe: String(attrs.timeframe || ''),
     role: String(attrs.role || ''),
     team: String(attrs.team || ''),
+    visitSiteUrl: String(attrs.visitSiteUrl || ''),
     summary: String(attrs.summary || ''),
     thumbnail: getMediaUrl(thumbnail?.attributes || thumbnail) || String(attrs.thumbnailUrl || ''),
     challenge: String(attrs.challenge || ''),
@@ -52,11 +54,18 @@ const normalizeEntry = (entry) => {
 export const fetchStrapiProjects = async () => {
   if (!STRAPI_BASE_URL) throw new Error('Missing VITE_STRAPI_URL')
 
+  const controller = new AbortController()
+  const timeout = window.setTimeout(() => controller.abort(), STRAPI_REQUEST_TIMEOUT_MS)
   const response = await fetch(`${STRAPI_BASE_URL}${PROJECTS_ENDPOINT}`, {
     cache: 'no-store',
     headers: { Accept: 'application/json' },
-  })
+    signal: controller.signal,
+  }).finally(() => window.clearTimeout(timeout))
   if (!response.ok) throw new Error(`Strapi request failed with ${response.status}`)
+  const contentType = response.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) {
+    throw new Error('Strapi returned a non-JSON response')
+  }
 
   const payload = await response.json()
   const list = Array.isArray(payload?.data) ? payload.data : []
