@@ -27,6 +27,14 @@ const getTileSpanClass = (index) => {
   return isNarrowTile ? 'md:col-span-1' : 'md:col-span-2'
 }
 
+const normalizeExternalUrl = (value) => {
+  if (!value) return ''
+  const trimmed = String(value).trim()
+  if (!trimmed) return ''
+  if (/^https?:\/\//i.test(trimmed)) return trimmed
+  return `https://${trimmed.replace(/^\/+/, '')}`
+}
+
 const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = null }) => {
   const sectionRef = useRef(null)
   const [cursorState, setCursorState] = useState({ visible: false, x: 0, y: 0, label: '[VIEW PROJECT]' })
@@ -115,12 +123,12 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
               key={project.id}
               type="button"
               onClick={() => onOpenProject?.(project.slug)}
-              onMouseEnter={() => setCursorState((current) => ({ ...current, visible: true, label: '[VIEW PROJECT]' }))}
+              onMouseEnter={() => setCursorState((current) => ({ ...current, visible: true, label: current.label === '[VISIT SITE]' ? '[VISIT SITE]' : '[VIEW PROJECT]' }))}
               onMouseMove={(event) => setCursorState({
                 visible: true,
                 x: event.clientX + 20,
                 y: event.clientY - 18,
-                label: '[VIEW PROJECT]',
+                label: cursorState.label === '[VISIT SITE]' ? '[VISIT SITE]' : '[VIEW PROJECT]',
               })}
               onMouseLeave={() => setCursorState((current) => ({ ...current, visible: false }))}
               className={`project-tile group relative flex aspect-[4/3] w-full cursor-pointer flex-col justify-between overflow-hidden border-r border-b border-white/[0.08] p-5 text-left sm:w-1/2 sm:p-6 md:col-span-1 md:h-[clamp(320px,32vw,560px)] md:w-auto md:aspect-auto lg:p-8 xl:p-10 min-[1920px]:p-12 ${getTileSpanClass(index)}`}
@@ -151,10 +159,11 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
               </div>
               {project.visitSiteUrl ? (
                 <a
-                  href={project.visitSiteUrl}
+                  href={normalizeExternalUrl(project.visitSiteUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(event) => event.stopPropagation()}
+                  onPointerEnter={() => setCursorState((current) => ({ ...current, visible: true, label: '[VISIT SITE]' }))}
                   onMouseEnter={() => setCursorState((current) => ({ ...current, visible: true, label: '[VISIT SITE]' }))}
                   onMouseMove={(event) => setCursorState({
                     visible: true,
@@ -162,8 +171,8 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
                     y: event.clientY - 18,
                     label: '[VISIT SITE]',
                   })}
-                  onMouseLeave={() => setCursorState((current) => ({ ...current, visible: false, label: '[VIEW PROJECT]' }))}
-                  className="absolute bottom-4 right-4 z-20 inline-flex h-10 w-10 items-center justify-center border border-white/18 bg-black/35 text-base text-zinc-100 transition-colors hover:border-brand/60 hover:text-brand sm:bottom-5 sm:right-5 md:bottom-5 md:right-5 xl:bottom-auto xl:right-5 xl:top-5"
+                  onMouseLeave={() => setCursorState((current) => ({ ...current, visible: true, label: '[VIEW PROJECT]' }))}
+                  className="absolute bottom-4 right-4 z-20 inline-flex h-10 w-10 items-center justify-center border border-white/18 bg-black/35 text-base text-zinc-100 transition-colors hover:border-brand/60 hover:text-brand sm:bottom-5 sm:right-5 md:bottom-5 md:right-5 xl:bottom-5 xl:right-5"
                   aria-label={`Visit ${project.title} website`}
                 >
                   ↗
