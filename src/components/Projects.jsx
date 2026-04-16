@@ -141,6 +141,7 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-black/80 transition-opacity duration-500 group-hover:opacity-90" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 via-black/28 to-transparent" />
               <div className="relative z-10 flex items-start justify-between gap-4">
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand/90 sm:text-xs xl:text-sm min-[1920px]:text-base">
                   {String(index + 1).padStart(2, '0')}
@@ -172,7 +173,7 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
                     label: '[VISIT SITE]',
                   })}
                   onMouseLeave={() => setCursorState((current) => ({ ...current, visible: true, label: '[VIEW PROJECT]' }))}
-                  className="absolute bottom-4 right-4 z-20 inline-flex h-10 w-10 items-center justify-center border border-white/18 bg-black/35 text-base text-zinc-100 transition-colors hover:border-brand/60 hover:text-brand sm:bottom-5 sm:right-5 md:bottom-5 md:right-5 xl:bottom-5 xl:right-5"
+                  className="absolute bottom-5 right-5 z-20 inline-flex h-9 w-9 items-center justify-center border border-white/15 bg-black/28 text-[0.95rem] leading-none text-zinc-100 transition-colors hover:border-brand/60 hover:text-brand sm:bottom-6 sm:right-6"
                   aria-label={`Visit ${project.title} website`}
                 >
                   ↗
