@@ -30,6 +30,16 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
       'The final system uses repeatable content blocks and a deliberate rhythm of dense and light sections. This creates pacing that helps readers scan quickly, then dive into details where needed.',
       'We also aligned copy structure to a case-study narrative: problem framing, measurable goals, process evidence, and outcome statements. That sequence makes both design intent and business value clear.',
     ]
+  const bodyRichText = typeof project.bodyRichText === 'string' ? project.bodyRichText.trim() : ''
+  const sectionNav = [
+    { id: 'case-context', label: 'Context' },
+    { id: 'case-challenge', label: 'Challenge' },
+    { id: 'case-goals', label: 'Goals' },
+    { id: 'case-process', label: 'Process' },
+    { id: 'case-rationale', label: 'Design rationale' },
+    { id: 'case-body', label: 'Body' },
+    { id: 'case-outcome', label: 'Outcome' },
+  ]
 
   useEffect(() => {
     if (!rootRef.current) return
@@ -164,122 +174,129 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
       </section>
 
       <div className="mx-auto w-full max-w-[min(96vw,1920px)] px-5 py-16 sm:px-8 sm:py-20 md:px-12 md:py-24 xl:px-16 xl:py-28 min-[1920px]:max-w-[min(94vw,2200px)] min-[1920px]:px-24 min-[1920px]:py-32">
-        <section className="case-section border-b border-white/[0.08] pb-12 xl:pb-16">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-            The challenge
-          </h2>
-          <p className="mt-5 max-w-4xl text-base leading-relaxed text-zinc-300 xl:text-xl">
-            {project.challenge}
-          </p>
-        </section>
+        <div className="grid gap-10 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-14">
+          <aside className="case-section hidden xl:block">
+            <nav className="sticky top-28 border border-white/[0.08] bg-white/[0.02] p-5" aria-label="Case study section navigation">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">On this page</p>
+              <ul className="mt-4 space-y-2">
+                {sectionNav.map((item) => (
+                  <li key={item.id}>
+                    <a
+                      href={`#${item.id}`}
+                      className="font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-brand"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
 
-        <section className="case-section border-b border-white/[0.08] py-12 xl:py-16">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-            Context
-          </h2>
-          <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg">
-            {contextParagraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </section>
-
-        <section className="case-section border-b border-white/[0.08] py-12 xl:py-16">
-          <figure className="overflow-hidden border border-white/[0.08] bg-white/[0.02]">
-            <img
-              src={supportingImages[0]}
-              alt={`${project.title} case study mockup 1`}
-              className="h-[32vh] w-full object-cover sm:h-[40vh] xl:h-[52vh]"
-              loading="lazy"
-            />
-          </figure>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-zinc-400 xl:text-base">
-            Early wireframe direction explored information hierarchy and placement for critical decision blocks.
-          </p>
-        </section>
-
-        <section className="case-section grid gap-10 border-b border-white/[0.08] py-12 xl:grid-cols-2 xl:gap-16 xl:py-16">
           <div>
-            <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-              Goals
-            </h2>
-            <ul className="mt-5 space-y-3 text-sm leading-relaxed text-zinc-300 xl:text-base">
-              {project.goals.map((goal) => (
-                <li key={goal} className="flex gap-3">
-                  <span className="mt-1 text-brand">•</span>
-                  <span>{goal}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-              Process
-            </h2>
-            <ol className="mt-5 space-y-3 text-sm leading-relaxed text-zinc-300 xl:text-base">
-              {project.process.map((step, index) => (
-                <li key={step} className="flex gap-3">
-                  <span className="mt-0.5 font-mono text-xs text-brand">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span>{step}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="case-section border-b border-white/[0.08] py-12 xl:py-16">
-          <figure className="overflow-hidden border border-white/[0.08] bg-white/[0.02]">
-            <img
-              src={supportingImages[1]}
-              alt={`${project.title} case study mockup 2`}
-              className="h-[34vh] w-full object-cover sm:h-[42vh] xl:h-[56vh]"
-              loading="lazy"
-            />
-          </figure>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-zinc-400 xl:text-base">
-            Mid-fidelity explorations focused on interaction cues, visual pacing, and confidence states across steps.
-          </p>
-        </section>
-
-        <section className="case-section border-b border-white/[0.08] py-12 xl:py-16">
-          <figure className="overflow-hidden border border-white/[0.08] bg-white/[0.02]">
-            <img
-              src={supportingImages[2]}
-              alt={`${project.title} case study mockup 3`}
-              className="h-[32vh] w-full object-cover sm:h-[40vh] xl:h-[52vh]"
-              loading="lazy"
-            />
-          </figure>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-zinc-400 xl:text-base">
-            Final presentation visuals document the polished system, states, and component behavior across key flows.
-          </p>
-        </section>
-
-        <section className="case-section border-b border-white/[0.08] py-12 xl:py-16">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-            Design rationale
-          </h2>
-          <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg">
-            {rationaleParagraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </section>
-
-        <section className="case-section border-b border-white/[0.08] pt-12 xl:pt-16">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-            Outcome
-          </h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {project.outcome.map((item) => (
-              <div key={item} className="border border-white/[0.08] bg-white/[0.02] p-5 xl:p-6">
-                <p className="text-sm leading-relaxed text-zinc-200 xl:text-base">{item}</p>
+            <section id="case-context" className="case-section border-b border-white/[0.08] pb-12 xl:pb-16">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                Context
+              </h2>
+              <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg">
+                {contextParagraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
-            ))}
+            </section>
+
+            <section id="case-challenge" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                Challenge
+              </h2>
+              <p className="mt-5 max-w-4xl text-base leading-relaxed text-zinc-300 xl:text-xl">
+                {project.challenge}
+              </p>
+            </section>
+
+            <section id="case-goals" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                Goals
+              </h2>
+              <ul className="mt-5 space-y-3 text-sm leading-relaxed text-zinc-300 xl:text-base">
+                {project.goals.map((goal) => (
+                  <li key={goal} className="flex gap-3">
+                    <span className="mt-1 text-brand">•</span>
+                    <span>{goal}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section id="case-process" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                Process
+              </h2>
+              <ol className="mt-5 space-y-3 text-sm leading-relaxed text-zinc-300 xl:text-base">
+                {project.process.map((step, index) => (
+                  <li key={step} className="flex gap-3">
+                    <span className="mt-0.5 font-mono text-xs text-brand">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section id="case-rationale" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                Design rationale
+              </h2>
+              <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg">
+                {rationaleParagraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </section>
+
+            <section id="case-body" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                Body (rich text) — UX Diagrams &amp; UI Designs
+              </h2>
+              {bodyRichText ? (
+                <div
+                  className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_img]:my-6 [&_img]:w-full [&_img]:border [&_img]:border-white/[0.08] [&_img]:object-cover [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5"
+                  dangerouslySetInnerHTML={{ __html: bodyRichText }}
+                />
+              ) : (
+                <div className="mt-6 space-y-6">
+                  <p className="text-sm leading-relaxed text-zinc-400 xl:text-base">
+                    Add rich text content in Strapi to populate this section with diagrams, annotated visuals, and UI design walkthroughs.
+                  </p>
+                  {supportingImages.map((image, index) => (
+                    <figure key={image} className="overflow-hidden border border-white/[0.08] bg-white/[0.02]">
+                      <img
+                        src={image}
+                        alt={`${project.title} supporting visual ${index + 1}`}
+                        className="h-[32vh] w-full object-cover sm:h-[40vh] xl:h-[52vh]"
+                        loading="lazy"
+                      />
+                    </figure>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            <section id="case-outcome" className="case-section border-b border-white/[0.08] pt-12 xl:pt-16">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
+                Outcome
+              </h2>
+              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                {project.outcome.map((item) => (
+                  <div key={item} className="border border-white/[0.08] bg-white/[0.02] p-5 xl:p-6">
+                    <p className="text-sm leading-relaxed text-zinc-200 xl:text-base">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
-        </section>
+        </div>
 
         {relatedProjects.length > 0 ? (
           <section className="case-section pt-12 xl:pt-16">

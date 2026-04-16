@@ -39,6 +39,7 @@ const normalizeEntry = (entry) => {
     outcome: asList(attrs.outcomeText || attrs.outcome),
     contextParagraphs: asList(attrs.contextParagraphsText || attrs.contextParagraphs),
     rationaleParagraphs: asList(attrs.rationaleParagraphsText || attrs.rationaleParagraphs),
+    bodyRichText: String(attrs.bodyRichText || ''),
     supportingImages: (supportingMedia
       .map((item) => getMediaUrl(item?.attributes || item))
       .filter(Boolean)
