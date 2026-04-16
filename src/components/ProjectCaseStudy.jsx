@@ -247,7 +247,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
                 Context
               </h2>
-              <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg">
+              <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-base">
                 {contextParagraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -258,7 +258,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
                 Challenge
               </h2>
-              <p className="mt-5 max-w-4xl text-base leading-relaxed text-zinc-300 xl:text-xl">
+              <p className="mt-5 max-w-4xl text-sm leading-relaxed text-zinc-300 xl:text-base">
                 {project.challenge}
               </p>
             </section>
@@ -297,7 +297,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
                 Design rationale
               </h2>
-              <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-lg">
+              <div className="mt-5 max-w-4xl space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-base xl:text-base">
                 {rationaleParagraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
