@@ -350,7 +350,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
 
             <section id="case-body" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-                Execution (rich text) — UX Diagrams &amp; UI Designs
+                Execution
               </h2>
               {bodyRichText ? (
                 hasHtmlTags(bodyRichText) ? (
