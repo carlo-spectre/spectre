@@ -11,44 +11,89 @@ const asLines = (value) => value.split('\n').map((line) => line.trim()).filter(B
 const hasHtmlTags = (value) => /<([a-z][a-z0-9]*)\b[^>]*>/i.test(value)
 
 const toPlainRichTextBlocks = (value) => {
-  const chunks = value.split(/\n{2,}/).map((chunk) => chunk.trim()).filter(Boolean)
+  const lines = String(value || '').split('\n')
+  const blocks = []
+  let index = 0
 
-  return chunks.map((chunk, index) => {
-    const headingMatch = chunk.match(/^(#{1,3})\s+(.+)$/)
-    if (headingMatch) {
-      const level = headingMatch[1].length
-      return { type: `h${level}`, content: headingMatch[2].trim(), key: `h-${index}` }
+  const pushParagraph = (startIndex) => {
+    const paragraphLines = []
+    let cursor = startIndex
+    while (cursor < lines.length) {
+      const line = lines[cursor].trim()
+      if (!line) break
+      if (/^#{1,6}\s+/.test(line) || /^[-*]\s+/.test(line) || /^\d+\.\s+/.test(line)) break
+      paragraphLines.push(line)
+      cursor += 1
+    }
+    if (paragraphLines.length) {
+      blocks.push({
+        type: 'p',
+        content: paragraphLines.join(' '),
+        key: `p-${blocks.length}`,
+      })
+    }
+    return cursor
+  }
+
+  while (index < lines.length) {
+    const line = lines[index].trim()
+    if (!line) {
+      index += 1
+      continue
     }
 
-    const imageMatch = chunk.match(/^!\[(.*?)\]\((https?:\/\/[^\s)]+)\)$/)
+    const imageMatch = line.match(/^!\[(.*?)\]\((https?:\/\/[^\s)]+)\)$/)
     if (imageMatch) {
-      return {
+      blocks.push({
         type: 'image',
         alt: imageMatch[1].trim() || 'Body visual',
         src: imageMatch[2].trim(),
-        key: `img-${index}`,
-      }
+        key: `img-${blocks.length}`,
+      })
+      index += 1
+      continue
     }
 
-    const listLines = asLines(chunk)
-    if (listLines.length > 1 && listLines.every((line) => /^[-*]\s+/.test(line))) {
-      return {
-        type: 'ul',
-        items: listLines.map((line) => line.replace(/^[-*]\s+/, '').trim()).filter(Boolean),
-        key: `ul-${index}`,
-      }
+    const headingMatch = line.match(/^(#{1,6})\s+(.+)$/)
+    if (headingMatch) {
+      const level = Math.min(headingMatch[1].length, 4)
+      blocks.push({
+        type: `h${level}`,
+        content: headingMatch[2].trim(),
+        key: `h-${blocks.length}`,
+      })
+      index += 1
+      continue
     }
 
-    if (listLines.length > 1 && listLines.every((line) => /^\d+\.\s+/.test(line))) {
-      return {
-        type: 'ol',
-        items: listLines.map((line) => line.replace(/^\d+\.\s+/, '').trim()).filter(Boolean),
-        key: `ol-${index}`,
+    if (/^[-*]\s+/.test(line)) {
+      const items = []
+      let cursor = index
+      while (cursor < lines.length && /^[-*]\s+/.test(lines[cursor].trim())) {
+        items.push(lines[cursor].trim().replace(/^[-*]\s+/, '').trim())
+        cursor += 1
       }
+      blocks.push({ type: 'ul', items, key: `ul-${blocks.length}` })
+      index = cursor
+      continue
     }
 
-    return { type: 'p', content: chunk, key: `p-${index}` }
-  })
+    if (/^\d+\.\s+/.test(line)) {
+      const items = []
+      let cursor = index
+      while (cursor < lines.length && /^\d+\.\s+/.test(lines[cursor].trim())) {
+        items.push(lines[cursor].trim().replace(/^\d+\.\s+/, '').trim())
+        cursor += 1
+      }
+      blocks.push({ type: 'ol', items, key: `ol-${blocks.length}` })
+      index = cursor
+      continue
+    }
+
+    index = pushParagraph(index)
+  }
+
+  return blocks
 }
 
 const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, onOpenProject }) => {
@@ -282,7 +327,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               {goalsRichText ? (
                 hasHtmlTags(goalsRichText) ? (
                   <div
-                    className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5"
+                    className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_p]:leading-relaxed [&_p]:text-zinc-300 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:marker:text-brand"
                     dangerouslySetInnerHTML={{ __html: goalsRichText }}
                   />
                 ) : (
@@ -355,7 +400,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               {bodyRichText ? (
                 hasHtmlTags(bodyRichText) ? (
                   <div
-                    className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_img]:my-6 [&_img]:w-full [&_img]:border [&_img]:border-white/[0.08] [&_img]:object-cover [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5"
+                    className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_img]:my-6 [&_img]:w-full [&_img]:border [&_img]:border-white/[0.08] [&_img]:object-cover [&_p]:leading-relaxed [&_p]:text-zinc-300 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:marker:text-brand"
                     dangerouslySetInnerHTML={{ __html: bodyRichText }}
                   />
                 ) : (
