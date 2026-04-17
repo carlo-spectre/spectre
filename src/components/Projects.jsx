@@ -35,6 +35,17 @@ const normalizeExternalUrl = (value) => {
   return `https://${trimmed.replace(/^\/+/, '')}`
 }
 
+const splitTags = (value) => {
+  if (!value) return []
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item).trim()).filter(Boolean)
+  }
+  return String(value)
+    .split(/[,\|/]+/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+}
+
 const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = null }) => {
   const sectionRef = useRef(null)
   const [cursorState, setCursorState] = useState({ visible: false, x: 0, y: 0, label: '[VIEW PROJECT]' })
@@ -146,9 +157,16 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand/90 sm:text-xs xl:text-sm min-[1920px]:text-base">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-brand/75 sm:text-xs xl:text-sm min-[1920px]:text-base">
-                  {project.tag}
-                </span>
+                <div className="flex flex-wrap justify-end gap-1.5 sm:gap-2">
+                  {splitTags(project.tag).map((tag) => (
+                    <span
+                      key={`${project.slug}-${tag}`}
+                      className="rounded-full bg-black/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-zinc-100 sm:px-3 sm:text-[10px]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
               <div className="relative z-10 flex items-start justify-between gap-4">
                 <div className="relative min-w-0">
