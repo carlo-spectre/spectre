@@ -397,7 +397,8 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
                 Execution
               </h2>
-              {bodyRichText ? (
+              <div className="max-w-4xl">
+                {bodyRichText ? (
                 hasHtmlTags(bodyRichText) ? (
                   <div
                     className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_img]:my-6 [&_img]:w-full [&_img]:border [&_img]:border-white/[0.08] [&_img]:object-cover [&_p]:leading-relaxed [&_p]:text-zinc-300 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:marker:text-brand"
@@ -455,9 +456,10 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
                   </p>
                 </div>
               )}
+              </div>
             </section>
 
-            <section id="case-outcome" className="case-section border-b border-white/[0.08] pt-12 xl:pt-16">
+            <section id="case-outcome" className="case-section border-b border-white/[0.08] pb-12 pt-12 xl:pb-16 xl:pt-16">
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
                 Outcome
               </h2>
