@@ -34,8 +34,8 @@ const HeroLogomarkFx = () => {
       const isInnerCirclePath = path.classList.contains('cls-1')
       const length = path.getTotalLength ? path.getTotalLength() : 0
       const drawDuration = isInnerCirclePath
-        ? (compactScreen ? 24 : 5.4)
-        : (compactScreen ? 28 : 6.2)
+        ? (compactScreen ? 5.8 : 5.4)
+        : (compactScreen ? 6.8 : 6.2)
 
       path.style.strokeDasharray = `${length}`
       path.style.strokeDashoffset = `${length}`
@@ -44,7 +44,7 @@ const HeroLogomarkFx = () => {
       const traceTl = gsap.timeline({
         delay: 0.2 + index * 0.03,
         repeat: -1,
-        repeatDelay: compactScreen ? 1.6 : 0.3,
+        repeatDelay: compactScreen ? 0.55 : 0.3,
       })
 
       traceTl
