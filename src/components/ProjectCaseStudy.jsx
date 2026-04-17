@@ -58,11 +58,11 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
     () => allProjects.filter((item) => item.slug !== project.slug).slice(0, 3),
     [allProjects, project.slug],
   )
-  const supportingImages = project.supportingImages || [
-    'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=2000&q=80',
-    'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=80',
-    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=2000&q=80',
-  ]
+  const goalsRichText = typeof project.goalsRichText === 'string' ? project.goalsRichText.trim() : ''
+  const goalsBlocks = useMemo(() => {
+    if (!goalsRichText || hasHtmlTags(goalsRichText)) return []
+    return toPlainRichTextBlocks(goalsRichText)
+  }, [goalsRichText])
   const contextParagraphs = project.contextParagraphs?.length
     ? project.contextParagraphs
     : [
@@ -174,7 +174,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
 
       <section className="relative overflow-hidden border-b border-white/[0.08]">
         <img
-          src={project.thumbnail}
+          src={project.coverImage || project.thumbnail}
           alt={`${project.title} hero visual`}
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -270,7 +270,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
                 Challenge
               </h2>
-              <p className="mt-5 max-w-4xl text-sm leading-relaxed text-zinc-300 xl:text-base">
+              <p className="mt-5 max-w-4xl whitespace-pre-line text-sm leading-relaxed text-zinc-300 xl:text-base">
                 {project.challenge}
               </p>
             </section>
@@ -279,14 +279,46 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
                 Goals
               </h2>
-              <ul className="mt-5 space-y-3 text-sm leading-relaxed text-zinc-300 xl:text-base">
-                {project.goals.map((goal) => (
-                  <li key={goal} className="flex gap-3">
-                    <span className="mt-1 text-brand">•</span>
-                    <span>{goal}</span>
-                  </li>
-                ))}
-              </ul>
+              {goalsRichText ? (
+                hasHtmlTags(goalsRichText) ? (
+                  <div
+                    className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-white [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5"
+                    dangerouslySetInnerHTML={{ __html: goalsRichText }}
+                  />
+                ) : (
+                  <div className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 xl:text-base">
+                    {goalsBlocks.map((block) => {
+                      if (block.type === 'h1') return <h3 key={block.key} className="text-2xl font-semibold text-white">{block.content}</h3>
+                      if (block.type === 'h2') return <h3 key={block.key} className="text-xl font-semibold text-white">{block.content}</h3>
+                      if (block.type === 'h3') return <h4 key={block.key} className="text-lg font-semibold text-white">{block.content}</h4>
+                      if (block.type === 'ul') {
+                        return (
+                          <ul key={block.key} className="list-disc space-y-2 pl-5">
+                            {block.items.map((item) => <li key={item}>{item}</li>)}
+                          </ul>
+                        )
+                      }
+                      if (block.type === 'ol') {
+                        return (
+                          <ol key={block.key} className="list-decimal space-y-2 pl-5">
+                            {block.items.map((item) => <li key={item}>{item}</li>)}
+                          </ol>
+                        )
+                      }
+                      return <p key={block.key} className="whitespace-pre-line leading-relaxed">{block.content}</p>
+                    })}
+                  </div>
+                )
+              ) : (
+                <ul className="mt-5 space-y-3 text-sm leading-relaxed text-zinc-300 xl:text-base">
+                  {project.goals.map((goal) => (
+                    <li key={goal} className="flex gap-3">
+                      <span className="mt-1 text-brand">•</span>
+                      <span>{goal}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </section>
 
             <section id="case-process" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
@@ -372,20 +404,10 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
                   </div>
                 )
               ) : (
-                <div className="mt-6 space-y-6">
+                <div className="mt-6 space-y-4">
                   <p className="text-sm leading-relaxed text-zinc-400 xl:text-base">
                     Add rich text content in Strapi to populate this section with diagrams, annotated visuals, and UI design walkthroughs.
                   </p>
-                  {supportingImages.map((image, index) => (
-                    <figure key={image} className="overflow-hidden border border-white/[0.08] bg-white/[0.02]">
-                      <img
-                        src={image}
-                        alt={`${project.title} supporting visual ${index + 1}`}
-                        className="h-[32vh] w-full object-cover sm:h-[40vh] xl:h-[52vh]"
-                        loading="lazy"
-                      />
-                    </figure>
-                  ))}
                 </div>
               )}
             </section>

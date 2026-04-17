@@ -4,7 +4,7 @@ const STRAPI_BASE_URL = (
   || import.meta.env.VITE_API_URL
   || ''
 ).replace(/\/+$/, '')
-const PROJECTS_ENDPOINT = '/api/projects?sort=idNumber:asc&populate[0]=thumbnail&populate[1]=supportingImages'
+const PROJECTS_ENDPOINT = '/api/projects?sort=idNumber:asc&populate[0]=thumbnail&populate[1]=coverImage'
 const STRAPI_REQUEST_TIMEOUT_MS = 20000
 
 const asList = (value) => {
@@ -45,8 +45,9 @@ const pickPreferredThumbnailUrl = (media, fallbackUrl = '') => {
 const normalizeEntry = (entry) => {
   const attrs = entry?.attributes || entry || {}
   const thumbnail = attrs.thumbnail?.data || attrs.thumbnail || null
-  const supportingMedia = attrs.supportingImages?.data || attrs.supportingImages || []
+  const coverImage = attrs.coverImage?.data || attrs.coverImage || null
   const thumbnailUrl = pickPreferredThumbnailUrl(thumbnail, attrs.thumbnailUrl)
+  const coverImageUrl = pickPreferredThumbnailUrl(coverImage, attrs.coverImageUrl)
 
   return {
     id: Number(attrs.idNumber ?? entry?.id ?? 0),
@@ -59,19 +60,15 @@ const normalizeEntry = (entry) => {
     visitSiteUrl: String(attrs.visitSiteUrl || ''),
     summary: String(attrs.summary || ''),
     thumbnail: thumbnailUrl,
+    coverImage: coverImageUrl || thumbnailUrl,
     challenge: String(attrs.challenge || ''),
     goals: asList(attrs.goalsText || attrs.goals),
+    goalsRichText: String(attrs.goalsRichText || ''),
     process: asList(attrs.processText || attrs.process),
     outcome: asList(attrs.outcomeText || attrs.outcome),
     contextParagraphs: asList(attrs.contextParagraphsText || attrs.contextParagraphs),
     rationaleParagraphs: asList(attrs.rationaleParagraphsText || attrs.rationaleParagraphs),
     bodyRichText: String(attrs.bodyRichText || ''),
-    supportingImages: (supportingMedia
-      .map((item) => getMediaUrl(item?.attributes || item))
-      .filter(Boolean)
-      .slice(0, 3)).length
-      ? supportingMedia.map((item) => getMediaUrl(item?.attributes || item)).filter(Boolean).slice(0, 3)
-      : asList(attrs.supportingImageUrlsText || attrs.supportingImageUrls).slice(0, 3),
   }
 }
 
