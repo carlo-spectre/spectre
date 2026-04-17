@@ -86,7 +86,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
     { id: 'case-goals', label: 'Goals' },
     { id: 'case-process', label: 'Process' },
     { id: 'case-rationale', label: 'Design rationale' },
-    { id: 'case-body', label: 'Body' },
+    { id: 'case-body', label: 'Execution' },
     { id: 'case-outcome', label: 'Outcome' },
   ]
   const visitSiteUrl = typeof project.visitSiteUrl === 'string' ? project.visitSiteUrl.trim() : ''
@@ -350,7 +350,7 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
 
             <section id="case-body" className="case-section border-b border-white/[0.08] py-12 xl:py-16">
               <h2 className="font-mono text-[10px] uppercase tracking-[0.24em] text-brand/90 sm:text-xs xl:text-sm">
-                Body (rich text) — UX Diagrams &amp; UI Designs
+                Execution (rich text) — UX Diagrams &amp; UI Designs
               </h2>
               {bodyRichText ? (
                 hasHtmlTags(bodyRichText) ? (
