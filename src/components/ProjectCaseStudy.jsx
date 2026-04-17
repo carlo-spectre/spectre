@@ -338,14 +338,14 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
                       if (block.type === 'h3') return <h4 key={block.key} className="text-lg font-semibold text-white">{block.content}</h4>
                       if (block.type === 'ul') {
                         return (
-                          <ul key={block.key} className="list-disc space-y-2 pl-5">
+                          <ul key={block.key} className="list-disc space-y-2 pl-5 [&_li]:marker:text-brand">
                             {block.items.map((item) => <li key={item}>{item}</li>)}
                           </ul>
                         )
                       }
                       if (block.type === 'ol') {
                         return (
-                          <ol key={block.key} className="list-decimal space-y-2 pl-5">
+                          <ol key={block.key} className="list-decimal space-y-2 pl-5 [&_li]:marker:text-brand">
                             {block.items.map((item) => <li key={item}>{item}</li>)}
                           </ol>
                         )
@@ -372,8 +372,8 @@ const ProjectCaseStudy = ({ project, allProjects = [], onBack, onNavigateMain, o
               </h2>
               <ol className="mt-5 space-y-3 text-sm leading-relaxed text-zinc-300 xl:text-base">
                 {project.process.map((step, index) => (
-                  <li key={step} className="flex gap-3">
-                    <span className="mt-0.5 font-mono text-xs text-brand">
+                  <li key={step} className="flex items-start gap-3">
+                    <span className="inline-block w-7 pt-[1px] text-right font-mono text-xs leading-5 text-brand tabular-nums">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <span>{step}</span>

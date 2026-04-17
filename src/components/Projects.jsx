@@ -150,11 +150,11 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
                   {project.tag}
                 </span>
               </div>
-              <div className="relative z-10">
+              <div className="relative z-10 pr-12 sm:pr-14">
                 <h3 className="text-lg font-medium tracking-tight text-white transition-colors group-hover:text-brand/90 md:text-xl xl:text-2xl 2xl:text-3xl min-[1920px]:text-4xl">
                   {project.title}
                 </h3>
-                <span className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-brand/80 opacity-0 transition-opacity group-hover:opacity-100 xl:mt-4 xl:text-xs min-[1920px]:text-sm">
+                <span className="pointer-events-none absolute left-0 top-full mt-1 inline-block -translate-y-1 font-mono text-[10px] uppercase tracking-[0.2em] text-brand/80 opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 xl:text-xs min-[1920px]:text-sm">
                   Open →
                 </span>
               </div>
