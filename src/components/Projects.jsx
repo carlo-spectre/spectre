@@ -150,35 +150,37 @@ const Projects = ({ onOpenProject, projects, isLoading = false, lastSyncedAt = n
                   {project.tag}
                 </span>
               </div>
-              <div className="relative z-10 pr-12 sm:pr-14">
-                <h3 className="text-lg font-medium tracking-tight text-white transition-colors group-hover:text-brand/90 md:text-xl xl:text-2xl 2xl:text-3xl min-[1920px]:text-4xl">
-                  {project.title}
-                </h3>
-                <span className="pointer-events-none absolute left-0 top-full mt-1 inline-block -translate-y-1 font-mono text-[10px] uppercase tracking-[0.2em] text-brand/80 opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 xl:text-xs min-[1920px]:text-sm">
-                  Open →
-                </span>
+              <div className="relative z-10 flex items-start justify-between gap-4">
+                <div className="relative min-w-0">
+                  <h3 className="text-lg font-medium tracking-tight text-white transition-colors group-hover:text-brand/90 md:text-xl xl:text-2xl 2xl:text-3xl min-[1920px]:text-4xl">
+                    {project.title}
+                  </h3>
+                  <span className="pointer-events-none absolute left-0 top-full mt-1 inline-block -translate-y-1 font-mono text-[10px] uppercase tracking-[0.2em] text-brand/80 opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 xl:text-xs min-[1920px]:text-sm">
+                    Open →
+                  </span>
+                </div>
+                {project.visitSiteUrl ? (
+                  <a
+                    href={normalizeExternalUrl(project.visitSiteUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(event) => event.stopPropagation()}
+                    onPointerEnter={() => setCursorState((current) => ({ ...current, visible: true, label: '[VISIT SITE]' }))}
+                    onMouseEnter={() => setCursorState((current) => ({ ...current, visible: true, label: '[VISIT SITE]' }))}
+                    onMouseMove={(event) => setCursorState({
+                      visible: true,
+                      x: event.clientX + 20,
+                      y: event.clientY - 18,
+                      label: '[VISIT SITE]',
+                    })}
+                    onMouseLeave={() => setCursorState((current) => ({ ...current, visible: true, label: '[VIEW PROJECT]' }))}
+                    className="inline-flex h-9 w-9 shrink-0 items-center justify-center border border-white/15 bg-black/28 text-[0.95rem] leading-none text-zinc-100 transition-colors hover:border-brand/60 hover:text-brand"
+                    aria-label={`Visit ${project.title} website`}
+                  >
+                    ↗
+                  </a>
+                ) : null}
               </div>
-              {project.visitSiteUrl ? (
-                <a
-                  href={normalizeExternalUrl(project.visitSiteUrl)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(event) => event.stopPropagation()}
-                  onPointerEnter={() => setCursorState((current) => ({ ...current, visible: true, label: '[VISIT SITE]' }))}
-                  onMouseEnter={() => setCursorState((current) => ({ ...current, visible: true, label: '[VISIT SITE]' }))}
-                  onMouseMove={(event) => setCursorState({
-                    visible: true,
-                    x: event.clientX + 20,
-                    y: event.clientY - 18,
-                    label: '[VISIT SITE]',
-                  })}
-                  onMouseLeave={() => setCursorState((current) => ({ ...current, visible: true, label: '[VIEW PROJECT]' }))}
-                  className="absolute bottom-5 right-5 z-20 inline-flex h-9 w-9 items-center justify-center border border-white/15 bg-black/28 text-[0.95rem] leading-none text-zinc-100 transition-colors hover:border-brand/60 hover:text-brand sm:bottom-6 sm:right-6"
-                  aria-label={`Visit ${project.title} website`}
-                >
-                  ↗
-                </a>
-              ) : null}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             </button>
           ))}
