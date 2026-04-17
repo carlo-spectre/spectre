@@ -1,39 +1,70 @@
+const normalizeExternalUrl = (value) => {
+  if (!value) return ''
+  const trimmed = String(value).trim()
+  if (!trimmed) return ''
+  if (/^https?:\/\//i.test(trimmed)) return trimmed
+  return `https://${trimmed.replace(/^\/+/, '')}`
+}
+
+/** Alphabetical by display name. Omit `url` until a live site is available. */
 const clients = [
-  'ABSTRACT',
-  'AKANO',
-  'BALKY STUDIO',
-  'FOLA PR',
-  'HINTFLOW',
-  'OUTSIDE',
-  'SCHOOLABLE',
-  'STUDIO NULL',
-  'THE MAKER STUDIO INC',
+  { name: 'AXC', url: 'https://axc.xyz/' },
+  { name: 'Convergent', url: 'https://convergent.so/' },
+  { name: 'Hashpower', url: 'https://www.hashpowerx.com/' },
+  { name: 'Instyl', url: 'https://www.instyl.co/' },
+  { name: 'Lambda Finance', url: '' },
+  { name: 'Lita Foundation', url: '' },
+  { name: 'Narwhal Finance', url: '' },
+  { name: 'On-us', url: 'https://www.on-us.com/' },
+  { name: 'Project Solo', url: '' },
+  { name: 'Velocity Capital', url: 'https://v3locity.capital/' },
+  { name: 'Wolver', url: 'https://wolver.io/' },
 ]
 
 const expertisePrimary = [
   'BRAND DESIGN',
   'DIGITAL DESIGN',
-  'GRAPHIC & PRINT',
   'MOTION DESIGN',
+  'PRODUCT DESIGN',
+  'UX/UI',
+  'WEB DESIGN',
 ]
 
 const expertiseSecondary = [
-  'CONCEPTING',
+  'CONCEPT DEVELOPMENT',
   'CREATIVE DIRECTION',
   'RESEARCH',
   'VISUAL DESIGN',
 ]
 
-const designValues = [
-  'COLLABORATION',
-  'CURIOSITY',
-  'EMPATHY',
-  'EXPERIMENTING',
-  'FUNCTIONALITY',
-  'INNOVATION',
-  'SIMPLICITY',
-  'SUSTAINABILITY',
+const uxMethods = [
+  'DISCOVERY & RESEARCH',
+  'JOURNEY & SERVICE MAPPING',
+  'INFORMATION ARCHITECTURE',
+  'USER FLOWS & WIREFRAMING',
+  'PROTOTYPING & USABILITY TESTING',
+  'HEURISTIC & ACCESSIBILITY REVIEW',
 ]
+
+const uiMethods = [
+  'VISUAL SYSTEM & LAYOUT',
+  'COMPONENT & PATTERN DESIGN',
+  'RESPONSIVE & BREAKPOINT SYSTEMS',
+  'MICRO-INTERACTIONS & STATES',
+  'HANDOFF & DESIGN QA',
+]
+
+const services = [
+  'WEB & MOBILE APP DESIGN',
+  'AI INTEGRATION',
+  'DIGITAL TRANSFORMATION',
+  'WEBSITE DESIGN & DEVELOPMENT',
+  'BRAND IDENTITY DEVELOPMENT',
+  'DIGITAL MARKETING CAMPAIGN',
+]
+
+const listTwoColClass =
+  'mt-4 grid grid-cols-2 gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-300 sm:text-xs'
 
 const ServicesInfo = () => {
   return (
@@ -55,8 +86,8 @@ const ServicesInfo = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 pt-8 sm:grid-cols-2 lg:grid-cols-4 xl:gap-12">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 pt-8 lg:grid-cols-5 lg:gap-x-8 xl:gap-12">
+          <div className="col-span-2 lg:col-span-1">
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               SERVICES_INFO
             </h3>
@@ -66,10 +97,30 @@ const ServicesInfo = () => {
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               Clients
             </h3>
-            <ul className="mt-4 space-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-300 sm:text-xs">
-              {clients.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
+            <ul className={listTwoColClass}>
+              {clients.map((client) => {
+                const href = client.url ? normalizeExternalUrl(client.url) : ''
+                const content = client.name
+                if (href) {
+                  return (
+                    <li key={client.name} className="min-w-0">
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer text-zinc-300 transition-colors hover:text-brand"
+                      >
+                        {content}
+                      </a>
+                    </li>
+                  )
+                }
+                return (
+                  <li key={client.name} className="min-w-0 text-zinc-400">
+                    {content}
+                  </li>
+                )
+              })}
             </ul>
           </div>
 
@@ -77,24 +128,46 @@ const ServicesInfo = () => {
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               Expertise
             </h3>
-            <ul className="mt-4 space-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-300 sm:text-xs">
+            <ul className={listTwoColClass}>
               {expertisePrimary.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <ul className="mt-6 space-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-300 sm:text-xs">
+            <ul className={`${listTwoColClass} mt-6`}>
               {expertiseSecondary.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               Design process
             </h3>
-            <ul className="mt-4 space-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-300 sm:text-xs">
-              {designValues.map((item) => (
+            <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
+              UX methods
+            </p>
+            <ul className={listTwoColClass}>
+              {uxMethods.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
+              UI methods
+            </p>
+            <ul className={listTwoColClass}>
+              {uiMethods.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="col-span-2 lg:col-span-1">
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
+              Services
+            </h3>
+            <ul className={listTwoColClass}>
+              {services.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
