@@ -14,7 +14,7 @@ import { loadCmsProjects, resetCmsProjects, saveCmsProjects } from './data/cmsPr
 import { isCmsAuthenticated, loginCms, logoutCms } from './data/cmsAuth'
 import { fetchStrapiProjects } from './data/strapiProjects'
 
-const STRAPI_CACHE_KEY = 'spectre:strapi-projects-cache:v1'
+const STRAPI_CACHE_KEY = 'spectre:strapi-projects-cache:v2'
 
 const readProjectsCache = () => {
   try {

@@ -26,15 +26,27 @@ const getMediaUrl = (media) => {
 
 const isGifUrl = (value) => /\.gif(\?|#|$)/i.test(String(value || '').trim())
 
+const pickPreferredThumbnailUrl = (media, fallbackUrl = '') => {
+  const mediaAttrs = media?.attributes || media || {}
+  const formatEntries = Object.values(mediaAttrs?.formats || {})
+  const formatUrls = formatEntries.map((item) => getMediaUrl(item)).filter(Boolean)
+  const mediaUrl = getMediaUrl(mediaAttrs)
+  const candidates = [
+    String(fallbackUrl || '').trim(),
+    mediaUrl,
+    ...formatUrls,
+  ].filter(Boolean)
+
+  const gifCandidate = candidates.find((url) => isGifUrl(url))
+  if (gifCandidate) return gifCandidate
+  return mediaUrl || String(fallbackUrl || '').trim()
+}
+
 const normalizeEntry = (entry) => {
   const attrs = entry?.attributes || entry || {}
   const thumbnail = attrs.thumbnail?.data || attrs.thumbnail || null
   const supportingMedia = attrs.supportingImages?.data || attrs.supportingImages || []
-  const mediaThumbnailUrl = getMediaUrl(thumbnail?.attributes || thumbnail)
-  const fallbackThumbnailUrl = String(attrs.thumbnailUrl || '')
-  const thumbnailUrl = isGifUrl(fallbackThumbnailUrl) && !isGifUrl(mediaThumbnailUrl)
-    ? fallbackThumbnailUrl
-    : (mediaThumbnailUrl || fallbackThumbnailUrl)
+  const thumbnailUrl = pickPreferredThumbnailUrl(thumbnail, attrs.thumbnailUrl)
 
   return {
     id: Number(attrs.idNumber ?? entry?.id ?? 0),
