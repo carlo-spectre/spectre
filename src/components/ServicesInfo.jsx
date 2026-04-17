@@ -12,22 +12,22 @@ const clients = [
   { name: 'Convergent', url: 'https://convergent.so/' },
   { name: 'Hashpower', url: 'https://www.hashpowerx.com/' },
   { name: 'Instyl', url: 'https://www.instyl.co/' },
-  { name: 'Lambda Finance', url: '' },
-  { name: 'Lita Foundation', url: '' },
-  { name: 'Narwhal Finance', url: '' },
+  { name: 'Lambda Finance', url: 'https://lambda.finance/' },
+  { name: 'Lita Foundation', url: 'https://lita.foundation/' },
+  { name: 'Narwhal Finance', url: 'https://narwhal.finance/' },
   { name: 'On-us', url: 'https://www.on-us.com/' },
-  { name: 'Project Solo', url: '' },
+  { name: 'Project Solo', url: 'https://projectsolo.xyz/' },
   { name: 'Velocity Capital', url: 'https://v3locity.capital/' },
   { name: 'Wolver', url: 'https://wolver.io/' },
 ]
 
 const expertisePrimary = [
-  'BRAND DESIGN',
-  'DIGITAL DESIGN',
-  'MOTION DESIGN',
   'PRODUCT DESIGN',
   'UX/UI',
   'WEB DESIGN',
+  'BRAND DESIGN',
+  'DIGITAL DESIGN',
+  'MOTION DESIGN',
 ]
 
 const expertiseSecondary = [
@@ -38,20 +38,22 @@ const expertiseSecondary = [
 ]
 
 const uxMethods = [
-  'DISCOVERY & RESEARCH',
-  'JOURNEY & SERVICE MAPPING',
+  'DISCOVERY',
+  'UX RESEARCH',
+  'JOURNEY MAPPING',
   'INFORMATION ARCHITECTURE',
-  'USER FLOWS & WIREFRAMING',
-  'PROTOTYPING & USABILITY TESTING',
-  'HEURISTIC & ACCESSIBILITY REVIEW',
+  'FLOW DIAGRAMS',
+  'WIREFRAMES',
+  'USABILITY TESTING',
 ]
 
 const uiMethods = [
-  'VISUAL SYSTEM & LAYOUT',
-  'COMPONENT & PATTERN DESIGN',
-  'RESPONSIVE & BREAKPOINT SYSTEMS',
-  'MICRO-INTERACTIONS & STATES',
-  'HANDOFF & DESIGN QA',
+  'GRID SETUP',
+  'COMPONENT LIBRARIES',
+  'DESIGN SYSTEMS',
+  'RESPONSIVE LAYOUT',
+  'INTERACTION DESIGN',
+  'UI PROTOTYPING',
 ]
 
 const services = [
@@ -63,8 +65,8 @@ const services = [
   'DIGITAL MARKETING CAMPAIGN',
 ]
 
-const listTwoColClass =
-  'mt-4 grid grid-cols-2 gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-300 sm:text-xs'
+const listOneColClass =
+  'mt-4 space-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-300 sm:text-xs'
 
 const ServicesInfo = () => {
   return (
@@ -93,11 +95,11 @@ const ServicesInfo = () => {
             </h3>
           </div>
 
-          <div>
+          <div className="order-2 lg:order-3">
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               Clients
             </h3>
-            <ul className={listTwoColClass}>
+            <ul className={listOneColClass}>
               {clients.map((client) => {
                 const href = client.url ? normalizeExternalUrl(client.url) : ''
                 const content = client.name
@@ -124,49 +126,49 @@ const ServicesInfo = () => {
             </ul>
           </div>
 
-          <div>
+          <div className="order-3 lg:order-3">
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               Expertise
             </h3>
-            <ul className={listTwoColClass}>
+            <ul className={listOneColClass}>
               {expertisePrimary.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <ul className={`${listTwoColClass} mt-6`}>
+            <ul className={`${listOneColClass} mt-6`}>
               {expertiseSecondary.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
 
-          <div className="col-span-2 lg:col-span-1">
+          <div className="order-4 lg:order-4">
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               Design process
             </h3>
-            <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
+            <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.18em] text-brand/85">
               UX methods
             </p>
-            <ul className={listTwoColClass}>
+            <ul className={listOneColClass}>
               {uxMethods.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-brand/85">
               UI methods
             </p>
-            <ul className={listTwoColClass}>
+            <ul className={listOneColClass}>
               {uiMethods.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
 
-          <div className="col-span-2 lg:col-span-1">
+          <div className="order-1 lg:order-2">
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">
               Services
             </h3>
-            <ul className={listTwoColClass}>
+            <ul className={listOneColClass}>
               {services.map((item) => (
                 <li key={item}>{item}</li>
               ))}
